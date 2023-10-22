@@ -1,0 +1,1 @@
+ALTER TABLE "Tweets" ALTER COLUMN "user_id" SET NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "Users" ALTER COLUMN "password" SET DATA TYPE char(60);

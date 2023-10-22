@@ -1,0 +1,1 @@
+ALTER TABLE "Likes" ADD COLUMN "like_id" char(36) NOT NULL;
