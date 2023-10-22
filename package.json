@@ -25,7 +25,7 @@
     "firebase": "10.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
-    "next": "latest",
+    "next": "canary",
     "pg": "^8.11.3",
     "react": "canary",
     "react-dom": "canary",
