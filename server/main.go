@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	error_controllers "twitter/controllers/errors"
 	"twitter/db"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -24,7 +24,12 @@ func main() {
 	env.InitDotEnv()
 
 	if err := db.Connect(env.GetDBUrl()); err != nil {
-		logging.Logger.Error("Failed to initialize database")
+		logging.Logger.Error("Failed to initialize database", zap.Error(err))
+		return
+	}
+
+	if err := db.InitFileStorage(); err != nil {
+		logging.Logger.Error("Failed to initialize Firebase Storage", zap.Error(err))
 		return
 	}
 
@@ -42,5 +47,9 @@ func main() {
 
 	handler := middleware.Log(middleware.CORS(r.Handler))
 
-	fmt.Println(fasthttp.ListenAndServe(addr, handler))
+	logging.Logger.Info("Starting server...", zap.String("address", addr))
+
+	if err := fasthttp.ListenAndServe(addr, handler); err != nil {
+		logging.Logger.Error("Failed to start server", zap.Error(err))
+	}
 }

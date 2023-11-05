@@ -8,4 +8,5 @@ import (
 
 func RegisterTweetsRoutes(r *router.Router) {
 	r.GET("/tweets", tweet_controllers.GetTweets)
+	r.POST("/tweets", tweet_controllers.CreateTweet)
 }
