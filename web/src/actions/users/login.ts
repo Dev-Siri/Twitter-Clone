@@ -22,7 +22,7 @@ export default async function login(
   try {
     const { email, password } = loginSchema.parse(data);
 
-    const [{ password: hashedPassword, ...dbUser }] = await db
+    const [dbUser] = await db
       .select({
         userId: users.userId,
         name: users.name,
@@ -34,6 +34,14 @@ export default async function login(
       .from(users)
       .where(eq(users.email, email));
 
+    if (!dbUser)
+      return {
+        success: false,
+        message: "Account doesn't exist.",
+      };
+
+    const { password: hashedPassword, ...jwtUser } = dbUser;
+
     const isPasswordValid = await comparePassword(password, hashedPassword);
 
     if (!isPasswordValid)
@@ -43,7 +51,7 @@ export default async function login(
       };
 
     const user = {
-      ...dbUser,
+      ...jwtUser,
       email,
     };
 
@@ -54,11 +62,13 @@ export default async function login(
     cookies().set("auth_token", authToken);
     return { success: true };
   } catch (error) {
-    if (error instanceof NeonDbError)
+    if (error instanceof NeonDbError || error instanceof Error) {
+      console.log(error);
       return {
         success: false,
         message: error.message,
       };
+    }
 
     if (error instanceof ZodError)
       return {

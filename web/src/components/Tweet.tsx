@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { lazy } from "react";
 
-import type { Tweet, User } from "@/db/schema";
+import type { Tweet, User } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
 import { getRelativeTime } from "@/utils/date";
@@ -16,7 +16,7 @@ import DropdownMenu from "./ui/DropdownMenu";
 const VideoPlayer = lazy(() => import("./VideoPlayer"));
 
 interface Props
-  extends Omit<Tweet, "userId" | "inReplyToTweetId">,
+  extends Omit<Tweet, "userId" | "inReplyToTweetId" | "platform">,
     Pick<User, "name" | "userImage" | "tag"> {
   pinned?: boolean;
 }
@@ -56,10 +56,7 @@ export default async function Tweet({
           <div className="flex w-full gap-2 items-center">
             <p className="font-bold">{name}</p>
             <p className="text-gray-500">@{tag} ·</p>
-            <time
-              dateTime={createdAt.toISOString()}
-              className="text-sm text-gray-500"
-            >
+            <time dateTime={createdAt} className="text-sm text-gray-500">
               {getRelativeTime(createdAt)}
             </time>
             {tag === user?.tag && (

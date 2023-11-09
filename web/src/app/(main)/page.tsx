@@ -1,27 +1,74 @@
 import Image from "next/image";
 import { Suspense } from "react";
 
+import type { FetchParameters } from "@/actions/types";
+import type { Tweet as TweetType, User } from "@/types";
 import type { Metadata } from "next";
 
-import getAllTweets from "@/actions/tweets/getAll";
+import { LIMIT } from "@/constants/fetch";
 import { useSession } from "@/hooks/useSession";
+import queryClient from "@/utils/queryClient";
 
 import CreateTweet from "@/components/CreateTweet";
 import HeadTitle from "@/components/HeadTitle";
 import LoadMoreTweets from "@/components/LoadMoreTweets";
+import Tweet from "@/components/Tweet";
+import Error from "@/components/icons/Error";
 import Loading from "@/components/ui/Loading";
 
 export const metadata: Metadata = {
   title: "Home / Twitter",
 };
 
+type HomeTweets = (Omit<TweetType, "platform"> &
+  Pick<User, "name" | "userImage" | "tag">)[];
+
 async function Tweets() {
-  const tweets = await getAllTweets({ page: 1 });
+  const tweetsResponse = await queryClient<HomeTweets>("/tweets", {
+    cache: "no-store",
+    tags: ["home-tweets"],
+    searchParams: {
+      page: 1,
+      limit: LIMIT,
+    },
+  });
+
+  if (!tweetsResponse.success)
+    return (
+      <article className="h-2/4 flex flex-col items-center justify-center text-red-600">
+        <Error height={20} width={20} />
+        <p className="font-semibold">Failed to load Tweets</p>
+      </article>
+    );
+
+  async function fetchMoreTweets({ page }: FetchParameters) {
+    "use server";
+
+    const moreTweetsResponse = await queryClient<HomeTweets>("/tweets", {
+      cache: "no-store",
+      tags: ["home-tweets"],
+      searchParams: {
+        page,
+        limit: LIMIT,
+      },
+    });
+
+    if (moreTweetsResponse.success)
+      return (
+        moreTweetsResponse?.data?.map((tweet) => (
+          <Tweet key={tweet.tweetId} {...tweet} />
+        )) ?? []
+      );
+
+    return [];
+  }
 
   return (
     <>
-      {tweets}
-      <LoadMoreTweets fetcher={getAllTweets} />
+      {tweetsResponse.data.map((tweet) => (
+        <Tweet key={tweet.tweetId} {...tweet} />
+      ))}
+      <LoadMoreTweets fetcher={fetchMoreTweets} />
     </>
   );
 }

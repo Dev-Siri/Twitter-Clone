@@ -11,7 +11,7 @@ export default function ComposeTweet() {
   return (
     <Modal>
       {user && (
-        <div className="flex gap-4 mt-2">
+        <div className="flex gap-4 mt-[28px]">
           <Image
             src={user.userImage}
             alt={user.name}

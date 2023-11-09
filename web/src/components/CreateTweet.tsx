@@ -34,8 +34,10 @@ export default function CreateTweet({
 
   const [caption, setCaption] = useState("");
   const [media, setMedia] = useState<File | null>(null);
+  const [textAreaHeight, setTextAreaHeight] = useState(inputHeight ?? 40);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
 
+  const captionInput = useRef<HTMLTextAreaElement>(null);
   const mediaInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -55,7 +57,6 @@ export default function CreateTweet({
 
     if (file.type.startsWith("image/")) return setMediaType("image");
     if (file.type.startsWith("video/")) return setMediaType("video");
-
     setMediaType(null);
   }
 
@@ -67,18 +68,31 @@ export default function CreateTweet({
     if (mediaInput.current) mediaInput.current.value = "";
   }
 
+  function handleCaptionChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    if (captionInput.current)
+      setTextAreaHeight(captionInput.current.scrollHeight);
+
+    if (caption.length > 280) return;
+
+    setCaption(e.target.value);
+  }
+
   const mediaUrl = useMemo(() => media && URL.createObjectURL(media), [media]);
 
   return (
     <form action={action} className="mt-2 w-full pr-4">
-      <input
-        type="text"
+      <textarea
         name="caption"
         placeholder={placeholder ?? "What is happening?!"}
-        className="bg-transparent outline-none text-xl w-full"
+        className="bg-transparent outline-none text-xl w-full resize-none"
         value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        style={{ paddingBottom: inputHeight }}
+        onChange={handleCaptionChange}
+        ref={captionInput}
+        maxLength={280}
+        style={{
+          paddingBottom: inputHeight,
+          height: textAreaHeight,
+        }}
       />
       {!state.success && state.errors?.["caption"] && (
         <p className="text-red-500 mt-2">{state.errors["caption"]}</p>

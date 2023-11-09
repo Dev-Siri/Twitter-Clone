@@ -8,11 +8,13 @@ import (
 )
 
 type Success[T any] struct {
-	Status int `json:"status"`
-	Data   T   `json:"data"`
+	Status  int  `json:"status"`
+	Success bool `json:"success"`
+	Data    T    `json:"data"`
 }
 
 func CreateSuccessResponse[T any](successResponse *Success[T]) []byte {
+	successResponse.Success = true
 	jsonBytes, err := json.Marshal(successResponse)
 
 	if err != nil {

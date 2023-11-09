@@ -8,7 +8,8 @@ export const isValidYear = (year: number) =>
 export const isLeapYear = (year: number) =>
   (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 
-export function getRelativeTime(date: Date) {
+export function getRelativeTime(dateString: string) {
+  const date = new Date(dateString);
   const timeMs = date.getTime();
   const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
   const timeUnitSeconds = [
@@ -58,7 +59,8 @@ export async function getJoinedDate(date: Date) {
   return `${month} ${year}`;
 }
 
-export async function getTweetCreatedDate(date: Date) {
+export async function getTweetCreatedDate(dateString: string) {
+  const date = new Date(dateString);
   const month = date.toLocaleString("en-US", { month: "short" });
   const hour = date.getHours();
   const formattedHour = hour % TWELVE_HOUR_BREAKPOINT || TWELVE_HOUR_BREAKPOINT;

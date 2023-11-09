@@ -1,17 +1,16 @@
 "use server";
 import { NeonDbError } from "@neondatabase/serverless";
-import { FirebaseError } from "firebase/app";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ZodError } from "zod";
 
 import type { Result } from "@/utils/validation/types";
 
-import { db } from "@/db/drizzle";
-import { tweets } from "@/db/schema";
+import { PLATFORM } from "@/constants/platform";
 import { useSession } from "@/hooks/useSession";
-import { uploadFile } from "@/utils/files";
+import queryClient from "@/utils/queryClient";
 import formatSchemaErrors from "@/utils/validation/errors";
 import { tweetSchema } from "@/utils/validation/tweet";
+import { encodeToBase64 } from "@/utils/encoding";
 
 export default async function createTweet(
   _: any,
@@ -32,33 +31,31 @@ export default async function createTweet(
 
     let mediaUrl: string | null = null;
 
-    if (media && media.size > 0) mediaUrl = await uploadFile(media, "tweets");
+    if (media && media.size > 0) mediaUrl = await encodeToBase64(media);
 
-    await db.insert(tweets).values({
-      caption,
-      media: mediaUrl,
-      tweetId: crypto.randomUUID(),
-      userId: user.userId,
-      inReplyToTweetId: replyingTo || null,
+    const response = await queryClient("/tweets", {
+      method: "POST",
+      body: {
+        caption,
+        media: mediaUrl,
+        userId: user.userId,
+        inReplyToTweetId: replyingTo || null,
+        platform: PLATFORM,
+      },
     });
 
-    revalidatePath("/");
-    revalidatePath("/[tag]/status/[statusId]", "page");
+    if (!response.success) throw new Error(response.message);
+
+    revalidateTag("home-tweets");
     return { success: true };
   } catch (error) {
-    if (error instanceof NeonDbError)
-      return {
-        success: false,
-        message: error.message,
-      };
-
     if (error instanceof ZodError)
       return {
         success: false,
         errors: formatSchemaErrors(error),
       };
 
-    if (error instanceof FirebaseError)
+    if (error instanceof Error)
       return {
         success: false,
         message: error.message,

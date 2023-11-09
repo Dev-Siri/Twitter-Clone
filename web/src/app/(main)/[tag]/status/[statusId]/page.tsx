@@ -1,9 +1,10 @@
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import type { Tweet as TweetType, User } from "@/types";
 import type { Metadata } from "next";
 
-import getTweet from "@/actions/tweets/getOne";
-import getTweetReplyId from "@/actions/tweets/getReplyId";
+import queryClient from "@/utils/queryClient";
 
 import HeadTitle from "@/components/HeadTitle";
 import Loading from "@/components/ui/Loading";
@@ -20,25 +21,42 @@ interface Props {
 export async function generateMetadata({
   params: { statusId },
 }: Props): Promise<Metadata> {
-  const tweet = await getTweet({ tweetId: statusId });
+  const tweetResponse = await queryClient<
+    TweetType & Pick<User, "name" | "userImage" | "tag">
+  >(`/tweets/${statusId}`, {
+    cache: "no-store",
+  });
 
-  if (!tweet)
+  if (tweetResponse.status === 404)
     return {
       title: "Page not found / Twitter",
     };
 
-  const { name, caption } = tweet;
+  if (!tweetResponse.success)
+    return {
+      title: "Error loading page / twitter",
+    };
+
+  const { name, caption } = tweetResponse.data;
 
   return { title: `${name} on Twitter: "${caption}" / Twitter` };
 }
 
 export default async function Status({ params: { statusId } }: Props) {
-  const replyTweetId = await getTweetReplyId({ tweetId: statusId });
+  const tweetResponse = await queryClient<
+    TweetType & Pick<User, "name" | "userImage" | "tag">
+  >(`/tweets/${statusId}`, {
+    cache: "no-store",
+  });
+
+  if (tweetResponse.status === 404) notFound();
+
+  if (!tweetResponse.success) throw new Error(tweetResponse.message);
 
   return (
     <>
       <HeadTitle showBackButton>Tweet</HeadTitle>
-      <TweetChain replyTweetId={replyTweetId} />
+      <TweetChain replyTweetId={tweetResponse.data.inReplyToTweetId} />
       <Suspense
         fallback={
           <div className="flex items-center justify-center">

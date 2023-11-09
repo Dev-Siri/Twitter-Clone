@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	error_controllers "twitter/controllers/errors"
 	"twitter/db"
@@ -33,7 +32,9 @@ func main() {
 		return
 	}
 
-	defer db.Database.Close(context.Background())
+	if db.Database != nil {
+		defer db.Database.Close()
+	}
 
 	r := router.New()
 
@@ -45,7 +46,7 @@ func main() {
 
 	routes.RegisterTweetsRoutes(r)
 
-	handler := middleware.Log(middleware.CORS(r.Handler))
+	handler := middleware.Json(middleware.Log(middleware.CORS(r.Handler)))
 
 	logging.Logger.Info("Starting server...", zap.String("address", addr))
 

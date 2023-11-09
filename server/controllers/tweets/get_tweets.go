@@ -1,7 +1,6 @@
 package tweet_controllers
 
 import (
-	"context"
 	"database/sql"
 	"twitter/db"
 	"twitter/logging"
@@ -16,7 +15,7 @@ import (
 func GetTweets(ctx *fasthttp.RequestCtx) {
 	page, limit := utils.GetPaginationParams(ctx.QueryArgs())
 
-	rows, err := db.Database.Query(context.Background(), `
+	rows, err := db.Database.Query(`
 		SELECT
 			t.caption,
 			t.created_at,
@@ -38,10 +37,10 @@ func GetTweets(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to get tweets",
+			Message: "Failed to load tweets",
 		})
 
-		go logging.Logger.Error("Failed to get tweets", zap.Error(err))
+		go logging.Logger.Error("Failed to load tweets", zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return

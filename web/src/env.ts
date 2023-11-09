@@ -14,6 +14,7 @@ export const env = z.object({
   FIREBASE_STORAGE_BUCKET: z.string(),
   FIREBASE_MESSAGING_SENDER_ID: z.string(),
   FIREBASE_APP_ID: z.string(),
+  NEXT_PUBLIC_BACKEND_URL: z.string(),
 });
 
 declare global {

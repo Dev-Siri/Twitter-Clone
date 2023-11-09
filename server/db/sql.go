@@ -1,15 +1,15 @@
 package db
 
 import (
-	"context"
+	"database/sql"
 
-	"github.com/jackc/pgx/v5"
+	_ "github.com/lib/pq"
 )
 
-var Database *pgx.Conn
+var Database *sql.DB
 
 func Connect(url string) error {
-	db, err := pgx.Connect(context.Background(), url)
+	db, err := sql.Open("postgres", url)
 
 	if err != nil {
 		return err

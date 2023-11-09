@@ -8,11 +8,11 @@ import useVisibility from "@/hooks/useVisibility";
 import Loading from "@/components/ui/Loading";
 
 interface Props<T> {
-  fetcher(fetchParameters: FetchParameters & T): Promise<ReactNode[]>;
+  fetcher(fetchParameters: FetchParameters & T): Promise<JSX.Element[]>;
   fetcherParameters?: T;
 }
 
-export default function LoadMoreTweets<T extends Record<string, any>>({
+export default function LoadMore<T extends Record<string, any>>({
   fetcher,
   fetcherParameters,
 }: Props<T>) {
