@@ -73,7 +73,7 @@ func CreateTweet(ctx *fasthttp.RequestCtx) {
 		mediaUrl = uploadedMediaUrl
 	}
 
-	_, err := db.Database.Query(`
+	_, err := db.Database.Exec(`
 		INSERT INTO "Tweets" (tweet_id, caption, created_at, media, user_id, in_reply_to_tweet_id, platform)
 		VALUES ( $1, $2, $3, $4, $5, $6, $7 )
 	`, uuid.NewString(), body.Caption, time.Now().UTC(), utils.NewNullableString(mediaUrl), body.UserId, utils.NewNullableString(body.InReplyToTweetId), body.Platform)

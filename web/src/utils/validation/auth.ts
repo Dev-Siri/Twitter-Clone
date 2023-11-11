@@ -5,18 +5,19 @@ import { isValidYear } from "../date";
 import { fileInput } from "./helpers";
 
 export const loginSchema = z.object({
-  email: z.string().email("Invalid email."),
+  email: z.string().email("Invalid email"),
   password: z
-    .string({ required_error: "Password is required." })
-    .min(8, "Password must consist of atleast 8 characters."),
+    .string({ required_error: "Password is required" })
+    .min(8, "Password must consist of atleast 8 characters"),
 });
 
 export const signupSchema = loginSchema.extend({
-  name: z.string(),
-  birthMonth: z.enum(MONTHS, { invalid_type_error: "Invalid month." }),
-  birthYear: z.coerce.number().refine(isValidYear, "Invalid year."),
+  name: z.string().max(50, "Display name must be only upto 50 characters"),
+  tag: z.string().max(15, "Username must be only upto 15 characters"),
+  birthMonth: z.enum(MONTHS, { invalid_type_error: "Invalid month" }),
+  birthYear: z.coerce.number().refine(isValidYear, "Invalid year"),
   birthDay: z.coerce.number({
-    invalid_type_error: "Birth day needs to be a valid number.",
+    invalid_type_error: "Birth day needs to be a valid number",
   }),
 });
 

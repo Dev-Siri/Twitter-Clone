@@ -45,6 +45,7 @@ func main() {
 	addr := ":" + env.GetPORT()
 
 	routes.RegisterTweetsRoutes(r)
+	routes.RegisterUsersRoutes(r)
 
 	handler := middleware.Json(middleware.Log(middleware.CORS(r.Handler)))
 

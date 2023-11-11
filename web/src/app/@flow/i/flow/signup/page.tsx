@@ -6,15 +6,19 @@ import { useFormState } from "react-dom";
 
 import signup from "@/actions/users/signup";
 import { MONTHS, getDays } from "@/constants/date";
+import { tagFormat } from "@/utils/formatting";
 
 import Modal from "@/components/Modal";
 import SubmitButton from "@/components/SubmitButton";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 
+type MonthUnion = (typeof MONTHS)[number];
+
 export default function SignupFlow() {
-  const [birthMonth, setBirthMonth] =
-    useState<(typeof MONTHS)[number]>("January");
+  const [birthMonth, setBirthMonth] = useState<MonthUnion>("January");
+  const [tag, setTag] = useState("");
+
   const [state, action] = useFormState(signup, { success: false });
   const daysOptions = useMemo(() => getDays(birthMonth), [birthMonth]);
 
@@ -26,9 +30,9 @@ export default function SignupFlow() {
 
   return (
     <Modal open={!state.success}>
-      <form action={action} className="p-8 pt-4">
+      <form action={action} className="p-8 pt-0">
         <h2 className="font-bold text-4xl">Create your account</h2>
-        <div className="flex flex-col mt-8 gap-2">
+        <div className="flex flex-col mt-6 gap-2">
           <Input
             name="name"
             type="text"
@@ -37,6 +41,21 @@ export default function SignupFlow() {
           />
           {!state.success && state.errors?.["name"] && (
             <p className="text-red-500">{state.errors["name"]}</p>
+          )}
+          <div className="flex relative">
+            <p className="text-gray-500 absolute self-center ml-3 text-lg">@</p>
+            <Input
+              name="tag"
+              type="text"
+              placeholder="Username"
+              value={tag}
+              onChange={(e) => setTag(tagFormat(e.target.value))}
+              invalid={!state.success && !!state.errors?.["tag"]}
+              className="pl-8"
+            />
+          </div>
+          {!state.success && state.errors?.["tag"] && (
+            <p className="text-red-500">{state.errors["tag"]}</p>
           )}
           <Input
             name="email"
