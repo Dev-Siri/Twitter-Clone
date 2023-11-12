@@ -83,6 +83,10 @@ $ bun dev
 
 Once again, you have achieved bird.
 
+## Credits
+
+This Twitter Clone is not affiliated with or endorsed by Twitter Inc. The terms "Twitter", "Tweets", "Retweets" & The Twitter Bird Logo are trademarks of Twitter Inc. Please refer to [Twitter's trademark policy](https://developer.twitter.com/en/docs/labs/brand) to ensure compliance with their guidelines.
+
 ## License
 
 This project is MIT Licensed, see [LICENSE](LICENSE)

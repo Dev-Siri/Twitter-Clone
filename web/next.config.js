@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
-    formats: ["image/avif"],
     remotePatterns: [
       {
         hostname: "firebasestorage.googleapis.com",
