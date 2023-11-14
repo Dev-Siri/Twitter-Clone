@@ -1,10 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import deleteTweet from "@/actions/tweets/delete";
 import pinTweet from "@/actions/tweets/pin";
 
 import highlightTweet from "@/actions/tweets/highlight";
+import queryClient from "@/utils/queryClient";
 import Delete from "./icons/Delete";
 import Highlight from "./icons/Highlight";
 import Pin from "./icons/Pin";
@@ -16,29 +16,36 @@ interface Props {
 export default function TweetOptions({ tweetId }: Props) {
   const router = useRouter();
 
-  async function notifyAction(message: string) {
+  async function notifyAction(message: string, type: "success" | "error") {
     const { toast } = await import("sonner");
+
+    if (type === "error") return toast.error(message);
 
     toast.success(message);
     router.refresh();
   }
 
   async function handleDeleteTweet() {
-    await deleteTweet(tweetId);
+    const response = await queryClient(`/tweets/${tweetId}`, {
+      method: "DELETE",
+    });
 
-    notifyAction("Your tweet was deleted");
+    if (response.success)
+      return notifyAction("Your Tweet was deleted", "success");
+
+    notifyAction("Failed to delete Tweet", "error");
   }
 
   async function handlePinTweet() {
     await pinTweet(tweetId);
 
-    notifyAction("Tweet pinned to your profile");
+    notifyAction("Tweet pinned to your profile", "success");
   }
 
   async function handleHighlightTweet() {
     await highlightTweet(tweetId);
 
-    notifyAction("Tweet highlighted on your profile");
+    notifyAction("Tweet highlighted on your profile", "success");
   }
 
   return (

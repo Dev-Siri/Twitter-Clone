@@ -23,3 +23,8 @@ export interface Tweet {
   userId: string;
   inReplyToTweetId: string;
 }
+
+export interface TweetEngagements {
+  likes: number;
+  replies: number;
+}

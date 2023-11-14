@@ -43,7 +43,7 @@ export default function Modal({
         <dialog
           open
           onClick={(e) => e.stopPropagation()}
-          className={`bg-black text-white w-2/4 mt-[1%] rounded-lg z-50 ${
+          className={`bg-black text-white h-full w-full mt-[1%] rounded-lg z-50 sm:h-fit sm:w-11/12 md:w-2/4 ${
             defaultPadding && "p-4"
           } ${className}`}
           {...props}

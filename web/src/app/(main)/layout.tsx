@@ -3,6 +3,8 @@ import { Toaster } from "sonner";
 import type { Metadata } from "next";
 import type { PropsWithChildren, ReactNode } from "react";
 
+import LoadingBar from "@/components/LoadingBar";
+import LoadingContextProvider from "@/context/LoadingContext";
 import RecommendationView from "./recommendation-view";
 import Sidebar from "./sidebar";
 
@@ -18,15 +20,16 @@ interface Props extends PropsWithChildren {
 
 export default function MainLayout({ children, create, options }: Props) {
   return (
-    <>
+    <LoadingContextProvider>
       <Sidebar />
       <main className="h-screen w-full overflow-x-hidden overflow-auto min-[978px]:w-2/4">
+        <LoadingBar />
         {children}
       </main>
       <RecommendationView />
       <Toaster position="bottom-center" richColors theme="dark" />
       {create}
       {options}
-    </>
+    </LoadingContextProvider>
   );
 }

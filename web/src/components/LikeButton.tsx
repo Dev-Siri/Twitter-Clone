@@ -2,6 +2,7 @@
 import { useState, type ReactNode } from "react";
 
 import likeTweet from "@/actions/tweets/like";
+import { compactify } from "@/utils/formatting";
 
 interface Props {
   tweetId: string;
@@ -37,7 +38,7 @@ export default function LikeButton({
 
   return (
     <div
-      className={`flex gap-2 items-center duration-200 group ${
+      className={`flex gap-1 flex-1 items-center duration-200 w-10 group ${
         isLiked ? "text-red-600" : "text-gray-500 hover:text-red-600"
       }`}
     >
@@ -48,7 +49,7 @@ export default function LikeButton({
       >
         {isLiked ? likedIcon : unlikedIcon}
       </button>
-      <p>{likeCount}</p>
+      {!!likeCount && <p>{compactify(likeCount)}</p>}
     </div>
   );
 }

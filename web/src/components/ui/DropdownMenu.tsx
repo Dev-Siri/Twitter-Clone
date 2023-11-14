@@ -24,15 +24,15 @@ export default function DropdownMenu({ children }: PropsWithChildren) {
     <div className="relative">
       <button
         type="button"
-        className="text-gray-500 p-1 rounded-full z-50 hover:bg-[#0f0f0f]"
+        className="text-gray-500 p-1.5 rounded-full z-50 duration-200 hover:bg-blue-950 hover:text-twitter-blue"
         onClick={handleClick}
       >
-        <ThreeDotsHorizontal />
+        <ThreeDotsHorizontal height={20} width={20} />
       </button>
       {isOpen && (
         <div
           onClick={handleMenuClick}
-          className="w-[400px] absolute -translate-x-48 bg-black border border-gray-800 rounded-md z-50 cursor-default"
+          className="w-[352px] absolute -translate-x-[95%] bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl z-50 cursor-default"
         >
           {children}
         </div>

@@ -8,7 +8,9 @@ import (
 
 func RegisterTweetsRoutes(r *router.Router) {
 	r.GET("/tweets", tweet_controllers.GetTweets)
-	r.GET("/tweets/{id}", tweet_controllers.GetTweet)
-	r.GET("/tweets/{id}/engagements", tweet_controllers.GetTweetEngagements)
 	r.POST("/tweets", tweet_controllers.CreateTweet)
+	r.GET("/tweets/{id}", tweet_controllers.GetTweet)
+	r.DELETE("/tweets/{id}", tweet_controllers.DeleteTweet)
+	r.GET("/tweets/{id}/engagements", tweet_controllers.GetTweetEngagements)
+	r.GET("/tweets/{id}/engagements/already-liked", tweet_controllers.IsTweetAlreadyLiked)
 }

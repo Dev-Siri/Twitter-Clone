@@ -36,7 +36,7 @@ export default function Auth() {
         >
           Create account
         </Link>
-        <p className="leading-tight text-xs mt-2 text-gray-500">
+        <p className="leading-tight text-xs mt-2 text-gray-500 w-full md:w-[275px]">
           By signing up, you agree to the{" "}
           <Link href="/legal/tos" className="text-twitter-blue hover:underline">
             Terms of Service
@@ -48,7 +48,6 @@ export default function Auth() {
           >
             Privacy
           </Link>{" "}
-          <br />
           Policy, including{" "}
           <a
             target="_blank"

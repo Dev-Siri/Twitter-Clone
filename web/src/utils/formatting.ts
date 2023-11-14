@@ -12,3 +12,8 @@ export function tagFormat(input: string): string {
 
   return filteredString;
 }
+
+export function compactify(metric: number) {
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(metric);
+}

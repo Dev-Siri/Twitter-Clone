@@ -35,7 +35,7 @@ export default async function Tweet({
   const mediaType = media && (await getMediaType(media));
 
   return (
-    <article className="pb-2 duration-200 hover:bg-[#0f0f0f]">
+    <article className="pb-2 duration-200 border-b border-b-gray-800 hover:bg-[#0f0f0f]">
       {pinned && (
         <p className="text-gray-500 font-semibold text-sm pl-5 pt-2">
           Pinned by @{tag}

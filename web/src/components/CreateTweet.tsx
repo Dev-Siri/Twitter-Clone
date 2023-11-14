@@ -2,6 +2,7 @@
 import Image from "next/image";
 import {
   lazy,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -12,6 +13,7 @@ import { useFormState } from "react-dom";
 import { toast } from "sonner";
 
 import createTweet from "@/actions/tweets/create";
+import { LoadingContext } from "@/context/LoadingContext";
 
 import SubmitButton from "@/components/SubmitButton";
 import Close from "@/components/icons/Close";
@@ -37,6 +39,7 @@ export default function CreateTweet({
   const [textAreaHeight, setTextAreaHeight] = useState(inputHeight ?? 40);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
 
+  const loadingBar = useContext(LoadingContext);
   const captionInput = useRef<HTMLTextAreaElement>(null);
   const mediaInput = useRef<HTMLInputElement>(null);
 
@@ -45,8 +48,9 @@ export default function CreateTweet({
       toast.success("Your tweet was sent.");
       clearMedia();
       setCaption("");
+      loadingBar?.current?.complete();
     }
-  }, [state]);
+  }, [state, loadingBar]);
 
   function handleMediaChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -80,7 +84,11 @@ export default function CreateTweet({
   const mediaUrl = useMemo(() => media && URL.createObjectURL(media), [media]);
 
   return (
-    <form action={action} className="mt-2 w-full pr-4">
+    <form
+      action={action}
+      className="mt-2 w-full pr-4"
+      onSubmit={() => loadingBar?.current?.continuousStart()}
+    >
       <textarea
         name="caption"
         placeholder={placeholder ?? "What is happening?!"}

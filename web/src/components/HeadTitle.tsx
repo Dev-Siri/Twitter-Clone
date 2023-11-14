@@ -16,7 +16,7 @@ export default function HeadTitle({
 }: Props) {
   return (
     <header
-      className={`flex gap-2 items-center border-b border-b-slate-800 p-4 ${
+      className={`flex h-[53px] gap-2 items-center border-b border-b-slate-800 p-4 cursor-pointer ${
         (subtitle || showBackButton) && "py-2"
       }`}
     >

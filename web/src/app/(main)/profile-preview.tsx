@@ -32,7 +32,7 @@ export default function ProfilePreview() {
           <p className="text-sm text-gray-500 -mt-0.5">@{user.name}</p>
         </section>
         <section className="ml-auto mr-2 hidden min-[978px]:block">
-          <ThreeDotsHorizontal />
+          <ThreeDotsHorizontal height={24} width={24} />
         </section>
       </article>
     </UpMenu>

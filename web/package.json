@@ -29,6 +29,7 @@
     "pg": "^8.11.3",
     "react": "canary",
     "react-dom": "canary",
+    "react-top-loading-bar": "^2.3.1",
     "sharp": "^0.32.6",
     "sonner": "^1.0.3",
     "zod": "^3.22.2"

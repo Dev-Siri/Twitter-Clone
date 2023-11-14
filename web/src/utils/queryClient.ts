@@ -38,7 +38,7 @@ export default async function queryClient<T>(
     cache,
     revalidate,
     tags,
-  }: Partial<Options>
+  }: Partial<Options> = {}
 ): Promise<ApiResponse<T>> {
   const url = new URL(endpoint, process.env.NEXT_PUBLIC_BACKEND_URL);
 
