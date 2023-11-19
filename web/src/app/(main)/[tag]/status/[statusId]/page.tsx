@@ -59,7 +59,7 @@ export default async function Status({ params: { statusId } }: Props) {
       <TweetChain replyTweetId={tweetResponse.data.inReplyToTweetId} />
       <Suspense
         fallback={
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center mt-4">
             <Loading />
           </div>
         }

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   lazy,
   useContext,
@@ -42,15 +43,17 @@ export default function CreateTweet({
   const loadingBar = useContext(LoadingContext);
   const captionInput = useRef<HTMLTextAreaElement>(null);
   const mediaInput = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (state.success) {
       toast.success("Your tweet was sent.");
       clearMedia();
       setCaption("");
-      loadingBar?.current?.complete();
+      if (location.href === "/") loadingBar?.current?.complete();
+      else router.back();
     }
-  }, [state, loadingBar]);
+  }, [state, loadingBar, router]);
 
   function handleMediaChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -81,14 +84,14 @@ export default function CreateTweet({
     setCaption(e.target.value);
   }
 
+  function handleSubmit() {
+    if (location.href === "/") loadingBar?.current?.continuousStart();
+  }
+
   const mediaUrl = useMemo(() => media && URL.createObjectURL(media), [media]);
 
   return (
-    <form
-      action={action}
-      className="mt-2 w-full pr-4"
-      onSubmit={() => loadingBar?.current?.continuousStart()}
-    >
+    <form action={action} className="mt-2 w-full pr-4" onSubmit={handleSubmit}>
       <textarea
         name="caption"
         placeholder={placeholder ?? "What is happening?!"}

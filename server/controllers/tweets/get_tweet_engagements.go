@@ -16,6 +16,7 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 	errorChannel := make(chan error)
 	likeCountChannel := make(chan int)
 	replyCountChannel := make(chan int)
+	retweetCountChannel := make(chan int)
 
 	go func() {
 		row := db.Database.QueryRow(`
@@ -51,6 +52,23 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 		replyCountChannel <- likeCount
 	}()
 
+	go func() {
+		row := db.Database.QueryRow(`
+			SELECT COUNT(*) FROM "Tweets"
+			WHERE caption LIKE 'https://twitter-revived.vercel.app/%/status/' || $1
+		`, tweetId)
+
+		var retweetCount int
+
+		if err := row.Scan(&retweetCount); err != nil {
+			go logging.Logger.Error("Failed to load retweet count", zap.Error(err))
+
+			errorChannel <- err
+		}
+
+		retweetCountChannel <- retweetCount
+	}()
+
 	select {
 	case err := <-errorChannel:
 		response := responses.CreateErrorResponse(&responses.Error{
@@ -63,12 +81,14 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 	default:
 		likeCount := <-likeCountChannel
 		replyCount := <-replyCountChannel
+		retweetCount := <-retweetCountChannel
 
 		response := responses.CreateSuccessResponse[models.Engagement](&responses.Success[models.Engagement]{
 			Status: fasthttp.StatusOK,
 			Data: models.Engagement{
-				Likes:   likeCount,
-				Replies: replyCount,
+				Likes:    likeCount,
+				Replies:  replyCount,
+				Retweets: retweetCount,
 			},
 		})
 

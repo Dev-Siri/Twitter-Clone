@@ -1,13 +1,14 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { lazy, useState } from "react";
 
 import likeTweet from "@/actions/tweets/like";
 import { compactify } from "@/utils/formatting";
 
+const HeartFilled = lazy(() => import("./icons/HeartFilled"));
+const HeartOutlined = lazy(() => import("./icons/HeartOutlined"));
+
 interface Props {
   tweetId: string;
-  likedIcon: ReactNode;
-  unlikedIcon: ReactNode;
   initialLikeCount: number;
   isAlreadyLiked: boolean;
 }
@@ -15,8 +16,6 @@ interface Props {
 export default function LikeButton({
   tweetId,
   initialLikeCount,
-  likedIcon,
-  unlikedIcon,
   isAlreadyLiked,
 }: Props) {
   const [isLiked, setIsLiked] = useState(isAlreadyLiked);
@@ -47,7 +46,11 @@ export default function LikeButton({
         onClick={handleLikeTweet}
         className="rounded-full p-1 duration-200 group-hover:bg-red-950"
       >
-        {isLiked ? likedIcon : unlikedIcon}
+        {isLiked ? (
+          <HeartFilled height={24} width={24} />
+        ) : (
+          <HeartOutlined height={24} width={24} />
+        )}
       </button>
       {!!likeCount && <p>{compactify(likeCount)}</p>}
     </div>

@@ -37,6 +37,11 @@ export const metadata: Metadata = {
   title: "Twitter. It's what's happening.",
   description:
     "From breaking news and entertainment to sports and politics, get the full story with all the live commentary.",
+  metadataBase: new URL(
+    process.env.NODE_ENV === "production"
+      ? "https://twitter-revived.vercel.app"
+      : "http://localhost:3000"
+  ),
 };
 
 interface Props extends PropsWithChildren {

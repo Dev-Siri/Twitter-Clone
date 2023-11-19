@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { PropsWithChildren, ReactNode } from "react";
 
-import getCountOfTweetByUser from "@/actions/tweets/getCountByUser";
+import queryClient from "@/utils/queryClient";
 import getUser from "@/actions/users/getOne";
 import { useSession } from "@/hooks/useSession";
 import { getJoinedDate } from "@/utils/date";
@@ -43,7 +43,9 @@ export default async function ProfileLayout({
   if (!user) notFound();
 
   const loggedInUser = useSession();
-  const tweetCount = await getCountOfTweetByUser(user.userId);
+  const tweetCountResponse = await queryClient("/tweets/count", {
+    searchParams: { userId: user.userId }
+  });
 
   const { name, userImage, tag, bio, banner, location, website, createdAt } =
     user;
@@ -51,7 +53,7 @@ export default async function ProfileLayout({
   return (
     <article>
       {images}
-      <HeadTitle subtitle={`${tweetCount} tweets`} showBackButton>
+      <HeadTitle subtitle={tweetCountResponse.success ? `${tweetCountResponse.data} tweets` : "Failed to get tweet count"} showBackButton>
         {name}
       </HeadTitle>
       <section className="relative h-48 bg-twitter-blue">

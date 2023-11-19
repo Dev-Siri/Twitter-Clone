@@ -7,10 +7,13 @@ import type { Tweet, User } from "@/types";
 import { useSession } from "@/hooks/useSession";
 import { getRelativeTime } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
+import queryClient from "@/utils/queryClient";
+import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import TweetInteractions from "./TweetInteractions";
 import TweetOptions from "./TweetOptions";
 import TweetText from "./TweetText";
+import Retweet from "./icons/Retweet";
 import DropdownMenu from "./ui/DropdownMenu";
 
 const VideoPlayer = lazy(() => import("./VideoPlayer"));
@@ -21,29 +24,41 @@ interface Props
   pinned?: boolean;
 }
 
-export default async function Tweet({
-  name,
-  tag,
-  caption,
-  media,
-  userImage,
-  tweetId,
-  createdAt,
-  pinned,
-}: Props) {
+export default async function Tweet({ pinned, ...props }: Props) {
   const user = useSession();
+
+  let retweet: (Tweet & Pick<User, "name" | "userImage" | "tag">) | null = null;
+
+  if (isTwitterStatusUrl(props.caption)) {
+    const retweetResponse = await queryClient<
+      Tweet & Pick<User, "name" | "userImage" | "tag">
+    >(`/tweets/${getTwitterStatusUuid(props.caption)}`, {
+      cache: "no-store",
+    });
+
+    if (!retweetResponse.success) return null;
+
+    retweet = retweetResponse.data;
+  }
+
+  const { name, tag, caption, media, userImage, tweetId, createdAt } =
+    retweet ?? props;
+
   const mediaType = media && (await getMediaType(media));
 
   return (
     <article className="pb-2 duration-200 border-b border-b-gray-800 hover:bg-[#0f0f0f]">
-      {pinned && (
-        <p className="text-gray-500 font-semibold text-sm pl-5 pt-2">
-          Pinned by @{tag}
+      {(pinned || retweet) && (
+        <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 pt-2">
+          {retweet && <Retweet height={15} width={15} />}
+          <Link href={`/${props.tag}`} className="hover:underline">
+            {retweet ? `${props.name} retweeted` : `Pinned by @${tag}`}
+          </Link>
         </p>
       )}
       <Link
-        href={`/${tag}/status/${tweetId}`}
-        className={`flex p-4 pb-0 gap-3 ${pinned && "pt-2"}`}
+        href={`/${tag}/status/${props.tweetId}`}
+        className={`flex p-4 pb-0 gap-3 ${(pinned || retweet) && "pt-2"}`}
       >
         <Image
           src={userImage}
@@ -67,9 +82,9 @@ export default async function Tweet({
               </div>
             )}
           </div>
-          <p className="mb-2">
+          <div className="mb-2">
             <TweetText>{caption}</TweetText>
-          </p>
+          </div>
           {media && (
             <div className="mb-2">
               {mediaType === "image" ? (

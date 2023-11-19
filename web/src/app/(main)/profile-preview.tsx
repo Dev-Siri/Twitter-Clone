@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import ThreeDotsHorizontal from "@/components/icons/ThreeDotsHorizontal";
 import UpMenu from "@/components/ui/UpMenu";
@@ -9,15 +10,17 @@ export default function ProfilePreview() {
 
   if (!user) return null;
 
-  const userLinks = [
-    {
-      name: `Log out @${user.tag}`,
-      link: "/logout",
-    },
-  ];
-
   return (
-    <UpMenu options={userLinks}>
+    <UpMenu
+      options={
+        <Link
+          href="/logout"
+          className="font-semibold p-3 w-fit -z-10 rounded-xl duration-200 hover:bg-slate-800 min-[978px]:pl-6 min-[978px]:w-full md:rounded-none"
+        >
+          Log out @{user.tag}
+        </Link>
+      }
+    >
       <article className="flex gap-3 items-center rounded-full duration-200 cursor-pointer hover:bg-gray-800 p-2">
         <Image
           src={user.userImage}

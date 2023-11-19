@@ -10,10 +10,12 @@ import { getTweetCreatedDate } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
 import { getPlatformText } from "@/utils/platform";
 import queryClient from "@/utils/queryClient";
+import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import CreateTweet from "@/components/CreateTweet";
 import TweetInteractions from "@/components/TweetInteractions";
 import TweetText from "@/components/TweetText";
+import Retweet from "@/components/icons/Retweet";
 import Loading from "@/components/ui/Loading";
 import TweetReplies from "./replies";
 
@@ -34,15 +36,41 @@ export default async function Tweet({ id }: Props) {
 
   if (!tweetResponse.success) throw new Error(tweetResponse.message);
 
-  const { tweetId, caption, createdAt, media, name, tag, userImage, platform } =
-    tweetResponse.data;
+  let retweet: (TweetType & Pick<User, "name" | "userImage" | "tag">) | null =
+    null;
+
+  if (isTwitterStatusUrl(tweetResponse.data.caption)) {
+    const retweetResponse = await queryClient<
+      TweetType & Pick<User, "name" | "userImage" | "tag">
+    >(`/tweets/${getTwitterStatusUuid(tweetResponse.data.caption)}`, {
+      cache: "no-store",
+    });
+
+    if (!retweetResponse.success) return null;
+
+    retweet = retweetResponse.data;
+  }
+
+  const { name, tag, caption, media, userImage, tweetId, platform, createdAt } =
+    retweet ?? tweetResponse.data;
 
   const mediaType = media && (await getMediaType(media));
   const user = useSession();
 
   return (
-    <article className="py-4">
+    <article className={`py-4 ${retweet && "pt-2"}`}>
       <div className="px-4">
+        {retweet && (
+          <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 py-1">
+            <Retweet height={15} width={15} />
+            <Link
+              href={`/${tweetResponse.data.tag}`}
+              className="hover:underline"
+            >
+              {tweetResponse.data.name} retweeted
+            </Link>
+          </p>
+        )}
         <section className="flex gap-3">
           <Link href={`/${tag}`}>
             <Image
@@ -59,9 +87,9 @@ export default async function Tweet({ id }: Props) {
           </div>
         </section>
         <section>
-          <p className="mt-4 text-lg">
+          <div className="mt-4 text-lg">
             <TweetText>{caption}</TweetText>
-          </p>
+          </div>
           {media && (
             <div className="mt-2">
               {mediaType === "image" ? (
@@ -101,7 +129,7 @@ export default async function Tweet({ id }: Props) {
           </Link>
         </section>
       </div>
-      <section className="mt-4 py-2 border-y-gray-800 border-y">
+      <section className="mt-4 mx-4 flex justify-around py-2 border-y-gray-800 border-y">
         <TweetInteractions tweetId={tweetId} layout="page" />
       </section>
       {user && (

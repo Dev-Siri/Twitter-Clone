@@ -1,21 +1,16 @@
 // what's up menu?
 "use client";
-import Link from "next/link";
 import {
   useEffect,
   useRef,
   useState,
   type MouseEvent,
   type PropsWithChildren,
+  type ReactNode,
 } from "react";
 
-interface Option {
-  name: string;
-  link: string;
-}
-
 interface Props extends PropsWithChildren {
-  options: Option[];
+  options: ReactNode;
 }
 
 export default function UpMenu({ children, options }: Props) {
@@ -43,18 +38,10 @@ export default function UpMenu({ children, options }: Props) {
     <div className="relative" ref={menuRef}>
       {isOpen && (
         <div className="fixed translate-x-10 flex flex-col h-fit w-fit justify-center items-center inset-0 z-50 bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade min-[978px]:w-full min-[978px]:absolute min-[978px]:h-full min-[978px]:-translate-y-16">
-          {options.map(({ name, link }) => (
-            <Link
-              key={name}
-              className="font-semibold p-3 w-fit -z-10 rounded-xl duration-200 hover:bg-slate-800 min-[978px]:pl-6 min-[978px]:w-full md:rounded-none"
-              href={link}
-            >
-              {name}
-            </Link>
-          ))}
+          {options}
         </div>
       )}
-      <button className="w-full" onClick={handleMenuClick}>
+      <button type="button" className="w-full" onClick={handleMenuClick}>
         {children}
       </button>
     </div>

@@ -27,4 +27,5 @@ export interface Tweet {
 export interface TweetEngagements {
   likes: number;
   replies: number;
+  retweets: number;
 }

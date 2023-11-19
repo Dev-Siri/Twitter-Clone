@@ -1,0 +1,38 @@
+name: twitter
+description: "From breaking news and entertainment to sports and politics, get the full story with all the live commentary."
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0-0.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_preferences: ^2.2.2
+  provider: ^6.1.1
+  jwt_decode: ^0.3.1
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_native_splash: ^2.3.5
+
+flutter:
+  assets:
+    - assets/
+  uses-material-design: true
+
+flutter_native_splash:
+  color: "#1d9bf0"
+  image: assets/icon.png
+  android_12:
+    image: assets/icon.png
+    color: "#1d9bf0"
+    icon_background_color: "#1d9bf0"
+  android: true
+  ios: true
+  web: false
