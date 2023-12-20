@@ -9,7 +9,7 @@ export interface User {
   userImage: string;
   birthday: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
   pinnedTweetId?: string;
   highlightedTweetId?: string;
 }
@@ -28,4 +28,5 @@ export interface TweetEngagements {
   likes: number;
   replies: number;
   retweets: number;
+  quoteTweets: number;
 }

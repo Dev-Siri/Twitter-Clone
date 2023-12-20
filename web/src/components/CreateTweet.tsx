@@ -19,6 +19,10 @@ import { LoadingContext } from "@/context/LoadingContext";
 import SubmitButton from "@/components/SubmitButton";
 import Close from "@/components/icons/Close";
 import Media from "@/components/icons/Media";
+import { useQuotedTweetStore } from "@/stores/predefined-tweet";
+import { getTwitterStatusUuid } from "@/utils/url";
+import ExpandableTextArea from "./ExpandableTextArea";
+import QuotedTweet from "./QuotedTweet";
 
 const VideoPlayer = lazy(() => import("@/components/VideoPlayer"));
 
@@ -37,12 +41,11 @@ export default function CreateTweet({
 
   const [caption, setCaption] = useState("");
   const [media, setMedia] = useState<File | null>(null);
-  const [textAreaHeight, setTextAreaHeight] = useState(inputHeight ?? 40);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
 
   const loadingBar = useContext(LoadingContext);
-  const captionInput = useRef<HTMLTextAreaElement>(null);
   const mediaInput = useRef<HTMLInputElement>(null);
+  const { quotedTweetUrl, setQuotedTweetUrl } = useQuotedTweetStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,10 +53,12 @@ export default function CreateTweet({
       toast.success("Your tweet was sent.");
       clearMedia();
       setCaption("");
+      setQuotedTweetUrl(null);
+
       if (location.href === "/") loadingBar?.current?.complete();
       else router.back();
     }
-  }, [state, loadingBar, router]);
+  }, [state, loadingBar, router, setQuotedTweetUrl]);
 
   function handleMediaChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -75,16 +80,19 @@ export default function CreateTweet({
     if (mediaInput.current) mediaInput.current.value = "";
   }
 
-  function handleCaptionChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    if (captionInput.current)
-      setTextAreaHeight(captionInput.current.scrollHeight);
-
+  function handleCaptionChange(value: string) {
     if (caption.length > 280) return;
 
-    setCaption(e.target.value);
+    setCaption(value);
   }
 
   function handleSubmit() {
+    if (!replyingTo && quotedTweetUrl)
+      setCaption(
+        (prevCaption) => `${prevCaption}
+${quotedTweetUrl}`
+      );
+
     if (location.href === "/") loadingBar?.current?.continuousStart();
   }
 
@@ -92,19 +100,18 @@ export default function CreateTweet({
 
   return (
     <form action={action} className="mt-2 w-full pr-4" onSubmit={handleSubmit}>
-      <textarea
+      <ExpandableTextArea
         name="caption"
         placeholder={placeholder ?? "What is happening?!"}
         className="bg-transparent outline-none text-xl w-full resize-none"
-        value={caption}
         onChange={handleCaptionChange}
-        ref={captionInput}
+        value={caption}
         maxLength={280}
-        style={{
-          paddingBottom: inputHeight,
-          height: textAreaHeight,
-        }}
+        inputHeight={inputHeight}
       />
+      {quotedTweetUrl && !replyingTo && (
+        <QuotedTweet id={getTwitterStatusUuid(quotedTweetUrl) ?? ""} />
+      )}
       {!state.success && state.errors?.["caption"] && (
         <p className="text-red-500 mt-2">{state.errors["caption"]}</p>
       )}
@@ -176,11 +183,11 @@ export default function CreateTweet({
             */
             !!(media && !mediaType)
           }
-          className={`flex justify-center font-bold items-center rounded-full gap-2 bg-twitter-blue p-2 px-4 disabled:opacity-50 ${
+          className={`flex justify-center font-bold items-center rounded-full gap-2 bg-twitter-blue p-2 px-5 duration-200 disabled:opacity-50 disabled:bg-darker-twitter-blue hover:bg-darker-twitter-blue ${
             !state.success && state.message ? "ml-2" : "ml-auto"
           }`}
         >
-          Tweet
+          {replyingTo ? "Reply" : "Tweet"}
         </SubmitButton>
       </div>
     </form>

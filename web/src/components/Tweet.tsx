@@ -10,6 +10,7 @@ import { getMediaType } from "@/utils/image";
 import queryClient from "@/utils/queryClient";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
+import ProfilePreview from "./ProfilePreview";
 import TweetInteractions from "./TweetInteractions";
 import TweetOptions from "./TweetOptions";
 import TweetText from "./TweetText";
@@ -47,7 +48,7 @@ export default async function Tweet({ pinned, ...props }: Props) {
   const mediaType = media && (await getMediaType(media));
 
   return (
-    <article className="pb-2 duration-200 border-b border-b-gray-800 hover:bg-[#0f0f0f]">
+    <article className="pb-2 duration-200 border-b border-b-gray-800 hover:bg-really-dark">
       {(pinned || retweet) && (
         <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 pt-2">
           {retweet && <Retweet height={15} width={15} />}
@@ -67,10 +68,14 @@ export default async function Tweet({ pinned, ...props }: Props) {
           width={44}
           className="h-11 w-11 rounded-full"
         />
-        <section className="w-full">
+        <div className="w-full">
           <div className="flex w-full gap-2 items-center">
-            <p className="font-bold">{name}</p>
-            <p className="text-gray-500">@{tag} ·</p>
+            <ProfilePreview tag={tag}>
+              <div className="flex">
+                <p className="font-bold hover:underline">{name}</p>
+                <p className="text-gray-500 ml-2">@{tag} ·</p>
+              </div>
+            </ProfilePreview>
             <time dateTime={createdAt} className="text-sm text-gray-500">
               {getRelativeTime(createdAt)}
             </time>
@@ -102,10 +107,14 @@ export default async function Tweet({ pinned, ...props }: Props) {
               )}
             </div>
           )}
-        </section>
+        </div>
       </Link>
       <div className="ml-[67px]">
-        <TweetInteractions tweetId={tweetId} />
+        <TweetInteractions
+          tweetId={tweetId}
+          actualTweetofRetweetId={props.tweetId}
+          layout="card"
+        />
       </div>
     </article>
   );

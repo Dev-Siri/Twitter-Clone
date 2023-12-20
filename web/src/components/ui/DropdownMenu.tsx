@@ -32,7 +32,7 @@ export default function DropdownMenu({ children }: PropsWithChildren) {
       {isOpen && (
         <div
           onClick={handleMenuClick}
-          className="w-[352px] absolute -translate-x-[95%] bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl z-50 cursor-default"
+          className="w-[352px] overflow-hidden absolute -translate-x-[95%] bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl z-50 cursor-default"
         >
           {children}
         </div>

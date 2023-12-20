@@ -72,8 +72,6 @@ export default async function updateUser(
         errors: formatSchemaErrors(error),
       };
 
-    console.log(error);
-
     return {
       success: false,
       message: "An unknown error occurred.",

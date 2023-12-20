@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { Suspense, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { findTwitterUrls, getTwitterStatusUuid } from "@/utils/url";
 
+import ButtonLink from "./ButtonLink";
+import ProfilePreview from "./ProfilePreview";
 import QuotedTweet from "./QuotedTweet";
-import Loading from "./ui/Loading";
 
 interface Props {
   children: string;
@@ -18,35 +18,27 @@ export default function TweetText({ children }: Props) {
 
   const html: ReactNode = words
     .filter((word) => word !== twitterQuotedUrls?.[0])
-    .map((word) => {
+    .map((word, i) => {
       if (word.startsWith("@"))
         return (
-          <Link
-            key={word}
-            href={`/${word.replace("@", "")}`}
-            className="text-twitter-blue hover:underline"
-          >
-            {word}
-          </Link>
+          <ProfilePreview tag={word}>
+            <ButtonLink
+              key={`${word}-${i}_mention`}
+              href={`/${word.replace("@", "")}`}
+              className="text-twitter-blue hover:underline"
+            >
+              {word}
+            </ButtonLink>
+          </ProfilePreview>
         );
 
-      return word;
+      return <span key={`${word}-${i}_text`}>{word}</span>;
     });
 
   return (
     <>
-      <p>{html}</p>
-      {!!quotedTweetId && (
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center border-2 border-slate-800 rounded-lg p-3 my-2">
-              <Loading />
-            </div>
-          }
-        >
-          <QuotedTweet id={quotedTweetId} />{" "}
-        </Suspense>
-      )}
+      {html}
+      {!!quotedTweetId && <QuotedTweet id={quotedTweetId} />}
     </>
   );
 }

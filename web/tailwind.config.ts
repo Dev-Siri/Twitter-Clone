@@ -12,6 +12,8 @@ export default {
       },
       colors: {
         "twitter-blue": "#1d9bf0",
+        "darker-twitter-blue": "rgba(26,140,216,1.00)",
+        "really-dark": "#080808",
       },
     },
   },

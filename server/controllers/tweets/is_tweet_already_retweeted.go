@@ -17,7 +17,7 @@ func IsTweetAlreadyRetweeted(ctx *fasthttp.RequestCtx) {
 	row := db.Database.QueryRow(`
 		SELECT COUNT(*) FROM "Tweets"
 		WHERE caption LIKE 'https://twitter-revived.vercel.app/%/status/' || $1
-		AND user_id = $2
+		AND user_id = $2;
 	`, tweetId, userId)
 
 	var numberOfTimesRetweeted int

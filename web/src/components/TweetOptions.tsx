@@ -52,21 +52,21 @@ export default function TweetOptions({ tweetId }: Props) {
     <>
       <button
         type="button"
-        className="flex w-full items-center gap-2 text-red-500 p-4 px-6 hover:bg-[#0f0f0f]"
+        className="flex w-full items-center gap-2 text-red-500 p-4 px-6 duration-200 hover:bg-really-dark"
         onClick={handleDeleteTweet}
       >
         <Delete height={20} width={20} /> Delete
       </button>
       <button
         type="button"
-        className="flex w-full items-center gap-2 p-4 px-6 hover:bg-[#0f0f0f]"
+        className="flex w-full items-center gap-2 p-4 px-6 duration-200 hover:bg-really-dark"
         onClick={handlePinTweet}
       >
         <Pin height={20} width={20} /> Pin to your profile
       </button>
       <button
         type="button"
-        className="flex w-full items-center gap-2 p-4 px-6 hover:bg-[#0f0f0f]"
+        className="flex w-full items-center gap-2 p-4 px-6 duration-200 hover:bg-really-dark"
         onClick={handleHighlightTweet}
       >
         <Highlight height={20} width={20} /> Highlight on your profile

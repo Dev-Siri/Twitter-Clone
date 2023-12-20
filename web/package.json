@@ -24,14 +24,15 @@
     "firebase": "10.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
-    "next": "14",
+    "next": "latest",
     "pg": "^8.11.3",
-    "react": "canary",
-    "react-dom": "canary",
+    "react": "latest",
+    "react-dom": "latest",
     "react-top-loading-bar": "^2.3.1",
     "sharp": "^0.32.6",
     "sonner": "^1.0.3",
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.4",

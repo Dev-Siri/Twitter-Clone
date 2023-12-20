@@ -5,6 +5,6 @@ export function getPlatformText(platform: "android" | "ios" | "web") {
     case "ios":
       return "Twitter for iPhone";
     case "web":
-      return "Twitter Web Client";
+      return "Twitter Web App";
   }
 }

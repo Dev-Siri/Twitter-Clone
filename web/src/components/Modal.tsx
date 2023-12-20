@@ -1,8 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import { useEffect, type ComponentProps, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
 
+import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import CloseButton from "./CloseButton";
 import Close from "./icons/Close";
 
@@ -24,21 +30,27 @@ export default function Modal({
   ...props
 }: Props) {
   const router = useRouter();
+  const { setQuotedTweetUrl } = useQuotedTweetStore();
+
+  const handleModalClose = useCallback(() => {
+    setQuotedTweetUrl(null);
+    router.back();
+  }, [router, setQuotedTweetUrl]);
 
   useEffect(() => {
     function listener(e: KeyboardEvent) {
-      if (e.key === "Escape") router.back();
+      if (e.key === "Escape") handleModalClose();
     }
 
     window.addEventListener("keydown", listener);
     return () => window.removeEventListener("keydown", listener);
-  }, [router]);
+  }, [router, handleModalClose]);
 
   return (
     open && (
       <div
         className="h-screen w-screen absolute bg-gray-600 bg-opacity-60"
-        onClick={router.back}
+        onClick={handleModalClose}
       >
         <dialog
           open

@@ -8,7 +8,11 @@ import TweetInteractionsDisplay from "./TweetInteractionsDisplay";
 
 interface Props {
   tweetId: string;
-  layout?: "card" | "page";
+  actualTweetofRetweetId: string;
+  /**
+   * Note: This prop influences both the layout AND the behavior of the component.
+   */
+  layout: "card" | "page";
 }
 
 export default async function TweetInteractions(props: Props) {
@@ -49,6 +53,8 @@ export default async function TweetInteractions(props: Props) {
     <TweetInteractionsDisplay
       {...tweetEngagmentsResponse.data}
       {...props}
+      userId={user.userId}
+      name={user.name}
       isAlreadyLiked={alreadyLikedResponse.data}
       isAlreadyRetweeted={alreadyRetweetedResponse.data}
     />

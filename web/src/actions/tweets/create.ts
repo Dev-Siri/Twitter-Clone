@@ -1,16 +1,15 @@
 "use server";
-import { NeonDbError } from "@neondatabase/serverless";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ZodError } from "zod";
 
 import type { Result } from "@/utils/validation/types";
 
 import { PLATFORM } from "@/constants/platform";
 import { useSession } from "@/hooks/useSession";
+import { encodeToBase64 } from "@/utils/encoding";
 import queryClient from "@/utils/queryClient";
 import formatSchemaErrors from "@/utils/validation/errors";
 import { tweetSchema } from "@/utils/validation/tweet";
-import { encodeToBase64 } from "@/utils/encoding";
 
 export default async function createTweet(
   _: any,

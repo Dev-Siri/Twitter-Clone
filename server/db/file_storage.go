@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"twitter/env"
 
 	"cloud.google.com/go/storage"
 	firebase "firebase.google.com/go"
-	"golang.org/x/oauth2/google"
 
 	"google.golang.org/api/option"
 )
@@ -17,7 +17,7 @@ import (
 var storageBucket *storage.BucketHandle
 
 func InitFileStorage() error {
-	opt := option.WithCredentials(&google.Credentials{})
+	opt := option.WithCredentialsFile(env.GetGCPKeysPath())
 	app, err := firebase.NewApp(context.Background(), &firebase.Config{
 		ProjectID:     "twitter-fe49d",
 		StorageBucket: "twitter-fe49d.appspot.com",

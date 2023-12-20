@@ -47,7 +47,7 @@ export default function Sidebar() {
       </SidebarLink>
       <Link
         href="/compose/tweet"
-        className="bg-twitter-blue mt-2 p-3.5 font-bold rounded-full text-center mb-auto w-fit min-[978px]:w-full"
+        className="bg-twitter-blue mt-2 p-3.5 font-bold rounded-full text-lg text-center duration-200 mb-auto w-fit hover:bg-darker-twitter-blue min-[978px]:w-full"
       >
         <span className="text-white block min-[978px]:hidden">
           <TweetLeaf />

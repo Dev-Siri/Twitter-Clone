@@ -1,7 +1,9 @@
 import { notFound, redirect } from "next/navigation";
 
-import getUser from "@/actions/users/getOne";
+import type { User } from "@/types";
+
 import { useSession } from "@/hooks/useSession";
+import queryClient from "@/utils/queryClient";
 
 import UpdateForm from "./update-form";
 
@@ -10,9 +12,15 @@ export default async function ProfileSettings() {
 
   if (!session) redirect("/auth");
 
-  const user = await getUser(session.tag);
+  const userResponse = await queryClient<
+    Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
+  >(`/users/${session.tag}`);
 
-  if (!user) notFound();
+  if (!userResponse.success) {
+    if (userResponse.status === 404) notFound();
 
-  return <UpdateForm {...user} />;
+    throw new Error(userResponse.message);
+  }
+
+  return <UpdateForm {...userResponse.data} />;
 }

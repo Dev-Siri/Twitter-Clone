@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "sonner";
 
-import type getUser from "@/actions/users/getOne";
+import type { User } from "@/types";
 
 import updateUser from "@/actions/users/update";
 
@@ -15,7 +15,7 @@ import Close from "@/components/icons/Close";
 import Media from "@/components/icons/Media";
 import Input from "@/components/ui/Input";
 
-type Props = NonNullable<Awaited<ReturnType<typeof getUser>>>;
+type Props = Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">;
 
 export default function UpdateForm({
   name,
@@ -37,6 +37,7 @@ export default function UpdateForm({
     if (state.success) {
       toast.success("Profile updated successfully.");
       router.back();
+      router.refresh();
     }
   }, [state, router, tag]);
 

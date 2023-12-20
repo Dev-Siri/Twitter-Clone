@@ -15,7 +15,7 @@ export default function ProfilePreview() {
       options={
         <Link
           href="/logout"
-          className="font-semibold p-3 w-fit -z-10 rounded-xl duration-200 hover:bg-slate-800 min-[978px]:pl-6 min-[978px]:w-full md:rounded-none"
+          className="font-semibold p-3 pl-7 pr-20 -z-10 rounded-xl duration-200 hover:bg-slate-900 md:rounded-none"
         >
           Log out @{user.tag}
         </Link>

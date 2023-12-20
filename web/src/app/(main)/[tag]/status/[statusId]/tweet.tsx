@@ -130,7 +130,11 @@ export default async function Tweet({ id }: Props) {
         </section>
       </div>
       <section className="mt-4 mx-4 flex justify-around py-2 border-y-gray-800 border-y">
-        <TweetInteractions tweetId={tweetId} layout="page" />
+        <TweetInteractions
+          actualTweetofRetweetId={id}
+          tweetId={tweetId}
+          layout="page"
+        />
       </section>
       {user && (
         <section className="flex p-4 gap-4 mt-2 border-b border-b-gray-800">
