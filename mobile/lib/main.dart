@@ -35,6 +35,7 @@ class _StateWrapperState extends State<StateWrapper> {
       theme: ThemeData(
         primaryColor: const Color.fromRGBO(29, 155, 240, 1),
         useMaterial3: true,
+        fontFamily: "Chirp",
       ),
     );
   }

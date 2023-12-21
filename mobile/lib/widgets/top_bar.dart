@@ -21,7 +21,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             width: 0,
           ),
       title: Image.asset(
-        "assets/icon-blue.png",
+        "assets/images/icon-blue.png",
         height: 90,
         width: 90,
       ),

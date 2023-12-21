@@ -13,6 +13,8 @@ dependencies:
   shared_preferences: ^2.2.2
   provider: ^6.1.1
   jwt_decode: ^0.3.1
+  url_launcher: ^6.2.1
+  http: ^1.1.0
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
@@ -23,7 +25,15 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/
+    - assets/images/
+  fonts:
+    - family: Chirp
+      fonts:
+        - asset: assets/fonts/chirp-bold.ttf
+          weight: 700
+        - asset: assets/fonts/chirp-medium.ttf
+          weight: 500
+        - asset: assets/fonts/chirp-regular.ttf
   uses-material-design: true
 
 flutter_native_splash:

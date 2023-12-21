@@ -5,6 +5,7 @@ class Button extends StatelessWidget {
   final void Function() onPressed;
   final Color bgColor;
   final Color textColor;
+  final bool small;
 
   const Button({
     super.key,
@@ -12,6 +13,7 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.bgColor = Colors.black,
     this.textColor = Colors.white,
+    this.small = false,
   });
 
   @override
@@ -20,13 +22,14 @@ class Button extends StatelessWidget {
       borderRadius: BorderRadius.circular(50),
       child: MaterialButton(
         color: bgColor,
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(small ? 12 : 15),
         onPressed: onPressed,
         child: Text(
           text,
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.bold,
+            fontSize: small ? 17 : 15,
           ),
         ),
       ),
