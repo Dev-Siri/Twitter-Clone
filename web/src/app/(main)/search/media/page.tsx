@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import getTweetsMediaByQuery from "@/actions/tweets/getMediaByQuery";
 
-import LoadMoreTweets from "@/components/LoadMoreTweets";
+import LoadMore from "@/components/LoadMore";
 
 interface Props {
   searchParams: {
@@ -22,7 +22,7 @@ export default async function LatestSearch({ searchParams: { q } }: Props) {
   return (
     <>
       {tweets}
-      <LoadMoreTweets
+      <LoadMore
         fetcher={getTweetsMediaByQuery}
         fetcherParameters={{ query: q }}
       />

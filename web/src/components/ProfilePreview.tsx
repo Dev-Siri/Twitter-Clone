@@ -55,6 +55,7 @@ export default function ProfilePreview({ children, tag }: Props) {
     <UpMenu
       showType="hover"
       onHover={fetchProfile}
+      pos={{ x: 0, y: 0 }}
       options={
         profile.status !== 404 && (
           <div className="p-4 w-80">
@@ -70,7 +71,7 @@ export default function ProfilePreview({ children, tag }: Props) {
               </div>
             )}
             {profile.state === "success" && (
-              <div>
+              <>
                 <Image
                   src={profile.data.userImage}
                   alt={profile.data.name}
@@ -81,7 +82,7 @@ export default function ProfilePreview({ children, tag }: Props) {
                 <h3 className="font-bold text-xl mt-3">{profile.data.name}</h3>
                 <p className="text-md text-gray-500">@{profile.data.tag}</p>
                 <p className="mt-2">{profile.data.bio}</p>
-              </div>
+              </>
             )}
           </div>
         )

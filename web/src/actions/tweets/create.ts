@@ -1,5 +1,4 @@
 "use server";
-import { revalidateTag } from "next/cache";
 import { ZodError } from "zod";
 
 import type { Result } from "@/utils/validation/types";
@@ -45,7 +44,6 @@ export default async function createTweet(
 
     if (!response.success) throw new Error(response.message);
 
-    revalidateTag("home-tweets");
     return { success: true };
   } catch (error) {
     if (error instanceof ZodError)

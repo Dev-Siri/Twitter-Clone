@@ -16,7 +16,7 @@ export default function LoadMore<T extends Record<string, any>>({
   fetcher,
   fetcherParameters,
 }: Props<T>) {
-  const [tweets, setTweets] = useState<ReactNode[]>([]);
+  const [data, setData] = useState<ReactNode[]>([]);
   const [isLimitReached, setIsLimitReached] = useState(false);
 
   const loader = useRef<HTMLDivElement>(null);
@@ -27,14 +27,14 @@ export default function LoadMore<T extends Record<string, any>>({
   useEffect(() => {
     async function fetchMoreTweets() {
       page.current++;
-      const tweets = await fetcher({
+      const data = await fetcher({
         page: page.current,
         ...((fetcherParameters ?? {}) as T),
       });
 
-      if (tweets.length < 1) setIsLimitReached(true);
+      if (data.length < 1) setIsLimitReached(true);
 
-      setTweets((prevTweets) => [...prevTweets, ...tweets]);
+      setData((prevData) => [...prevData, ...data]);
     }
 
     fetchMoreTweets();
@@ -42,7 +42,7 @@ export default function LoadMore<T extends Record<string, any>>({
 
   return (
     <>
-      {tweets}
+      {data}
       {!isLimitReached && (
         <div className="flex items-center justify-center p-4" ref={loader}>
           <Loading />

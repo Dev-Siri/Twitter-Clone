@@ -1,4 +1,4 @@
-// what's up menu?
+// what's UpMenu?
 "use client";
 import {
   useEffect,
@@ -12,6 +12,11 @@ import {
 interface Props extends PropsWithChildren {
   showType?: "hover" | "click";
   onHover?(): void | Promise<void>;
+  className?: string;
+  pos: {
+    x: number;
+    y: number;
+  };
   options: ReactNode;
 }
 
@@ -19,6 +24,8 @@ export default function UpMenu({
   children,
   options,
   onHover,
+  className,
+  pos: { x, y },
   showType = "click",
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,25 +61,23 @@ export default function UpMenu({
       return setIsOpen(true);
     }
 
-    setIsOpen(false);
+    if (isOpen) setIsOpen(false);
   };
 
   return (
-    <div className="relative" ref={menuRef} style={{ all: "unset" }}>
+    <div className="relative" ref={menuRef}>
       <button
-        style={{
-          all: "unset",
-          cursor: "pointer",
-        }}
         onClick={handleMenuClick}
         onMouseEnter={handleHover("enter")}
         onMouseLeave={handleHover("leave")}
+        className={`${className} cursor-pointer`}
       >
         {children}
       </button>
       {isOpen && (
         <div
-          className="absolute translate-x-10 bottom-full flex flex-col w-fit h-fit justify-center items-center py-2 z-50 bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade"
+          style={{ translate: `${x}px ${y}px` }}
+          className="absolute flex flex-col items-end py-2 z-50 bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade"
           onClick={() => setIsOpen(false)}
           onMouseEnter={handleHover("enter")}
           onMouseLeave={handleHover("leave")}

@@ -110,6 +110,7 @@ export default function TweetInteractionsDisplay({
           {!!replies && layout === "card" && <p>{compactify(replies)}</p>}
         </div>
         <UpMenu
+          pos={{ x: -140, y: -35 }}
           options={
             <RetweetOptions
               name={name}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import getTweetsByQuery from "@/actions/tweets/getByQuery";
-import LoadMoreTweets from "@/components/LoadMoreTweets";
+import LoadMore from "@/components/LoadMore";
 
 interface Props {
   searchParams: {
@@ -21,10 +21,7 @@ export default async function TopSearch({ searchParams: { q } }: Props) {
   return (
     <>
       {tweets}
-      <LoadMoreTweets
-        fetcher={getTweetsByQuery}
-        fetcherParameters={{ query: q }}
-      />
+      <LoadMore fetcher={getTweetsByQuery} fetcherParameters={{ query: q }} />
     </>
   );
 }

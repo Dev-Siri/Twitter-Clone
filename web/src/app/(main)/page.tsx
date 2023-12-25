@@ -11,7 +11,7 @@ import queryClient from "@/utils/queryClient";
 
 import CreateTweet from "@/components/CreateTweet";
 import HeadTitle from "@/components/HeadTitle";
-import LoadMoreTweets from "@/components/LoadMoreTweets";
+import LoadMore from "@/components/LoadMore";
 import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
 import Loading from "@/components/ui/Loading";
@@ -26,7 +26,6 @@ type HomeTweets = (Omit<TweetType, "platform"> &
 async function Tweets() {
   const tweetsResponse = await queryClient<HomeTweets>("/tweets", {
     cache: "no-store",
-    tags: ["home-tweets"],
     searchParams: {
       page: 1,
       limit: LIMIT,
@@ -46,7 +45,6 @@ async function Tweets() {
 
     const moreTweetsResponse = await queryClient<HomeTweets>("/tweets", {
       cache: "no-store",
-      tags: ["home-tweets"],
       searchParams: {
         page,
         limit: LIMIT,
@@ -68,7 +66,7 @@ async function Tweets() {
       {tweetsResponse.data.map((tweet) => (
         <Tweet key={tweet.tweetId} {...tweet} />
       ))}
-      <LoadMoreTweets fetcher={fetchMoreTweets} />
+      <LoadMore fetcher={fetchMoreTweets} />
     </>
   );
 }

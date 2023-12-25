@@ -50,13 +50,15 @@ export default function CreateTweet({
 
   useEffect(() => {
     if (state.success) {
-      toast.success("Your tweet was sent.");
+      toast.success("Your Tweet was sent.");
       clearMedia();
       setCaption("");
       setQuotedTweetUrl(null);
 
-      if (location.href === "/") loadingBar?.current?.complete();
-      else router.back();
+      if (location.href === "/") {
+        loadingBar?.current?.complete();
+        router.refresh();
+      } else router.back();
     }
   }, [state, loadingBar, router, setQuotedTweetUrl]);
 

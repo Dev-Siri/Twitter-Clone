@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useSession } from "@/hooks/useSession";
+
 import ThreeDotsHorizontal from "@/components/icons/ThreeDotsHorizontal";
 import UpMenu from "@/components/ui/UpMenu";
-import { useSession } from "@/hooks/useSession";
 
 export default function ProfilePreview() {
   const user = useSession();
@@ -12,6 +13,8 @@ export default function ProfilePreview() {
 
   return (
     <UpMenu
+      pos={{ x: 80, y: -130 }}
+      className="w-full"
       options={
         <Link
           href="/logout"
@@ -21,7 +24,7 @@ export default function ProfilePreview() {
         </Link>
       }
     >
-      <article className="flex gap-3 items-center rounded-full duration-200 cursor-pointer hover:bg-gray-800 p-2">
+      <article className="flex gap-3 w-full items-center rounded-full duration-200 hover:bg-slate-900 p-2">
         <Image
           src={user.userImage}
           alt={user.name}

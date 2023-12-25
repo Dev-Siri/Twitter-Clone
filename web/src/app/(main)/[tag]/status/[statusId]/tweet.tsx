@@ -13,6 +13,7 @@ import queryClient from "@/utils/queryClient";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import CreateTweet from "@/components/CreateTweet";
+import ProfilePreview from "@/components/ProfilePreview";
 import TweetInteractions from "@/components/TweetInteractions";
 import TweetText from "@/components/TweetText";
 import Retweet from "@/components/icons/Retweet";
@@ -71,21 +72,23 @@ export default async function Tweet({ id }: Props) {
             </Link>
           </p>
         )}
-        <section className="flex gap-3">
-          <Link href={`/${tag}`}>
-            <Image
-              src={userImage}
-              alt={name}
-              height={44}
-              width={44}
-              className="h-11 w-11 rounded-full"
-            />
-          </Link>
-          <div>
-            <h5 className="font-bold">{name}</h5>
-            <h6 className="text-gray-500 text-sm">@{tag}</h6>
-          </div>
-        </section>
+        <ProfilePreview tag={tag}>
+          <section className="flex gap-3 cursor-pointer">
+            <Link href={`/${tag}`}>
+              <Image
+                src={userImage}
+                alt={name}
+                height={44}
+                width={44}
+                className="h-11 w-11 rounded-full"
+              />
+            </Link>
+            <div>
+              <h5 className="font-bold">{name}</h5>
+              <h6 className="text-gray-500 text-sm">@{tag}</h6>
+            </div>
+          </section>
+        </ProfilePreview>
         <section>
           <div className="mt-4 text-lg">
             <TweetText>{caption}</TweetText>

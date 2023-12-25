@@ -1,9 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import pinTweet from "@/actions/tweets/pin";
-
-import highlightTweet from "@/actions/tweets/highlight";
 import queryClient from "@/utils/queryClient";
 import Delete from "./icons/Delete";
 import Highlight from "./icons/Highlight";
@@ -11,9 +8,10 @@ import Pin from "./icons/Pin";
 
 interface Props {
   tweetId: string;
+  currentUserId: string;
 }
 
-export default function TweetOptions({ tweetId }: Props) {
+export default function TweetOptions({ tweetId, currentUserId }: Props) {
   const router = useRouter();
 
   async function notifyAction(message: string, type: "success" | "error") {
@@ -37,15 +35,27 @@ export default function TweetOptions({ tweetId }: Props) {
   }
 
   async function handlePinTweet() {
-    await pinTweet(tweetId);
+    const response = await queryClient(`/tweets/${tweetId}/pin`, {
+      method: "PUT",
+      searchParams: { userId: currentUserId },
+    });
 
-    notifyAction("Tweet pinned to your profile", "success");
+    if (response.success)
+      return notifyAction("Tweet pinned to your profile", "success");
+
+    notifyAction("Failed to pin Tweet to your profile", "error");
   }
 
   async function handleHighlightTweet() {
-    await highlightTweet(tweetId);
+    const response = await queryClient(`/tweets/${tweetId}/highlight`, {
+      method: "PUT",
+      searchParams: { userId: currentUserId },
+    });
 
-    notifyAction("Tweet highlighted on your profile", "success");
+    if (response.success)
+      return notifyAction("Tweet highlighted on your profile", "success");
+
+    notifyAction("Failed to highlight Tweet on your profile", "error");
   }
 
   return (

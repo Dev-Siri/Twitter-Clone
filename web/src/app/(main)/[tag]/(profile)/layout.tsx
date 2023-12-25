@@ -1,8 +1,9 @@
 import { Suspense, type PropsWithChildren, type ReactNode } from "react";
 
+import type { User } from "@/types";
 import type { Metadata } from "next";
 
-import getUser from "@/actions/users/getOne";
+import queryClient from "@/utils/queryClient";
 
 import Loading from "@/components/ui/Loading";
 import ProfileInfo from "./profile-info";
@@ -15,12 +16,20 @@ interface Props extends PropsWithChildren {
 export async function generateMetadata({
   params: { tag },
 }: Props): Promise<Metadata> {
-  const user = await getUser(tag);
+  const userResponse = await queryClient<
+    Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
+  >(`/users/${tag}`, {
+    cache: "no-cache",
+  });
 
-  if (!user) return { title: "Profile / Twitter" };
+  if (!userResponse.success) {
+    if (userResponse.status === 404) return { title: "Profile / Twitter" };
+
+    throw new Error(userResponse.message);
+  }
 
   return {
-    title: `${user.name} (@${tag}) / Twitter`,
+    title: `${userResponse.data.name} (@${tag}) / Twitter`,
   };
 }
 

@@ -1,20 +1,26 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import getBannerPicture from "@/actions/users/getBannerPicture";
+import queryClient from "@/utils/queryClient";
 
 interface Props {
   params: { tag: string };
 }
 
 export default async function HeaderPhoto({ params }: Props) {
-  const bannerPicture = await getBannerPicture(params.tag);
+  const bannerPictureResponse = await queryClient<string>(`/users/${params.tag}/banner`, {
+    cache: "no-cache"
+  });
 
-  if (!bannerPicture) notFound();
+  if (!bannerPictureResponse.success) {
+    if (bannerPictureResponse.status === 404) notFound();
+
+    throw new Error(bannerPictureResponse.message)
+  }
 
   return (
     <Image
-      src={bannerPicture}
+      src={bannerPictureResponse.data}
       alt={`${params.tag}'s Banner`}
       height={300}
       width={1000}

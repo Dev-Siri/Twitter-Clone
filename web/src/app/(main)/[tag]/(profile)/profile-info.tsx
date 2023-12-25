@@ -21,7 +21,9 @@ interface Props {
 export default async function ProfileInfo({ userTag }: Props) {
   const user = await queryClient<
     Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
-  >(`/users/${userTag}`);
+  >(`/users/${userTag}`, {
+    cache: "no-cache",
+  });
 
   if (!user.success) {
     if (user.status === 404) notFound();

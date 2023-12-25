@@ -1,7 +1,8 @@
+import type { User } from "@/types";
 import type { Metadata } from "next";
 
 import getTweetsByUserLikes from "@/actions/tweets/getByUserLikes";
-import getUser from "@/actions/users/getOne";
+import queryClient from "@/utils/queryClient";
 
 interface Props {
   params: { tag: string };
@@ -10,12 +11,20 @@ interface Props {
 export async function generateMetadata({
   params: { tag },
 }: Props): Promise<Metadata> {
-  const user = await getUser(tag);
+  const userResponse = await queryClient<
+    Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
+  >(`/users/${tag}`, {
+    cache: "no-cache",
+  });
 
-  if (!user) return { title: "Profile / Twitter" };
+  if (!userResponse.success) {
+    if (userResponse.status === 404) return { title: "Profile / Twitter" };
+
+    throw new Error(userResponse.message);
+  }
 
   return {
-    title: `Tweets liked by ${user.name} (@${tag}) / Twitter`,
+    title: `Tweets liked by ${userResponse.data.name} (@${tag}) / Twitter`,
   };
 }
 

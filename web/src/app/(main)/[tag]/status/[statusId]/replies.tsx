@@ -1,6 +1,6 @@
 import getTweetReplies from "@/actions/tweets/getReplies";
 
-import LoadMoreTweets from "@/components/LoadMoreTweets";
+import LoadMore from "@/components/LoadMore";
 
 interface Props {
   tweetId: string;
@@ -12,10 +12,7 @@ export default async function TweetReplies({ tweetId }: Props) {
   return (
     <>
       {replies}
-      <LoadMoreTweets
-        fetcher={getTweetReplies}
-        fetcherParameters={{ tweetId }}
-      />
+      <LoadMore fetcher={getTweetReplies} fetcherParameters={{ tweetId }} />
     </>
   );
 }

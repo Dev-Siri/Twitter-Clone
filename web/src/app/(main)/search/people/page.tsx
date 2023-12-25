@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import getUsersByQuery from "@/actions/users/getByQuery";
 
-import LoadMoreTweets from "@/components/LoadMoreTweets";
+import LoadMore from "@/components/LoadMore";
 
 interface Props {
   searchParams: {
@@ -22,10 +22,7 @@ export default async function PeopleSearch({ searchParams: { q } }: Props) {
   return (
     <>
       {users}
-      <LoadMoreTweets
-        fetcher={getUsersByQuery}
-        fetcherParameters={{ query: q }}
-      />
+      <LoadMore fetcher={getUsersByQuery} fetcherParameters={{ query: q }} />
     </>
   );
 }
