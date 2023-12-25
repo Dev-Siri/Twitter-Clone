@@ -69,7 +69,7 @@ FIREBASE_APP_ID=""
 $ pnpm drizzle:generate && pnpm drizzle:push
 
 # with buntime
-$ bun drizzle:generate && pnpm drizzle:push
+$ bun drizzle:generate && bun drizzle:push
 ```
 
 - Finally start the development server
