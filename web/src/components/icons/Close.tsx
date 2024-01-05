@@ -1,6 +1,11 @@
-export default function Close() {
+interface Props {
+  height?: number;
+  width?: number;
+}
+
+export default function Close(props: Props) {
   return (
-    <svg viewBox="0 0 24 24" height={24} width={24}>
+    <svg viewBox="0 0 24 24" {...props}>
       <g>
         <path
           fill="currentColor"

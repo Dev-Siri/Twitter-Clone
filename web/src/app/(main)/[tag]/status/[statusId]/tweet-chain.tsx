@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet } from "@/types";
 
 import queryClient from "@/utils/queryClient";
 
@@ -14,11 +14,12 @@ interface Props {
 export default async function TweetChain({ replyTweetId }: Props) {
   if (!replyTweetId) return null;
 
-  const tweetResponse = await queryClient<
-    TweetType & Pick<User, "name" | "userImage" | "tag">
-  >(`/tweets/${replyTweetId}`, {
-    cache: "no-store",
-  });
+  const tweetResponse = await queryClient<ApiResponseTweet>(
+    `/tweets/${replyTweetId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!tweetResponse.success)
     return (
@@ -33,7 +34,7 @@ export default async function TweetChain({ replyTweetId }: Props) {
 
   return (
     <>
-      <Tweet {...tweetResponse.data} />
+      <Tweet {...tweetResponse.data} chained />
       {tweetResponse.data.inReplyToTweetId && (
         <Suspense
           fallback={

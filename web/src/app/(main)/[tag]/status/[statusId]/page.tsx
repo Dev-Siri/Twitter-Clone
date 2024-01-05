@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet } from "@/types";
 import type { Metadata } from "next";
 
 import queryClient from "@/utils/queryClient";
@@ -22,26 +22,27 @@ interface Props {
 export async function generateMetadata({
   params: { statusId },
 }: Props): Promise<Metadata> {
-  const tweetResponse = await queryClient<
-    TweetType & Pick<User, "name" | "userImage" | "tag">
-  >(`/tweets/${statusId}`, {
-    cache: "no-store",
-  });
+  const tweetResponse = await queryClient<ApiResponseTweet>(
+    `/tweets/${statusId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (tweetResponse.status === 404)
     return { title: "Page not found / Twitter" };
 
   if (!tweetResponse.success) return { title: "Error loading page / twitter" };
 
-  let retweet: (TweetType & Pick<User, "name" | "userImage" | "tag">) | null =
-    null;
+  let retweet: ApiResponseTweet | null = null;
 
   if (isTwitterStatusUrl(tweetResponse.data.caption)) {
-    const retweetResponse = await queryClient<
-      TweetType & Pick<User, "name" | "userImage" | "tag">
-    >(`/tweets/${getTwitterStatusUuid(tweetResponse.data.caption)}`, {
-      cache: "no-store",
-    });
+    const retweetResponse = await queryClient<ApiResponseTweet>(
+      `/tweets/${getTwitterStatusUuid(tweetResponse.data.caption)}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!retweetResponse.success) {
       if (retweetResponse.status === 404)
@@ -59,11 +60,12 @@ export async function generateMetadata({
 }
 
 export default async function Status({ params: { statusId } }: Props) {
-  const tweetResponse = await queryClient<
-    TweetType & Pick<User, "name" | "userImage" | "tag">
-  >(`/tweets/${statusId}`, {
-    cache: "no-store",
-  });
+  const tweetResponse = await queryClient<ApiResponseTweet>(
+    `/tweets/${statusId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!tweetResponse.success) {
     if (tweetResponse.status === 404) notFound();

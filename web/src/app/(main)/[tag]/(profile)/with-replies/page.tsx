@@ -1,5 +1,4 @@
-import type { FetchParameters } from "@/actions/types";
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet, FetchParameters, User } from "@/types";
 import type { Metadata } from "next";
 
 import { LIMIT } from "@/constants/fetch";
@@ -19,9 +18,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const userResponse = await queryClient<
     Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
-  >(`/users/${tag}`, {
-    cache: "no-cache",
-  });
+  >(`/users/${tag}`);
 
   if (!userResponse.success) {
     if (userResponse.status === 404) return { title: "Profile / Twitter" };
@@ -35,15 +32,16 @@ export async function generateMetadata({
 }
 
 export default async function Replies({ params: { tag } }: Props) {
-  const tweetsResponse = await queryClient<
-    (Omit<TweetType, "platform"> & Pick<User, "name" | "userImage" | "tag">)[]
-  >(`/users/${tag}/tweets/with-replies`, {
-    cache: "no-cache",
-    searchParams: {
-      page: 1,
-      limit: LIMIT,
-    },
-  });
+  const tweetsResponse = await queryClient<ApiResponseTweet<"platform">[]>(
+    `/users/${tag}/tweets/with-replies`,
+    {
+      cache: "no-cache",
+      searchParams: {
+        page: 1,
+        limit: LIMIT,
+      },
+    }
+  );
 
   if (!tweetsResponse.success)
     return (
@@ -57,7 +55,7 @@ export default async function Replies({ params: { tag } }: Props) {
     "use server";
 
     const moreTweetsResponse = await queryClient<
-      (Omit<TweetType, "platform"> & Pick<User, "name" | "userImage" | "tag">)[]
+      ApiResponseTweet<"platform">[]
     >(`/users/${tag}/tweets/with-replies`, {
       cache: "no-store",
       searchParams: {

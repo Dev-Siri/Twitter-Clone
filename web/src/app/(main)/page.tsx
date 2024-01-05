@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Suspense } from "react";
 
-import type { FetchParameters } from "@/actions/types";
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet, FetchParameters } from "@/types";
 import type { Metadata } from "next";
 
 import { LIMIT } from "@/constants/fetch";
@@ -20,17 +19,17 @@ export const metadata: Metadata = {
   title: "Home / Twitter",
 };
 
-type HomeTweets = (Omit<TweetType, "platform"> &
-  Pick<User, "name" | "userImage" | "tag">)[];
-
 async function Tweets() {
-  const tweetsResponse = await queryClient<HomeTweets>("/tweets", {
-    cache: "no-store",
-    searchParams: {
-      page: 1,
-      limit: LIMIT,
-    },
-  });
+  const tweetsResponse = await queryClient<ApiResponseTweet<"platform">[]>(
+    "/tweets",
+    {
+      cache: "no-store",
+      searchParams: {
+        page: 1,
+        limit: LIMIT,
+      },
+    }
+  );
 
   if (!tweetsResponse.success)
     return (
@@ -43,7 +42,9 @@ async function Tweets() {
   async function fetchMoreTweets({ page }: FetchParameters) {
     "use server";
 
-    const moreTweetsResponse = await queryClient<HomeTweets>("/tweets", {
+    const moreTweetsResponse = await queryClient<
+      ApiResponseTweet<"platform">[]
+    >("/tweets", {
       cache: "no-store",
       searchParams: {
         page,

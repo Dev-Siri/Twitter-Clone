@@ -51,7 +51,7 @@ interface Props extends PropsWithChildren {
 export default function RootLayout({ children, flow }: Props) {
   return (
     <html lang="en" className={`bg-black text-white ${chirp.className}`}>
-      <body className="flex scroll-smooth overflow-hidden">
+      <body className="flex scroll-smooth overflow-x-hidden md:overflow-y-hidden">
         {children}
         {flow}
       </body>

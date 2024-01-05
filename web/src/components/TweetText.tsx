@@ -21,9 +21,8 @@ export default function TweetText({ children }: Props) {
     .map((word, i) => {
       if (word.startsWith("@"))
         return (
-          <ProfilePreview tag={word}>
+          <ProfilePreview tag={word} key={`${word}-${i}_mention`}>
             <ButtonLink
-              key={`${word}-${i}_mention`}
               href={`/${word.replace("@", "")}`}
               className="text-twitter-blue hover:underline"
             >

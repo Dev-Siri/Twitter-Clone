@@ -17,7 +17,7 @@ export default function Sidebar() {
   const user = useSession();
 
   return (
-    <aside className="flex flex-col min-[978px]:w-1/4 p-4 pl-10 h-screen border-r border-r-slate-800">
+    <aside className="flex flex-col min-[1265px]:w-[23%] p-4 min-[1265px]:pl-10 h-screen border-r border-r-slate-800">
       <Link
         href="/"
         className="rounded-full w-fit p-3 pl-2 duration-200 hover:bg-slate-800"
@@ -47,12 +47,12 @@ export default function Sidebar() {
       </SidebarLink>
       <Link
         href="/compose/tweet"
-        className="bg-twitter-blue mt-2 p-3.5 font-bold rounded-full text-lg text-center duration-200 mb-auto w-fit hover:bg-darker-twitter-blue min-[978px]:w-full"
+        className="bg-twitter-blue mt-2 p-3.5 font-bold rounded-full text-lg text-center duration-200 mb-auto w-fit hover:bg-darker-twitter-blue min-[1265px]:w-full"
       >
-        <span className="text-white block min-[978px]:hidden">
+        <span className="text-white block min-[1265px]:hidden">
           <TweetLeaf />
         </span>
-        <span className="hidden min-[978px]:block">Tweet</span>
+        <span className="hidden min-[1265px]:block">Tweet</span>
       </Link>
       <ProfilePreview />
     </aside>

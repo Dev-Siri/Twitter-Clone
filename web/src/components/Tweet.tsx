@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { lazy } from "react";
 
-import type { Tweet, User } from "@/types";
+import type { ApiResponseTweet } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
 import { getRelativeTime } from "@/utils/date";
@@ -21,22 +21,27 @@ import DropdownMenu from "./ui/DropdownMenu";
 const VideoPlayer = lazy(() => import("./VideoPlayer"));
 
 interface Props
-  extends Omit<Tweet, "userId" | "inReplyToTweetId" | "platform">,
-    Pick<User, "name" | "userImage" | "tag"> {
+  extends ApiResponseTweet<"userId" | "inReplyToTweetId" | "platform"> {
   pinned?: boolean;
+  /**
+   * Use this prop if the Tweet component is part of a chain.
+   * Like a reply chain which shows the hierarchy of the Tweets.
+   */
+  chained?: boolean;
 }
 
-export default async function Tweet({ pinned, ...props }: Props) {
+export default async function Tweet({ pinned, chained, ...props }: Props) {
   const user = useSession();
 
-  let retweet: (Tweet & Pick<User, "name" | "userImage" | "tag">) | null = null;
+  let retweet: ApiResponseTweet | null = null;
 
   if (isTwitterStatusUrl(props.caption)) {
-    const retweetResponse = await queryClient<
-      Tweet & Pick<User, "name" | "userImage" | "tag">
-    >(`/tweets/${getTwitterStatusUuid(props.caption)}`, {
-      cache: "no-store",
-    });
+    const retweetResponse = await queryClient<ApiResponseTweet>(
+      `/tweets/${getTwitterStatusUuid(props.caption)}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!retweetResponse.success) return null;
 
@@ -49,7 +54,11 @@ export default async function Tweet({ pinned, ...props }: Props) {
   const mediaType = media && (await getMediaType(media));
 
   return (
-    <article className="pb-2 duration-200 border-b border-b-gray-800 hover:bg-really-dark">
+    <article
+      className={`pb-2 duration-200 hover:bg-really-dark ${
+        !chained && "border-b border-b-gray-800"
+      }`}
+    >
       {(pinned || retweet) && (
         <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 pt-2">
           {retweet && <Retweet height={15} width={15} />}
@@ -66,9 +75,11 @@ export default async function Tweet({ pinned, ...props }: Props) {
         <Image
           src={userImage}
           alt={name}
-          height={44}
-          width={44}
-          className="h-11 w-11 rounded-full"
+          height={40}
+          width={40}
+          className={`rounded-full hover:opacity-90 duration-200 ${
+            chained ? "h-10 w-10" : "h-11 w-11"
+          }`}
         />
         <div className="w-full">
           <div className="flex w-full gap-2 items-center">

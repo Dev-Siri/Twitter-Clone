@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { User } from "@/db/schema";
+import type { User } from "@/types";
+
+import TweetText from "./TweetText";
 
 type Props = Pick<User, "userId" | "userImage" | "name" | "tag" | "bio">;
 
@@ -19,7 +21,7 @@ export default function UserTile({ name, userImage, bio, tag }: Props) {
         <section>
           <h3 className="font-bold">{name}</h3>
           <p className="text-gray-500 text-sm">@{tag}</p>
-          <p>{bio}</p>
+          <TweetText>{bio ?? ""}</TweetText>
         </section>
       </Link>
     </article>

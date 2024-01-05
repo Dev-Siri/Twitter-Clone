@@ -1,14 +1,10 @@
 "use server";
 import { eq } from "drizzle-orm";
 
+import type { ApiResponseTweet } from "@/types";
+
 import { db } from "@/db/drizzle";
-import {
-  likes,
-  tweets,
-  users,
-  type Tweet as TweetType,
-  type User,
-} from "@/db/schema";
+import { likes, tweets, users } from "@/db/schema";
 
 import Tweet from "@/components/Tweet";
 
@@ -23,8 +19,7 @@ export default async function getTweetsByUserLikes({ tag }: { tag: string }) {
     .from(likes)
     .where(eq(likes.userId, userId));
 
-  const fetchedTweets: (Omit<TweetType, "userId" | "inReplyToTweetId"> &
-    Pick<User, "name" | "userImage" | "tag">)[] = [];
+  const fetchedTweets: ApiResponseTweet<"userId" | "inReplyToTweetId">[] = [];
 
   for (const userLike of userLikes) {
     const [tweet] = await db

@@ -33,7 +33,7 @@ export default function UpMenu({
 
   useEffect(() => {
     if (showType === "click") {
-      function listener(e: Event) {
+      function listener(e: globalThis.MouseEvent) {
         if (!menuRef?.current?.contains(e.target as Node)) setIsOpen(false);
       }
 
@@ -78,7 +78,7 @@ export default function UpMenu({
         <div
           style={{ translate: `${x}px ${y}px` }}
           className="absolute flex flex-col items-end py-2 z-50 bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade"
-          onClick={() => setIsOpen(false)}
+          onClick={() => showType === "click" && setIsOpen(false)}
           onMouseEnter={handleHover("enter")}
           onMouseLeave={handleHover("leave")}
         >

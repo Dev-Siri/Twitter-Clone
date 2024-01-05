@@ -12,8 +12,8 @@ type User struct {
 	Tag                string    `json:"tag"`
 	UserImage          string    `json:"userImage"`
 	Birthday           time.Time `json:"birthday"`
-	Email              string    `json:"email"`
-	Password           string    `json:"password"`
+	Email              string    `json:"email,omitempty"`
+	Password           string    `json:"password,omitempty"`
 	CreatedAt          time.Time `json:"createdAt"`
 	PinnedTweetId      string    `json:"pinnedTweetId,omitempty"`
 	HighlightedTweetId string    `json:"highlightedTweetId,omitempty"`

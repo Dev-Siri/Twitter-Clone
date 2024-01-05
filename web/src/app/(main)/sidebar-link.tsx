@@ -22,11 +22,11 @@ export default function SidebarLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-4 duration-200 hover:bg-slate-800 p-4 rounded-full w-fit min-[978px]:pr-8"
+      className="flex items-center gap-4 duration-200 hover:bg-slate-800 p-4 rounded-full w-fit min-[1265px]:pr-8"
     >
       {isActive ? activeIcon : inactiveIcon}
       <span
-        className={`text-xl hidden min-[978px]:block ${
+        className={`text-xl hidden min-[1265px]:block ${
           isActive && "font-bold"
         }`}
       >

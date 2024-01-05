@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import type { Tweet, User } from "@/db/schema";
+import type { ApiResponseTweet } from "@/types";
 
 import queryClient from "@/utils/queryClient";
 
@@ -11,11 +11,12 @@ interface Params {
 }
 
 export async function GET(_: Request, { params: { statusId } }: Params) {
-  const tweetResponse = await queryClient<
-    Tweet & Pick<User, "name" | "userImage" | "tag">
-  >(`/tweets/${statusId}`, {
-    cache: "no-store",
-  });
+  const tweetResponse = await queryClient<ApiResponseTweet<"platform">>(
+    `/tweets/${statusId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!tweetResponse.success) {
     if (tweetResponse.status === 404) redirect("/");

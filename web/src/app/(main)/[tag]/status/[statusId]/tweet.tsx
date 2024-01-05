@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense, lazy } from "react";
 
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
 import { getTweetCreatedDate } from "@/utils/date";
@@ -27,9 +27,7 @@ interface Props {
 }
 
 export default async function Tweet({ id }: Props) {
-  const tweetResponse = await queryClient<
-    TweetType & Pick<User, "name" | "userImage" | "tag">
-  >(`/tweets/${id}`, {
+  const tweetResponse = await queryClient<ApiResponseTweet>(`/tweets/${id}`, {
     cache: "no-store",
   });
 
@@ -37,15 +35,15 @@ export default async function Tweet({ id }: Props) {
 
   if (!tweetResponse.success) throw new Error(tweetResponse.message);
 
-  let retweet: (TweetType & Pick<User, "name" | "userImage" | "tag">) | null =
-    null;
+  let retweet: ApiResponseTweet | null = null;
 
   if (isTwitterStatusUrl(tweetResponse.data.caption)) {
-    const retweetResponse = await queryClient<
-      TweetType & Pick<User, "name" | "userImage" | "tag">
-    >(`/tweets/${getTwitterStatusUuid(tweetResponse.data.caption)}`, {
-      cache: "no-store",
-    });
+    const retweetResponse = await queryClient<ApiResponseTweet>(
+      `/tweets/${getTwitterStatusUuid(tweetResponse.data.caption)}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!retweetResponse.success) return null;
 
@@ -80,10 +78,10 @@ export default async function Tweet({ id }: Props) {
                 alt={name}
                 height={44}
                 width={44}
-                className="h-11 w-11 rounded-full"
+                className="h-11 w-11 rounded-full hover:opacity-90 duration-200"
               />
             </Link>
-            <div>
+            <div className="text-start">
               <h5 className="font-bold">{name}</h5>
               <h6 className="text-gray-500 text-sm">@{tag}</h6>
             </div>

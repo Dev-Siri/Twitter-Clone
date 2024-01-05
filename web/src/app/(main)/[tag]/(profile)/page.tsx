@@ -1,5 +1,4 @@
-import type { FetchParameters } from "@/actions/types";
-import type { Tweet as TweetType, User } from "@/types";
+import type { ApiResponseTweet, FetchParameters } from "@/types";
 
 import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
@@ -13,19 +12,18 @@ interface Props {
   params: { tag: string };
 }
 
-type ResTweet = Omit<TweetType, "platform"> &
-  Pick<User, "name" | "userImage" | "tag">;
-
 export default async function Profile({ params: { tag } }: Props) {
   const [tweetsResponse, pinnedTweetResponse] = await Promise.all([
-    queryClient<ResTweet[]>(`/users/${tag}/tweets`, {
+    queryClient<ApiResponseTweet<"platform">[]>(`/users/${tag}/tweets`, {
       cache: "no-cache",
       searchParams: {
         page: 1,
         limit: LIMIT,
       },
     }),
-    queryClient<ResTweet>(`/users/${tag}/tweets/pinned`),
+    queryClient<ApiResponseTweet<"platform">>(`/users/${tag}/tweets/pinned`, {
+      cache: "no-cache",
+    }),
   ]);
 
   if (!tweetsResponse.success)
@@ -40,7 +38,7 @@ export default async function Profile({ params: { tag } }: Props) {
     "use server";
 
     const moreTweetsResponse = await queryClient<
-      (Omit<TweetType, "platform"> & Pick<User, "name" | "userImage" | "tag">)[]
+      ApiResponseTweet<"platform">[]
     >(`/users/${tag}/tweets`, {
       cache: "no-store",
       searchParams: {

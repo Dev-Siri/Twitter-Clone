@@ -1,11 +1,14 @@
 import type { User } from "@/db/schema";
+import type { ApiResponseTweet, FetchParameters } from "@/types";
 import type { Metadata } from "next";
 
-import getTweetsWithMediaByUser from "@/actions/tweets/getWithMediaByUser";
 import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";
+import Tweet from "@/components/Tweet";
+import Error from "@/components/icons/Error";
+import { LIMIT } from "@/constants/fetch";
 
 interface Props {
   params: { tag: string };
@@ -16,14 +19,12 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const userResponse = await queryClient<
     Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
-  >(`/users/${tag}`, {
-    cache: "no-cache",
-  });
+  >(`/users/${tag}`);
 
   if (!userResponse.success) {
     if (userResponse.status === 404) return { title: "Profile / Twitter" };
 
-    throw new Error(userResponse.message);
+    throw new globalThis.Error(userResponse.message);
   }
 
   return {
@@ -32,21 +33,60 @@ export async function generateMetadata({
 }
 
 export default async function Media({ params: { tag } }: Props) {
-  const tweets = await getTweetsWithMediaByUser({ page: 1, tag });
+  const tweetsResponse = await queryClient<ApiResponseTweet<"platform">[]>(
+    `/users/${tag}/tweets/media`,
+    {
+      cache: "no-cache",
+      searchParams: {
+        page: 1,
+        limit: LIMIT,
+      },
+    }
+  );
 
-  return !!tweets.length ? (
+  async function fetchMoreMediaTweetsByUser({ page }: FetchParameters) {
+    "use server";
+
+    const moreMediaTweetsResponse = await queryClient<
+      ApiResponseTweet<"platform">[]
+    >(`/users/${tag}/tweets/media`, {
+      cache: "no-store",
+      searchParams: {
+        page,
+        limit: LIMIT,
+      },
+    });
+
+    if (moreMediaTweetsResponse.success)
+      return (
+        moreMediaTweetsResponse?.data?.map((tweet) => (
+          <Tweet key={tweet.tweetId} {...tweet} />
+        )) ?? []
+      );
+
+    return [];
+  }
+
+  return tweetsResponse.success ? (
     <>
-      {tweets}
+      {tweetsResponse.data.map((tweet) => (
+        <Tweet key={tweet.tweetId} {...tweet} />
+      ))}
       <LoadMore
-        fetcher={getTweetsWithMediaByUser}
+        fetcher={fetchMoreMediaTweetsByUser}
         fetcherParameters={{ tag }}
       />
     </>
-  ) : (
+  ) : tweetsResponse.status === 404 ? (
     <NoTweets
       title={`@${tag} hasn't liked any tweets`}
-      subtitle="When they do, those tweets will show up here."
+      subtitle="When they do, those Tweets will show up here."
       tag={tag}
     />
+  ) : (
+    <div className="flex flex-col items-center justify-center p-4 text-red-500">
+      <Error height={24} width={24} />
+      <p>Failed to get Media Tweets</p>
+    </div>
   );
 }

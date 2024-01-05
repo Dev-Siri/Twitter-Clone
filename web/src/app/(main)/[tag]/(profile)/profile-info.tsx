@@ -69,7 +69,8 @@ export default async function ProfileInfo({ userTag }: Props) {
             alt={name}
             height={130}
             width={130}
-            className="absolute rounded-full mt-[20%] ml-6 border-4 border-black duration-200 group-hover:opacity-95"
+            // idk a better solution for responsive design, css is too hard man
+            className="absolute rounded-full mt-[45%] min-[400px]:mt-[40%] min-[472px]:mt-[33%] min-[536px]:mt-[28%] min-[615px]:mt-[25%] min-[696px]:mt-[20%] min-[860px]:mt-[15%] ml-6 border-4 border-black duration-200 group-hover:opacity-95 min-[987px]:mt-[20%]"
           />
         </Link>
       </section>

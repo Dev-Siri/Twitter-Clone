@@ -30,3 +30,13 @@ export interface TweetEngagements {
   retweets: number;
   quoteTweets: number;
 }
+
+export type ApiResponseTweet<T extends keyof Tweet | never = never> = Omit<
+  Tweet,
+  T
+> &
+  Pick<User, "name" | "userImage" | "tag">;
+
+export interface FetchParameters {
+  page: number;
+}

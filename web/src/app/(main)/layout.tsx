@@ -22,7 +22,7 @@ export default function MainLayout({ children, create, options }: Props) {
   return (
     <LoadingContextProvider>
       <Sidebar />
-      <main className="h-screen w-full overflow-x-hidden overflow-auto min-[978px]:w-2/4">
+      <main className="h-screen w-full overflow-x-hidden overflow-auto min-[987px]:w-[66%] min-[1265px]:w-[44%]">
         <LoadingBar />
         {children}
       </main>

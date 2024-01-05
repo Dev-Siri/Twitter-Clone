@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
+func GetMediaTweetsByUser(ctx *fasthttp.RequestCtx) {
 	page, limit := utils.GetPaginationParams(ctx.QueryArgs())
 	tag := ctx.UserValue("tag").(string)
 
@@ -29,7 +29,7 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		FROM "Tweets" t
 		INNER JOIN "Users" u
 		ON t.user_id = u.user_id
-		WHERE t.in_reply_to_tweet_id IS NULL AND u.tag = $1
+		WHERE u.tag = $1 AND t.media IS NOT NULL
 		GROUP BY t.tweet_id, u.name, u.user_image, u.tag
 		ORDER BY t.created_at DESC
 		LIMIT $2 OFFSET $3;
@@ -39,10 +39,10 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		if err == sql.ErrNoRows {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusNotFound,
-				Message: "No Tweets by user",
+				Message: "No Media Tweets by user",
 			})
 
-			go logging.Logger.Error("No Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
+			go logging.Logger.Error("No Media Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
 
 			ctx.SetStatusCode(fasthttp.StatusNotFound)
 			ctx.Write(response)
@@ -51,10 +51,10 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to get tweets by user tag",
+			Message: "Failed to get media tweets by user tag",
 		})
 
-		go logging.Logger.Error("Failed to get tweets by user tag", zap.String("tag", tag), zap.Error(err))
+		go logging.Logger.Error("Failed to get media tweets by user tag", zap.String("tag", tag), zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
@@ -66,7 +66,6 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		var tweet models.Tweet
 		var media sql.NullString
 
-		println("tweet added")
 		if err := rows.Scan(
 			&tweet.Caption,
 			&tweet.CreatedAt,

@@ -65,7 +65,7 @@ export default function Modal({
           >
             {closeAction && (
               <CloseButton>
-                <Close />
+                <Close height={24} width={24} />
               </CloseButton>
             )}
             {title && <h3 className="text-xl font-bold">{title}</h3>}

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { lazy, useEffect, useState } from "react";
 
-import type { Tweet, User } from "@/types";
+import type { ApiResponseTweet } from "@/types";
 
 import { getRelativeTime } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
@@ -27,7 +27,7 @@ type TweetLoadState =
     }
   | {
       state: "success";
-      data: Tweet & Pick<User, "name" | "userImage" | "tag">;
+      data: ApiResponseTweet;
       mediaType: Awaited<ReturnType<typeof getMediaType>> | undefined | "";
     };
 
@@ -43,9 +43,9 @@ export default function QuotedTweet({ id }: Props) {
 
   useEffect(() => {
     async function fetchQuotedTweet() {
-      const tweetResponse = await queryClient<
-        Tweet & Pick<User, "name" | "userImage" | "tag">
-      >(`/tweets/${id}`);
+      const tweetResponse = await queryClient<ApiResponseTweet>(
+        `/tweets/${id}`
+      );
 
       if (!tweetResponse.success) return setQuotedTweet({ state: "error" });
 

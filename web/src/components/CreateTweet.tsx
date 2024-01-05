@@ -123,7 +123,7 @@ ${quotedTweetUrl}`
             className="absolute p-2 mt-4 mr-4 ml-auto right-0 z-50 bg-gray-900 rounded-full duration-200 hover:bg-gray-800"
             onClick={clearMedia}
           >
-            <Close />
+            <Close height={24} width={24} />
           </button>
           {mediaType === "image" ? (
             <Image

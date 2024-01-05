@@ -13,10 +13,10 @@ import SubmitButton from "@/components/SubmitButton";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 
-type MonthUnion = (typeof MONTHS)[number];
+type Month = (typeof MONTHS)[number];
 
 export default function SignupFlow() {
-  const [birthMonth, setBirthMonth] = useState<MonthUnion>("January");
+  const [birthMonth, setBirthMonth] = useState<Month>("January");
   const [tag, setTag] = useState("");
 
   const [state, action] = useFormState(signup, { success: false });

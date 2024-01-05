@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import type { FetchParameters } from "@/actions/types";
+import type { FetchParameters } from "@/types";
 
 import useVisibility from "@/hooks/useVisibility";
 

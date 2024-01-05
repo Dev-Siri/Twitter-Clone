@@ -29,6 +29,39 @@ type ApiResponse<T> = { status: number } & (
     }
 );
 
+function validateResponseStructure<T>(response: unknown): ApiResponse<T> {
+  if (
+    typeof response === "object" &&
+    response &&
+    "success" in response &&
+    "status" in response &&
+    typeof response.success === "boolean" &&
+    typeof response.status === "number"
+  ) {
+    let finalRes: ApiResponse<T> | null = null;
+
+    if (response.success) {
+      if ("data" in response)
+        finalRes = {
+          success: true,
+          data: response.data as T,
+          status: response.status,
+        };
+    } else {
+      if ("message" in response && typeof response.message === "string")
+        finalRes = {
+          success: false,
+          message: response.message,
+          status: response.status,
+        };
+    }
+
+    if (finalRes) return finalRes;
+  }
+
+  throw new Error("Invalid API Response.");
+}
+
 export default async function queryClient<T>(
   endpoint: string,
   {
@@ -71,7 +104,7 @@ export default async function queryClient<T>(
      */
 
     if (response.headers.get("Content-Type")?.includes("application/json"))
-      return await response.json();
+      return validateResponseStructure(await response.json());
 
     return {
       success: false,

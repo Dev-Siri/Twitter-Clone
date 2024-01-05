@@ -13,9 +13,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const userResponse = await queryClient<
     Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
-  >(`/users/${tag}`, {
-    cache: "no-cache",
-  });
+  >(`/users/${tag}`);
 
   if (!userResponse.success) {
     if (userResponse.status === 404) return { title: "Profile / Twitter" };

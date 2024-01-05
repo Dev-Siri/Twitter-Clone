@@ -1,7 +1,7 @@
 "use server";
 import { desc, eq, like } from "drizzle-orm";
 
-import type { FetchParameters } from "../types";
+import type { FetchParameters } from "@/types";
 
 import { LIMIT } from "@/constants/fetch";
 import { db } from "@/db/drizzle";

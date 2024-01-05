@@ -22,7 +22,7 @@ export default function Auth() {
       </section>
       <section className="h-screen flex flex-col p-10 w-full md:w-1/2">
         <div className="md:hidden">
-          <Logo fill="white" height={35} width={40} />
+          <Logo fill="white" height={35} width={45} />
         </div>
         <h1 className="text-5xl mt-10 font-extrabold-xl block text-wrap md:text-6xl">
           Happening now

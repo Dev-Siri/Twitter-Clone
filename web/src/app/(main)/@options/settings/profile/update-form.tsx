@@ -93,7 +93,7 @@ export default function UpdateForm({
             className="absolute bg-black p-3 mt-16 ml-80 opacity-70 cursor-pointer rounded-full"
             onClick={removeBanner}
           >
-            <Close />
+            <Close height={24} width={24} />
           </button>
         )}
         <section className="h-[200px] w-full bg-twitter-blue">

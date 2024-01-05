@@ -16,6 +16,7 @@ func RegisterTweetsRoutes(r *router.Router) {
 	r.PUT("/tweets/{id}/pin", tweet_controllers.PinTweet)
 	r.PUT("/tweets/{id}/highlight", tweet_controllers.HighlightTweet)
 	r.GET("/tweets/{id}/engagements", tweet_controllers.GetTweetEngagements)
+	r.GET("/tweets/{id}/engagements/replies", tweet_controllers.GetTweetReplies)
 	r.GET("/tweets/{id}/engagements/already-liked", tweet_controllers.IsTweetAlreadyLiked)
 	r.GET("/tweets/{id}/engagements/already-retweeted", tweet_controllers.IsTweetAlreadyRetweeted)
 }

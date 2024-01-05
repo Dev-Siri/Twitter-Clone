@@ -1,4 +1,4 @@
-package user_controllers
+package tweet_controllers
 
 import (
 	"database/sql"
@@ -12,9 +12,9 @@ import (
 	"go.uber.org/zap"
 )
 
-func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
+func GetTweetReplies(ctx *fasthttp.RequestCtx) {
 	page, limit := utils.GetPaginationParams(ctx.QueryArgs())
-	tag := ctx.UserValue("tag").(string)
+	tweetId := ctx.UserValue("id").(string)
 
 	rows, err := db.Database.Query(`
 		SELECT
@@ -29,44 +29,30 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		FROM "Tweets" t
 		INNER JOIN "Users" u
 		ON t.user_id = u.user_id
-		WHERE t.in_reply_to_tweet_id IS NULL AND u.tag = $1
+		WHERE t.in_reply_to_tweet_id = $1
 		GROUP BY t.tweet_id, u.name, u.user_image, u.tag
 		ORDER BY t.created_at DESC
 		LIMIT $2 OFFSET $3;
-	`, tag, limit, page)
+	`, tweetId, limit, page)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			response := responses.CreateErrorResponse(&responses.Error{
-				Status:  fasthttp.StatusNotFound,
-				Message: "No Tweets by user",
-			})
-
-			go logging.Logger.Error("No Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
-
-			ctx.SetStatusCode(fasthttp.StatusNotFound)
-			ctx.Write(response)
-			return
-		}
-
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to get tweets by user tag",
+			Message: "Failed to load tweet replies",
 		})
 
-		go logging.Logger.Error("Failed to get tweets by user tag", zap.String("tag", tag), zap.Error(err))
+		go logging.Logger.Error("Failed to load tweet replies", zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
 	}
 
-	var tweets []models.Tweet
+	var tweetReplies []models.Tweet
 
 	for rows.Next() {
 		var tweet models.Tweet
 		var media sql.NullString
 
-		println("tweet added")
 		if err := rows.Scan(
 			&tweet.Caption,
 			&tweet.CreatedAt,
@@ -79,10 +65,10 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		); err != nil {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to decode tweets",
+				Message: "Failed to decode tweet replies",
 			})
 
-			go logging.Logger.Error("Failed to decode tweets", zap.Error(err))
+			go logging.Logger.Error("Failed to decode tweet replies", zap.Error(err))
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
 			return
@@ -92,12 +78,12 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 			tweet.Media = media.String
 		}
 
-		tweets = append(tweets, tweet)
+		tweetReplies = append(tweetReplies, tweet)
 	}
 
 	response := responses.CreateSuccessResponse[[]models.Tweet](&responses.Success[[]models.Tweet]{
 		Status: fasthttp.StatusOK,
-		Data:   tweets,
+		Data:   tweetReplies,
 	})
 
 	ctx.SetStatusCode(fasthttp.StatusOK)
