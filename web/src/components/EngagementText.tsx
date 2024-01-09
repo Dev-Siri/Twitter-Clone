@@ -13,7 +13,7 @@ export default function EngagementText({ children, metric, href }: Props) {
     !!metric && (
       <Link href={href}>
         <span className="font-bold">{compactify(metric)} </span>
-        <span className="text-gray-400">{children}</span>
+        <span className="text-gray-600 dark:text-gray-400">{children}</span>
       </Link>
     )
   );

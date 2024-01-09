@@ -5,6 +5,7 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       fontWeight: {
@@ -13,6 +14,7 @@ export default {
       colors: {
         "twitter-blue": "#1d9bf0",
         "darker-twitter-blue": "rgba(26,140,216,1.00)",
+        "dim-gray": "rgb(21, 32, 43)",
         "really-dark": "#080808",
       },
     },

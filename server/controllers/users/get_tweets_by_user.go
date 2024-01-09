@@ -51,10 +51,10 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to get tweets by user tag",
+			Message: "Failed to get Tweets by user tag",
 		})
 
-		go logging.Logger.Error("Failed to get tweets by user tag", zap.String("tag", tag), zap.Error(err))
+		go logging.Logger.Error("Failed to get Tweets by user tag", zap.String("tag", tag), zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
@@ -79,10 +79,10 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 		); err != nil {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to decode tweets",
+				Message: "Failed to decode Tweets",
 			})
 
-			go logging.Logger.Error("Failed to decode tweets", zap.Error(err))
+			go logging.Logger.Error("Failed to decode Tweets", zap.Error(err))
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
 			return

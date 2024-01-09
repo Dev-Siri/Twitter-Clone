@@ -60,7 +60,7 @@ export default function LoginFlow() {
           <p className="text-red-500">{state.message}</p>
         )}
         <SubmitButton
-          className="flex items-center justify-center gap-2 bg-twitter-blue text-center p-3.5 w-full rounded-full my-4 font-semibold"
+          className="flex items-center justify-center gap-2 text-white bg-twitter-blue text-center p-3.5 w-full rounded-full my-4 font-semibold"
           onClick={() => setShowPassword(false)}
         >
           Log in

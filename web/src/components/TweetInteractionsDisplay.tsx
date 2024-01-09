@@ -73,7 +73,7 @@ export default function TweetInteractionsDisplay({
   return (
     <div className="w-full">
       {showSeparateEngagements && (
-        <div className="flex w-full gap-4 border-b pb-4 border-b-slate-800 pt-2">
+        <div className="flex w-full gap-4 border-b pb-4 border-b-gray-300 dark:border-b-slate-800 pt-2">
           <EngagementText
             metric={retweetCount}
             href={`/${name}/status/${tweetId}/retweets`}

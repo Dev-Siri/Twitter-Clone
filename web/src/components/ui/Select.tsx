@@ -6,7 +6,7 @@ interface Props extends ComponentProps<"select"> {
 
 export default function Select({ className, name, label, ...props }: Props) {
   return (
-    <div className="flex flex-col bg-black rounded-md border-2 border-gray-700 p-3 focus:border-twitter-blue">
+    <div className="flex flex-col bg-white dark:bg-black rounded-md border-2 border-gray-300 dark:border-gray-700 p-3 focus:border-twitter-blue">
       <label htmlFor={name} className="text-gray-500 text-sm">
         {label}
       </label>
@@ -14,7 +14,7 @@ export default function Select({ className, name, label, ...props }: Props) {
         {...props}
         name={name}
         id={name}
-        className={`bg-black text-left outline-none ${className}`}
+        className={`bg-white dark:bg-black text-left outline-none ${className}`}
       />
     </div>
   );

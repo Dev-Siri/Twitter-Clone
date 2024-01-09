@@ -1,8 +1,12 @@
+import type { ApiResponseTweet, FetchParameters } from "@/types";
 import type { Metadata } from "next";
 
-import getTweetsMediaByQuery from "@/actions/tweets/getMediaByQuery";
+import { LIMIT } from "@/constants/fetch";
+import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
+import Tweet from "@/components/Tweet";
+import Error from "@/components/icons/Error";
 
 interface Props {
   searchParams: {
@@ -17,13 +21,72 @@ export function generateMetadata({ searchParams }: Props): Metadata {
 }
 
 export default async function LatestSearch({ searchParams: { q } }: Props) {
-  const tweets = await getTweetsMediaByQuery({ page: 1, query: q });
+  const tweetsResponse = await queryClient<ApiResponseTweet<"platform">[]>(
+    `/tweets/search/media?q=${encodeURIComponent}`,
+    {
+      cache: "no-store",
+      searchParams: {
+        page: 1,
+        limit: LIMIT,
+        q: encodeURIComponent(q),
+      },
+    }
+  );
+
+  if (!tweetsResponse.success) {
+    if (tweetsResponse.status === 404)
+      return (
+        <div className="flex flex-col items-center justify-center pt-20">
+          <h3>No results for &quot;{q}&quot;</h3>
+          <p>
+            Try searching for something else, or check your Search settings to
+            see if they’re protecting you from potentially sensitive content.
+          </p>
+        </div>
+      );
+
+    return (
+      <div className="flex flex-col items-center justify-center text-red-500 pt-20">
+        <Error height={24} width={24} />
+        <p>Failed to search Tweets matching search &quot;{q}&quot;</p>
+      </div>
+    );
+  }
+
+  async function fetchMoreTweetsByQuery({
+    page,
+    query,
+  }: FetchParameters & { query: string }) {
+    "use server";
+
+    const moreTweetsResponse = await queryClient<
+      ApiResponseTweet<"platform">[]
+    >(`/tweets/search/media?q=${encodeURIComponent(query)}`, {
+      cache: "no-store",
+      searchParams: {
+        page,
+        limit: LIMIT,
+        q: encodeURIComponent(q),
+      },
+    });
+
+    if (moreTweetsResponse.success)
+      return (
+        moreTweetsResponse?.data?.map((tweet) => (
+          <Tweet key={tweet.tweetId} {...tweet} />
+        )) ?? []
+      );
+
+    return [];
+  }
 
   return (
     <>
-      {tweets}
+      {tweetsResponse.data.map((tweet) => (
+        <Tweet key={tweet.tweetId} {...tweet} />
+      ))}
       <LoadMore
-        fetcher={getTweetsMediaByQuery}
+        fetcher={fetchMoreTweetsByQuery}
         fetcherParameters={{ query: q }}
       />
     </>

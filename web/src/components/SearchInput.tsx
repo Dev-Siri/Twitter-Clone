@@ -56,8 +56,8 @@ export default function SearchInput() {
         action="/search"
         className={`flex rounded-full p-2.5 border ${
           isInputFocused
-            ? "bg-black border-twitter-blue"
-            : "bg-gray-800 border-transparent"
+            ? "bg-white dark:bg-black border-twitter-blue"
+            : "bg-gray-200 dark:bg-gray-800 border-transparent"
         } `}
         onSubmit={search}
       >

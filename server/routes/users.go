@@ -15,6 +15,7 @@ func RegisterUsersRoutes(r *router.Router) {
 	r.GET("/users/{tag}/tweets", user_controllers.GetTweetsByUser)
 	r.GET("/users/{tag}/tweets/with-replies", user_controllers.GetTweetsWithRepliesByUser)
 	r.GET("/users/{tag}/tweets/media", user_controllers.GetMediaTweetsByUser)
+	r.GET("/users/{tag}/tweets/liked", user_controllers.GetLikedTweetsByUser)
 	r.GET("/users/{tag}/tweets/pinned", user_controllers.GetUserPinnedTweet)
 	r.GET("/users/{tag}/tweets/highlighted", user_controllers.GetUserHighlightedTweet)
 	r.GET("/users/search", user_controllers.GetUsersByQuery)

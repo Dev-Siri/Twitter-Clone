@@ -2,23 +2,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import useRecentSearches, { type RecentSearch } from "@/stores/recent-searches";
+import useRecentSearches from "@/stores/recent-searches";
+import { recentSearchesSchema } from "@/utils/validation/recent-searches";
 
 import Close from "./icons/Close";
 import ExploreFilled from "./icons/ExploreFilled";
 import Loading from "./ui/Loading";
-
-const isRecentSearchArray = (array: unknown): array is RecentSearch[] =>
-  Array.isArray(array) &&
-  array.every(
-    (item) =>
-      typeof item === "object" &&
-      item &&
-      "search" in item &&
-      typeof item.search === "string" &&
-      "id" in item &&
-      typeof item.id === "string"
-  );
 
 export default function RecentSearches() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,9 +20,9 @@ export default function RecentSearches() {
       if (!recentSearches) return setIsLoading(false);
 
       const parsedRecentSearches = JSON.parse(recentSearches);
+      const parsedSchema = recentSearchesSchema.safeParse(parsedRecentSearches);
 
-      if (isRecentSearchArray(parsedRecentSearches))
-        setRecentSearches(parsedRecentSearches);
+      if (parsedSchema.success) setRecentSearches(parsedSchema.data);
 
       setIsLoading(false);
     }
@@ -53,7 +42,7 @@ export default function RecentSearches() {
   }
 
   return (
-    <div className="bg-black shadow-[0_0px_20px] shadow-gray-500 rounded-lg w-full">
+    <div className="bg-white dark:bg-black shadow-[0_0px_20px] shadow-gray-500 rounded-lg w-full">
       {isLoading ? (
         <div className="flex items-center justify-center p-8">
           <Loading />
@@ -80,7 +69,7 @@ export default function RecentSearches() {
             {recentSearches.map(({ search, id }, i) => (
               <div
                 key={id}
-                className={`flex items-center p-4 duration-200 hover:bg-gray-900 hover:bg-opacity-70 cursor-pointer ${
+                className={`flex items-center p-4 duration-200 hover:bg-gray-300 hover:dark:bg-gray-900 hover:bg-opacity-70 cursor-pointer ${
                   i + 1 === recentSearches.length && "rounded-b-lg"
                 }`}
               >

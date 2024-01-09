@@ -27,7 +27,8 @@ export default async function updateUser(
       bio: string | null;
       location: string | null;
       website: string | null;
-      [key: string]: string | typeof banner;
+      banner?: string;
+      userImage?: string;
     } = {
       name,
       bio: bio || null,

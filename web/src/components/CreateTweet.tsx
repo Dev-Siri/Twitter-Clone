@@ -120,7 +120,7 @@ ${quotedTweetUrl}`
       {media && mediaType && (
         <div className="relative mt-4">
           <button
-            className="absolute p-2 mt-4 mr-4 ml-auto right-0 z-50 bg-gray-900 rounded-full duration-200 hover:bg-gray-800"
+            className="absolute p-2 mt-4 mr-4 ml-auto right-0 z-50 bg-white dark:bg-gray-900 rounded-full duration-200 hover:bg-gray-300 hover:dark:bg-gray-800"
             onClick={clearMedia}
           >
             <Close height={24} width={24} />
@@ -138,7 +138,7 @@ ${quotedTweetUrl}`
           )}
         </div>
       )}
-      <div className="border-t border-t-gray-800 mt-4 pt-2 flex">
+      <div className="border-t border-t-gray-300 dark:border-t-gray-800 mt-4 pt-2 flex">
         <div className="flex items-center gap-2">
           <label
             htmlFor="media"
@@ -185,7 +185,7 @@ ${quotedTweetUrl}`
             */
             !!(media && !mediaType)
           }
-          className={`flex justify-center font-bold items-center rounded-full gap-2 bg-twitter-blue p-2 px-5 duration-200 disabled:opacity-50 disabled:bg-darker-twitter-blue hover:bg-darker-twitter-blue ${
+          className={`flex justify-center font-bold items-center rounded-full gap-2 text-white bg-twitter-blue p-2 px-5 duration-200 disabled:opacity-50 disabled:bg-darker-twitter-blue hover:bg-darker-twitter-blue ${
             !state.success && state.message ? "ml-2" : "ml-auto"
           }`}
         >

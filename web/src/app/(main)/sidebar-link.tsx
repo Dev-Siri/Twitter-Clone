@@ -22,7 +22,7 @@ export default function SidebarLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-4 duration-200 hover:bg-slate-800 p-4 rounded-full w-fit min-[1265px]:pr-8"
+      className="flex items-center gap-4 duration-200 hover:bg-gray-200 hover:dark:bg-slate-800 p-4 rounded-full w-fit min-[1265px]:pr-8"
     >
       {isActive ? activeIcon : inactiveIcon}
       <span

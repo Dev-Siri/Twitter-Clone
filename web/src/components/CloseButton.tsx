@@ -16,7 +16,7 @@ export default function CloseButton({ children }: PropsWithChildren) {
 
   return (
     <button
-      className="p-2 rounded-full text-5xl duration-200 hover:bg-gray-900"
+      className="p-2 rounded-full text-5xl duration-200 hover:bg-gray-300 hover:dark:bg-gray-900"
       onClick={handleClose}
     >
       {children}

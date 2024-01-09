@@ -31,7 +31,7 @@ export default function TweetText({ children }: Props) {
           </ProfilePreview>
         );
 
-      return <span key={`${word}-${i}_text`}>{word}</span>;
+      return word;
     });
 
   return (

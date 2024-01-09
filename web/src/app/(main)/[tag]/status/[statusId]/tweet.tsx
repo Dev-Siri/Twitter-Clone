@@ -15,8 +15,10 @@ import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 import CreateTweet from "@/components/CreateTweet";
 import ProfilePreview from "@/components/ProfilePreview";
 import TweetInteractions from "@/components/TweetInteractions";
+import TweetOptions from "@/components/TweetOptions";
 import TweetText from "@/components/TweetText";
 import Retweet from "@/components/icons/Retweet";
+import DropdownMenu from "@/components/ui/DropdownMenu";
 import Loading from "@/components/ui/Loading";
 import TweetReplies from "./replies";
 
@@ -50,15 +52,24 @@ export default async function Tweet({ id }: Props) {
     retweet = retweetResponse.data;
   }
 
-  const { name, tag, caption, media, userImage, tweetId, platform, createdAt } =
-    retweet ?? tweetResponse.data;
+  const {
+    name,
+    tag,
+    caption,
+    media,
+    userImage,
+    tweetId,
+    platform,
+    userId,
+    createdAt,
+  } = retweet ?? tweetResponse.data;
 
   const mediaType = media && (await getMediaType(media));
   const user = useSession();
 
   return (
     <article className={`py-4 ${retweet && "pt-2"}`}>
-      <div className="px-4">
+      <section className="px-4">
         {retweet && (
           <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 py-1">
             <Retweet height={15} width={15} />
@@ -70,23 +81,30 @@ export default async function Tweet({ id }: Props) {
             </Link>
           </p>
         )}
-        <ProfilePreview tag={tag}>
-          <section className="flex gap-3 cursor-pointer">
-            <Link href={`/${tag}`}>
-              <Image
-                src={userImage}
-                alt={name}
-                height={44}
-                width={44}
-                className="h-11 w-11 rounded-full hover:opacity-90 duration-200"
-              />
-            </Link>
-            <div className="text-start">
-              <h5 className="font-bold">{name}</h5>
-              <h6 className="text-gray-500 text-sm">@{tag}</h6>
+        <section className="flex justify-between">
+          <ProfilePreview tag={tag}>
+            <div className="flex gap-3 cursor-pointer">
+              <Link href={`/${tag}`}>
+                <Image
+                  src={userImage}
+                  alt={name}
+                  height={44}
+                  width={44}
+                  className="h-11 w-11 rounded-full hover:opacity-90 duration-200"
+                />
+              </Link>
+              <div className="text-start">
+                <h5 className="font-bold">{name}</h5>
+                <h6 className="text-gray-500 text-sm">@{tag}</h6>
+              </div>
             </div>
-          </section>
-        </ProfilePreview>
+          </ProfilePreview>
+          {user?.userId === userId && (
+            <DropdownMenu>
+              <TweetOptions currentUserId={user.userId} tweetId={tweetId} />
+            </DropdownMenu>
+          )}
+        </section>
         <section>
           <div className="mt-4 text-lg">
             <TweetText>{caption}</TweetText>
@@ -129,8 +147,8 @@ export default async function Tweet({ id }: Props) {
             </p>
           </Link>
         </section>
-      </div>
-      <section className="mt-4 mx-4 flex justify-around py-2 border-y-gray-800 border-y">
+      </section>
+      <section className="mt-4 mx-4 flex justify-around py-2 border-y-gray-300 dark:border-y-gray-800 border-y">
         <TweetInteractions
           actualTweetofRetweetId={id}
           tweetId={tweetId}
@@ -138,7 +156,7 @@ export default async function Tweet({ id }: Props) {
         />
       </section>
       {user && (
-        <section className="flex p-4 gap-4 mt-2 border-b border-b-gray-800">
+        <section className="flex p-4 gap-4 mt-2 border-bborder-b-gray-300 dark:border-b-gray-800">
           <Image
             src={user.userImage}
             alt={user.name}

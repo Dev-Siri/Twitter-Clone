@@ -79,7 +79,7 @@ export default function Home() {
     <>
       <HeadTitle>Home</HeadTitle>
       {user && (
-        <section className="flex p-4 gap-4 mt-2 border-b border-b-gray-800">
+        <section className="flex p-4 gap-4 mt-2 border-b border-b-gray-300 dark:border-b-gray-800">
           <Image
             src={user.userImage}
             alt={user.name}

@@ -1,3 +1,7 @@
+import { ZodError } from "zod";
+
+import { apiResponseSchema } from "./validation/api";
+
 type Method =
   | "GET"
   | "POST"
@@ -28,39 +32,6 @@ type ApiResponse<T> = { status: number } & (
       message: string;
     }
 );
-
-function validateResponseStructure<T>(response: unknown): ApiResponse<T> {
-  if (
-    typeof response === "object" &&
-    response &&
-    "success" in response &&
-    "status" in response &&
-    typeof response.success === "boolean" &&
-    typeof response.status === "number"
-  ) {
-    let finalRes: ApiResponse<T> | null = null;
-
-    if (response.success) {
-      if ("data" in response)
-        finalRes = {
-          success: true,
-          data: response.data as T,
-          status: response.status,
-        };
-    } else {
-      if ("message" in response && typeof response.message === "string")
-        finalRes = {
-          success: false,
-          message: response.message,
-          status: response.status,
-        };
-    }
-
-    if (finalRes) return finalRes;
-  }
-
-  throw new Error("Invalid API Response.");
-}
 
 export default async function queryClient<T>(
   endpoint: string,
@@ -104,7 +75,7 @@ export default async function queryClient<T>(
      */
 
     if (response.headers.get("Content-Type")?.includes("application/json"))
-      return validateResponseStructure(await response.json());
+      return apiResponseSchema.parse(await response.json()) as ApiResponse<T>;
 
     return {
       success: false,
@@ -131,6 +102,8 @@ export default async function queryClient<T>(
         "A new instance of `Error` was thrown with message:",
         error.message
       );
+    else if (error instanceof ZodError)
+      console.error("The backend returned the data in an invalid shape.");
     else console.error("An unknown error was thrown:", error);
 
     throw error; // triggers error.tsx

@@ -119,7 +119,7 @@ export default function SignupFlow() {
         {!state.success && state.message && (
           <p className="text-red-500 mt-2">{state.message}</p>
         )}
-        <SubmitButton className="flex items-center justify-center gap-2 bg-twitter-blue text-center p-3.5 w-full rounded-full my-4 font-semibold">
+        <SubmitButton className="flex items-center justify-center gap-2 text-white bg-twitter-blue text-center p-3.5 w-full rounded-full my-4 font-semibold">
           Signup
         </SubmitButton>
         <span className="text-gray-500 ml-1">

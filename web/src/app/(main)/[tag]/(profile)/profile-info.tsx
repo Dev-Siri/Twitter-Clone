@@ -13,6 +13,7 @@ import Calendar from "@/components/icons/Calendar";
 import LinkedWebsite from "@/components/icons/LinkedWebsite";
 import LocationPin from "@/components/icons/LocationPin";
 import TabLink from "@/components/TabLink";
+import TweetText from "@/components/TweetText";
 
 interface Props {
   userTag: string;
@@ -87,7 +88,9 @@ export default async function ProfileInfo({ userTag }: Props) {
         )}
         <h3 className="mt-8 font-bold text-2xl">{name}</h3>
         <h4 className="text-gray-500">@{tag}</h4>
-        <p className="mt-3">{bio}</p>
+        <div className="mt-3">
+          <TweetText>{bio ?? ""}</TweetText>
+        </div>
       </section>
       <section className="flex gap-4 px-4 pt-4">
         {location && (

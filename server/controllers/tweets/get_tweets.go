@@ -37,10 +37,10 @@ func GetTweets(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to load tweets",
+			Message: "Failed to load Tweets",
 		})
 
-		go logging.Logger.Error("Failed to load tweets", zap.Error(err))
+		go logging.Logger.Error("Failed to load Tweets", zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
@@ -64,10 +64,10 @@ func GetTweets(ctx *fasthttp.RequestCtx) {
 		); err != nil {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to decode tweets",
+				Message: "Failed to decode Tweets",
 			})
 
-			go logging.Logger.Error("Failed to decode tweets", zap.Error(err))
+			go logging.Logger.Error("Failed to decode Tweets", zap.Error(err))
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
 			return

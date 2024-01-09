@@ -6,6 +6,9 @@ import type { PropsWithChildren, ReactNode } from "react";
 
 import { env } from "@/env";
 
+import ThemeProvider from "./theme-provider";
+import ThemedBody from "./themed-body";
+
 env.parse(process.env);
 
 const chirp = localFont({
@@ -46,14 +49,22 @@ export const metadata: Metadata = {
 
 interface Props extends PropsWithChildren {
   flow: ReactNode;
+  display: ReactNode;
 }
 
-export default function RootLayout({ children, flow }: Props) {
+export default function RootLayout({ children, flow, display }: Props) {
   return (
-    <html lang="en" className={`bg-black text-white ${chirp.className}`}>
-      <body className="flex scroll-smooth overflow-x-hidden md:overflow-y-hidden">
-        {children}
-        {flow}
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
+          <ThemedBody
+            extraClassName={`flex scroll-smooth overflow-x-hidden md:overflow-y-hidden dark:text-white [color-scheme:light] dark:[color-scheme:dark] ${chirp.className}`}
+          >
+            {children}
+            {flow}
+            {display}
+          </ThemedBody>
+        </ThemeProvider>
       </body>
     </html>
   );

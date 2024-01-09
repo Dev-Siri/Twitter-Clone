@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -31,4 +30,16 @@ input[type="search"]::-webkit-search-cancel-button {
   100% {
     opacity: 1;
   }
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+input[type="radio"] {
+  accent-color: #1d9bf0;
 }

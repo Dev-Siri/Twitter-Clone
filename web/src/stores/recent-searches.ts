@@ -1,9 +1,10 @@
 import { create } from "zustand";
 
-export interface RecentSearch {
-  search: string;
-  id: string;
-}
+import type { z } from "zod";
+
+import { recentSearchesSchema } from "@/utils/validation/recent-searches";
+
+export type RecentSearch = z.infer<typeof recentSearchesSchema>[number];
 
 interface RecentSearchesStore {
   recentSearches: RecentSearch[];

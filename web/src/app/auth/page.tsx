@@ -21,8 +21,8 @@ export default function Auth() {
         />
       </section>
       <section className="h-screen flex flex-col p-10 w-full md:w-1/2">
-        <div className="md:hidden">
-          <Logo fill="white" height={35} width={45} />
+        <div className="md:hidden text-twitter-blue dark:text-white">
+          <Logo fill="currentColor" height={35} width={45} />
         </div>
         <h1 className="text-5xl mt-10 font-extrabold-xl block text-wrap md:text-6xl">
           Happening now
@@ -32,7 +32,7 @@ export default function Auth() {
         </h2>
         <Link
           href="/i/flow/signup"
-          className="bg-twitter-blue p-2 text-center font-semibold rounded-full px-20 mt-10 md:w-fit"
+          className="bg-twitter-blue p-2 text-center font-semibold rounded-full text-white px-20 mt-10 md:w-fit"
         >
           Create account
         </Link>
@@ -61,7 +61,7 @@ export default function Auth() {
         <h4 className="font-semibold mt-auto">Already have an account?</h4>
         <Link
           href="/i/flow/login"
-          className="text-twitter-blue border text-center border-gray-500 p-2 font-semibold rounded-full px-28 mt-3 duration-200 hover:bg-gray-900 md:w-fit"
+          className="text-twitter-blue border text-center border-gray-500 p-2 font-semibold rounded-full px-28 mt-3 duration-200 hover:bg-gray-200 hover:dark:bg-gray-900 md:w-fit"
         >
           Sign in
         </Link>

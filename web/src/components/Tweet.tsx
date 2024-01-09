@@ -55,8 +55,8 @@ export default async function Tweet({ pinned, chained, ...props }: Props) {
 
   return (
     <article
-      className={`pb-2 duration-200 hover:bg-really-dark ${
-        !chained && "border-b border-b-gray-800"
+      className={`pb-2 duration-200 hover:bg-gray-200 dark:hover:bg-really-dark ${
+        !chained && "border-b-gray-300 dark:border-b-gray-800"
       }`}
     >
       {(pinned || retweet) && (

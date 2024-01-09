@@ -13,6 +13,7 @@ interface Props extends PropsWithChildren {
   showType?: "hover" | "click";
   onHover?(): void | Promise<void>;
   className?: string;
+  closeOnClick?: boolean;
   pos: {
     x: number;
     y: number;
@@ -25,6 +26,7 @@ export default function UpMenu({
   options,
   onHover,
   className,
+  closeOnClick = true,
   pos: { x, y },
   showType = "click",
 }: Props) {
@@ -65,7 +67,7 @@ export default function UpMenu({
   };
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="relative inline-block" ref={menuRef}>
       <button
         onClick={handleMenuClick}
         onMouseEnter={handleHover("enter")}
@@ -77,8 +79,10 @@ export default function UpMenu({
       {isOpen && (
         <div
           style={{ translate: `${x}px ${y}px` }}
-          className="absolute flex flex-col items-end py-2 z-50 bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade"
-          onClick={() => showType === "click" && setIsOpen(false)}
+          className="absolute flex flex-col items-end py-2 z-50 bg-white dark:bg-black shadow-[0_0px_20px] shadow-gray-700 rounded-xl fade"
+          onClick={() =>
+            showType === "click" && closeOnClick && setIsOpen(false)
+          }
           onMouseEnter={handleHover("enter")}
           onMouseLeave={handleHover("leave")}
         >
