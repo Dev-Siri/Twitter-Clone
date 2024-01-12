@@ -19,9 +19,10 @@ func GetUserHighlightedTweet(ctx *fasthttp.RequestCtx) {
 		WHERE tag = $1
 	`, tag)
 
+	var highlightedTweetIdNullable sql.NullString
 	var highlightedTweetId string
 
-	if err := highlightedTweetIdRow.Scan(&highlightedTweetId); err != nil {
+	if err := highlightedTweetIdRow.Scan(&highlightedTweetIdNullable); err != nil {
 		if err == sql.ErrNoRows {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusNotFound,
@@ -45,6 +46,10 @@ func GetUserHighlightedTweet(ctx *fasthttp.RequestCtx) {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
+	}
+
+	if highlightedTweetIdNullable.Valid {
+		highlightedTweetId = highlightedTweetIdNullable.String
 	}
 
 	highlightedTweetRow := db.Database.QueryRow(`

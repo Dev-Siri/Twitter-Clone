@@ -20,7 +20,7 @@ func CreateTweet(ctx *fasthttp.RequestCtx) {
 	if err := json.Unmarshal(ctx.Request.Body(), &body); err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to decode tweet",
+			Message: "Failed to decode Tweet",
 		})
 
 		go logging.Logger.Error("Failed to deserialize body", zap.Error(err))
@@ -81,10 +81,10 @@ func CreateTweet(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to add tweet",
+			Message: "Failed to add Tweet",
 		})
 
-		go logging.Logger.Error("Failed to add tweet", zap.Error(err))
+		go logging.Logger.Error("Failed to add Tweet", zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return

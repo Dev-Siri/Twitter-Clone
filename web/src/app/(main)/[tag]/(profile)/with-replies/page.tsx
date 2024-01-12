@@ -43,13 +43,16 @@ export default async function Replies({ params: { tag } }: Props) {
     }
   );
 
-  if (!tweetsResponse.success)
+  if (!tweetsResponse.success) {
+    if (tweetsResponse.status === 404) return <NoTweets tag={tag} />;
+
     return (
       <div className="flex flex-col py-10 items-center justify-center text-red-500">
         <Error height={24} width={24} />
-        <p>Failed to load tweets with replies</p>
+        <p>Failed to load Tweets with replies</p>
       </div>
     );
+  }
 
   async function fetchMoreTweetsWithReplies({ page }: FetchParameters) {
     "use server";
@@ -74,7 +77,7 @@ export default async function Replies({ params: { tag } }: Props) {
     return [];
   }
 
-  return !!tweetsResponse.data.length ? (
+  return (
     <>
       {tweetsResponse.data.map((tweet) => (
         <Tweet {...tweet} key={tweet.tweetId} />
@@ -84,7 +87,5 @@ export default async function Replies({ params: { tag } }: Props) {
         fetcherParameters={{ tag }}
       />
     </>
-  ) : (
-    <NoTweets tag={tag} />
   );
 }

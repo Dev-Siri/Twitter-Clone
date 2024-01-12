@@ -8,53 +8,72 @@ import { useSession } from "@/hooks/useSession";
 import { getJoinedDate } from "@/utils/date";
 import queryClient from "@/utils/queryClient";
 
+import FollowButton from "@/components/FollowButton";
+import FollowingMetricCount from "@/components/FollowingMetricCount";
 import HeadTitle from "@/components/HeadTitle";
-import Calendar from "@/components/icons/Calendar";
-import LinkedWebsite from "@/components/icons/LinkedWebsite";
-import LocationPin from "@/components/icons/LocationPin";
 import TabLink from "@/components/TabLink";
 import TweetText from "@/components/TweetText";
+import Calendar from "@/components/icons/Calendar";
+import Error from "@/components/icons/Error";
+import LinkedWebsite from "@/components/icons/LinkedWebsite";
+import LocationPin from "@/components/icons/LocationPin";
 
 interface Props {
   userTag: string;
 }
 
 export default async function ProfileInfo({ userTag }: Props) {
-  const user = await queryClient<
-    Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">
-  >(`/users/${userTag}`, {
-    cache: "no-cache",
-  });
+  const [userResponse, followersResponse, followingResponse] =
+    await Promise.all([
+      queryClient<Omit<User, "email" | "pinnedTweetId">>(`/users/${userTag}`, {
+        cache: "no-cache",
+      }),
+      queryClient<number>(`/users/${userTag}/followers/count`, {
+        cache: "no-cache",
+      }),
+      queryClient<number>(`/users/${userTag}/following/count`, {
+        cache: "no-cache",
+      }),
+    ]);
 
-  if (!user.success) {
-    if (user.status === 404) notFound();
+  if (!userResponse.success) {
+    if (userResponse.status === 404) notFound();
 
-    throw new Error(user.message);
+    throw new globalThis.Error(userResponse.message);
   }
 
   const loggedInUser = useSession();
   const tweetCountResponse = await queryClient("/tweets/count", {
-    searchParams: { userId: user.data.userId },
+    searchParams: { userId: userResponse.data.userId },
   });
 
-  const { name, userImage, tag, bio, banner, location, website, createdAt } =
-    user.data;
+  const {
+    name,
+    userImage,
+    tag,
+    bio,
+    banner,
+    location,
+    website,
+    createdAt,
+    highlightedTweetId,
+  } = userResponse.data;
 
   return (
     <>
       <HeadTitle
         subtitle={
           tweetCountResponse.success
-            ? `${tweetCountResponse.data} tweets`
-            : "Failed to get tweet count"
+            ? `${tweetCountResponse.data} Tweets`
+            : "Failed to get Tweet count"
         }
         showBackButton
       >
         {name}
       </HeadTitle>
-      <section className="relative h-48 bg-twitter-blue">
-        {banner && (
-          <Link href={`/${tag}/header-photo`}>
+      <section className="relative">
+        {banner ? (
+          <Link className="bg-twitter-blue" href={`/${tag}/header-photo`}>
             <Image
               src={banner}
               alt={`${name}'s Banner`}
@@ -63,30 +82,41 @@ export default async function ProfileInfo({ userTag }: Props) {
               className="h-full w-full object-cover"
             />
           </Link>
+        ) : (
+          <div className="bg-twitter-blue h-44 w-full" />
         )}
-        <Link href={`/${tag}/photo`} className="group">
+        <Link
+          href={`/${tag}/photo`}
+          className="absolute inset-0 w-fit h-fit top-3/4 rounded-full ml-6 border-4 border-gray-300 dark:border-black duration-200 group-hover:opacity-95"
+        >
           <Image
             src={userImage}
             alt={name}
             height={130}
             width={130}
-            // idk a better solution for responsive design, css is too hard man
-            className="absolute rounded-full mt-[45%] min-[400px]:mt-[40%] min-[472px]:mt-[33%] min-[536px]:mt-[28%] min-[615px]:mt-[25%] min-[696px]:mt-[20%] min-[860px]:mt-[15%] ml-6 border-4 border-black duration-200 group-hover:opacity-95 min-[987px]:mt-[20%]"
+            className="rounded-full"
           />
         </Link>
       </section>
       <section className="px-4 pt-4">
-        {loggedInUser?.userId === user.data.userId && (
-          <div className="flex justify-end">
+        <div className="flex justify-end">
+          {loggedInUser?.userId === userResponse.data.userId ? (
             <Link
               href="/settings/profile"
               className="p-2 px-4 border border-gray-600 duration-200 rounded-full font-bold hover:bg-gray-900"
             >
               Edit profile
             </Link>
-          </div>
-        )}
-        <h3 className="mt-8 font-bold text-2xl">{name}</h3>
+          ) : (
+            <FollowButton
+              isAlreadyFollowing={
+                // TODO: ADD ACTUAL DYNAMIC VALUE
+                true
+              }
+            />
+          )}
+        </div>
+        <h3 className="mt-10 font-bold text-2xl">{name}</h3>
         <h4 className="text-gray-500">@{tag}</h4>
         <div className="mt-3">
           <TweetText>{bio ?? ""}</TweetText>
@@ -119,10 +149,26 @@ export default async function ProfileInfo({ userTag }: Props) {
           </div>
         )}
       </section>
-      <section className="flex border-b border-b-gray-800 mt-2">
+      <section className="px-4 pt-2">
+        {!followersResponse.success || !followingResponse.success ? (
+          <div className="flex text-red-500 items-center gap-1">
+            <Error height={18} width={18} />
+            <>Failed to get follower count</>
+          </div>
+        ) : (
+          <FollowingMetricCount
+            tag={tag}
+            followers={followersResponse.data}
+            following={followingResponse.data}
+          />
+        )}
+      </section>
+      <section className="flex border-b border-b-gray-300 dark:border-b-gray-800 mt-2">
         <TabLink href={`/${tag}`}>Tweets</TabLink>
         <TabLink href={`/${tag}/with-replies`}>Replies</TabLink>
-        <TabLink href={`/${tag}/highlight`}>Highlight</TabLink>
+        {highlightedTweetId && (
+          <TabLink href={`/${tag}/highlights`}>Highlights</TabLink>
+        )}
         <TabLink href={`/${tag}/media`}>Media</TabLink>
         <TabLink href={`/${tag}/likes`}>Likes</TabLink>
       </section>

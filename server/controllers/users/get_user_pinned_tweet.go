@@ -19,9 +19,10 @@ func GetUserPinnedTweet(ctx *fasthttp.RequestCtx) {
 		WHERE tag = $1
 	`, tag)
 
+	var pinnedTweetIdNullable sql.NullString
 	var pinnedTweetId string
 
-	if err := pinnedTweetIdRow.Scan(&pinnedTweetId); err != nil {
+	if err := pinnedTweetIdRow.Scan(&pinnedTweetIdNullable); err != nil {
 		if err == sql.ErrNoRows {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusNotFound,
@@ -45,6 +46,10 @@ func GetUserPinnedTweet(ctx *fasthttp.RequestCtx) {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
+	}
+
+	if pinnedTweetIdNullable.Valid {
+		pinnedTweetId = pinnedTweetIdNullable.String
 	}
 
 	pinnedTweetRow := db.Database.QueryRow(`

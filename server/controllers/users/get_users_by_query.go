@@ -32,19 +32,6 @@ func GetUsersByQuery(ctx *fasthttp.RequestCtx) {
 	`, query, limit, page)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			response := responses.CreateErrorResponse(&responses.Error{
-				Status:  fasthttp.StatusNotFound,
-				Message: "No users found with the given query",
-			})
-
-			go logging.Logger.Error("No users found with the given query", zap.String("query", query), zap.Error(err))
-
-			ctx.SetStatusCode(fasthttp.StatusNotFound)
-			ctx.Write(response)
-			return
-		}
-
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
 			Message: "Failed to get users with the given query",
@@ -57,9 +44,14 @@ func GetUsersByQuery(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer rows.Close()
+
 	var users []models.User
+	var found bool
 
 	for rows.Next() {
+		found = true
+
 		var user models.User
 		var banner sql.NullString
 		var bio sql.NullString
@@ -102,6 +94,19 @@ func GetUsersByQuery(ctx *fasthttp.RequestCtx) {
 		}
 
 		users = append(users, user)
+	}
+
+	if !found {
+		response := responses.CreateErrorResponse(&responses.Error{
+			Status:  fasthttp.StatusNotFound,
+			Message: "No users found with the given query",
+		})
+
+		go logging.Logger.Error("No users found with the given query", zap.String("query", query), zap.Error(err))
+
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		ctx.Write(response)
+		return
 	}
 
 	response := responses.CreateSuccessResponse[[]models.User](&responses.Success[[]models.User]{

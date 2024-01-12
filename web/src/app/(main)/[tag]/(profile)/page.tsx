@@ -26,13 +26,16 @@ export default async function Profile({ params: { tag } }: Props) {
     }),
   ]);
 
-  if (!tweetsResponse.success)
+  if (!tweetsResponse.success) {
+    if (tweetsResponse.status === 404) return <NoTweets tag={tag} />;
+
     return (
       <div className="flex flex-col py-10 items-center justify-center text-red-500">
         <Error height={24} width={24} />
         <p>Failed to load tweets</p>
       </div>
     );
+  }
 
   async function fetchMoreTweets({ page }: FetchParameters) {
     "use server";
@@ -57,7 +60,7 @@ export default async function Profile({ params: { tag } }: Props) {
     return [];
   }
 
-  return !!tweetsResponse.data.length ? (
+  return (
     <>
       {pinnedTweetResponse.success && pinnedTweetResponse.status !== 404 && (
         <Tweet {...pinnedTweetResponse.data} pinned />
@@ -67,7 +70,5 @@ export default async function Profile({ params: { tag } }: Props) {
       ))}
       <LoadMore fetcher={fetchMoreTweets} fetcherParameters={{ tag }} />
     </>
-  ) : (
-    <NoTweets tag={tag} />
   );
 }

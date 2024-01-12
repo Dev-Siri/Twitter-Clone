@@ -1,5 +1,4 @@
-import type { User } from "@/db/schema";
-import type { ApiResponseTweet, FetchParameters } from "@/types";
+import type { ApiResponseTweet, FetchParameters, User } from "@/types";
 import type { Metadata } from "next";
 
 import queryClient from "@/utils/queryClient";
@@ -79,7 +78,7 @@ export default async function Media({ params: { tag } }: Props) {
     </>
   ) : tweetsResponse.status === 404 ? (
     <NoTweets
-      title={`@${tag} hasn't liked any tweets`}
+      title={`@${tag} hasn't posted media Tweets`}
       subtitle="When they do, those Tweets will show up here."
       tag={tag}
     />

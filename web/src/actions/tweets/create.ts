@@ -11,7 +11,7 @@ import formatSchemaErrors from "@/utils/validation/errors";
 import { tweetSchema } from "@/utils/validation/tweet";
 
 export default async function createTweet(
-  _: any,
+  _: Result,
   formData: FormData
 ): Promise<Result> {
   const data = Object.fromEntries(formData.entries());

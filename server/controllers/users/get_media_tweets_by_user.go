@@ -36,19 +36,6 @@ func GetMediaTweetsByUser(ctx *fasthttp.RequestCtx) {
 	`, tag, limit, page)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			response := responses.CreateErrorResponse(&responses.Error{
-				Status:  fasthttp.StatusNotFound,
-				Message: "No Media Tweets by user",
-			})
-
-			go logging.Logger.Error("No Media Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
-
-			ctx.SetStatusCode(fasthttp.StatusNotFound)
-			ctx.Write(response)
-			return
-		}
-
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
 			Message: "Failed to get media Tweets by user tag",
@@ -60,9 +47,14 @@ func GetMediaTweetsByUser(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer rows.Close()
+
 	var tweets []models.Tweet
+	var found bool
 
 	for rows.Next() {
+		found = true
+
 		var tweet models.Tweet
 		var media sql.NullString
 
@@ -92,6 +84,19 @@ func GetMediaTweetsByUser(ctx *fasthttp.RequestCtx) {
 		}
 
 		tweets = append(tweets, tweet)
+	}
+
+	if !found {
+		response := responses.CreateErrorResponse(&responses.Error{
+			Status:  fasthttp.StatusNotFound,
+			Message: "No Media Tweets by user",
+		})
+
+		go logging.Logger.Error("No Media Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
+
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		ctx.Write(response)
+		return
 	}
 
 	response := responses.CreateSuccessResponse[[]models.Tweet](&responses.Success[[]models.Tweet]{

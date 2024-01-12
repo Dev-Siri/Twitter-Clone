@@ -38,14 +38,16 @@ func GetTweetReplies(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to load tweet replies",
+			Message: "Failed to load Tweet replies",
 		})
 
-		go logging.Logger.Error("Failed to load tweet replies", zap.Error(err))
+		go logging.Logger.Error("Failed to load Tweet replies", zap.Error(err))
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
 		return
 	}
+
+	defer rows.Close()
 
 	var tweetReplies []models.Tweet
 

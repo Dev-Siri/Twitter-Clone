@@ -9,7 +9,7 @@ import { loginSchema } from "@/utils/validation/auth";
 import formatSchemaErrors from "@/utils/validation/errors";
 
 export default async function login(
-  _: any,
+  _: unknown,
   formData: FormData
 ): Promise<Result> {
   const data = Object.fromEntries(formData.entries());

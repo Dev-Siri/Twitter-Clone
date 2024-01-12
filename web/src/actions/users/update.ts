@@ -1,19 +1,17 @@
 "use server";
-import { NeonDbError } from "@neondatabase/serverless";
-import { eq } from "drizzle-orm";
+import { cookies } from "next/headers";
 import { ZodError } from "zod";
 
 import type { Result } from "@/utils/validation/types";
 
-import { db } from "@/db/drizzle";
-import { users } from "@/db/schema";
 import { useSession } from "@/hooks/useSession";
-import { uploadFile } from "@/utils/files";
+import { encodeToBase64 } from "@/utils/encoding";
+import queryClient from "@/utils/queryClient";
 import { updateSchema } from "@/utils/validation/auth";
 import formatSchemaErrors from "@/utils/validation/errors";
 
 export default async function updateUser(
-  _: any,
+  _: Result,
   formData: FormData
 ): Promise<Result> {
   const data = Object.fromEntries(formData.entries());
@@ -37,12 +35,12 @@ export default async function updateUser(
     };
 
     if (banner && banner.size > 0) {
-      const uploadedBanner = await uploadFile(banner, "users");
+      const uploadedBanner = await encodeToBase64(banner);
       updateObject.banner = uploadedBanner;
     }
 
     if (userImage && userImage.size > 0) {
-      const uploadedUserImage = await uploadFile(userImage, "users");
+      const uploadedUserImage = await encodeToBase64(userImage);
       updateObject.userImage = uploadedUserImage;
     }
 
@@ -54,23 +52,26 @@ export default async function updateUser(
         message: "Not logged in.",
       };
 
-    await db
-      .update(users)
-      .set(updateObject)
-      .where(eq(users.userId, user.userId));
+    const updateUserResponse = await queryClient<string>(`/users/${user.tag}`, {
+      method: "PUT",
+      body: updateObject,
+    });
+
+    if (!updateUserResponse.success) return updateUserResponse;
+
+    cookies().set("auth_token", updateUserResponse.data);
 
     return { success: true };
   } catch (error) {
-    if (error instanceof NeonDbError)
-      return {
-        success: false,
-        message: error.message,
-      };
-
     if (error instanceof ZodError)
       return {
         success: false,
         errors: formatSchemaErrors(error),
+      };
+    if (error instanceof Error)
+      return {
+        success: false,
+        message: error.message,
       };
 
     return {

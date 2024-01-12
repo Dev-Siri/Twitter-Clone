@@ -15,7 +15,7 @@ export default function TabLink({ children, href, queryString = "" }: Props) {
 
   return (
     <Link
-      className={`flex flex-col items-center text-center relative font-semibold w-full p-4 duration-200 hover:bg-gray-900 ${
+      className={`flex flex-col items-center text-center relative font-semibold w-full p-4 duration-200 hover:bg-gray-300 hover:dark:bg-gray-900 ${
         isActive ? "white" : "text-gray-500"
       }`}
       href={`${href}?${queryString}`}

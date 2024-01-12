@@ -9,7 +9,7 @@ import { signupSchema } from "@/utils/validation/auth";
 import formatSchemaErrors from "@/utils/validation/errors";
 
 export default async function signup(
-  _: any,
+  _: Result,
   formData: FormData
 ): Promise<Result> {
   const data = Object.fromEntries(formData.entries());

@@ -46,6 +46,8 @@ func GetTweets(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer rows.Close()
+
 	var tweets []models.Tweet
 
 	for rows.Next() {

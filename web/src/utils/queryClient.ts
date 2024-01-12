@@ -15,9 +15,9 @@ type Method =
 
 interface Options {
   method: Method;
+  cache: RequestInit["cache"];
   body: Record<string, any>;
   searchParams: Record<string, any>;
-  cache: RequestInit["cache"];
   revalidate: number;
   tags: string[];
 }
@@ -34,7 +34,7 @@ type ApiResponse<T> = { status: number } & (
 );
 
 export default async function queryClient<T>(
-  endpoint: string,
+  endpoint: `/${string}`,
   {
     method = "GET",
     body,

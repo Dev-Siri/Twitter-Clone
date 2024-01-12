@@ -97,7 +97,7 @@ export default function SignupFlow() {
             ))}
           </Select>
           <Select label="Day" name="birthDay">
-            {[...new Array(daysOptions)]
+            {[...new Array<typeof daysOptions>(daysOptions)]
               .map((_, index) => index + 1)
               .map((day) => (
                 <option key={day} value={day}>
@@ -106,8 +106,8 @@ export default function SignupFlow() {
               ))}
           </Select>
           <Select label="Year" name="birthYear">
-            {[...new Array(new Date().getFullYear() - 1902)]
-              .map((_: any, i) => i + 1903)
+            {[...new Array<number>(new Date().getFullYear() - 1902)]
+              .map((_, i) => i + 1903)
               .reverse()
               .map((year) => (
                 <option key={year} value={year}>

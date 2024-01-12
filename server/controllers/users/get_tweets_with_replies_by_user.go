@@ -47,9 +47,14 @@ func GetTweetsWithRepliesByUser(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer rows.Close()
+
 	var tweets []models.Tweet
+	var found bool
 
 	for rows.Next() {
+		found = true
+
 		var tweet models.Tweet
 		var media sql.NullString
 
@@ -79,6 +84,19 @@ func GetTweetsWithRepliesByUser(ctx *fasthttp.RequestCtx) {
 		}
 
 		tweets = append(tweets, tweet)
+	}
+
+	if !found {
+		response := responses.CreateErrorResponse(&responses.Error{
+			Status:  fasthttp.StatusNotFound,
+			Message: "No Tweets by user",
+		})
+
+		go logging.Logger.Error("No Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
+
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		ctx.Write(response)
+		return
 	}
 
 	response := responses.CreateSuccessResponse[[]models.Tweet](&responses.Success[[]models.Tweet]{

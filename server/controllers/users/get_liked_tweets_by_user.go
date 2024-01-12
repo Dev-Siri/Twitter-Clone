@@ -56,19 +56,6 @@ func GetLikedTweetsByUser(ctx *fasthttp.RequestCtx) {
 	`, userId, limit, page)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			response := responses.CreateErrorResponse(&responses.Error{
-				Status:  fasthttp.StatusNotFound,
-				Message: "No Liked Tweets by user",
-			})
-
-			go logging.Logger.Error("No Liked Tweets by user", zap.String("tag", tag), zap.Error(err))
-
-			ctx.SetStatusCode(fasthttp.StatusNotFound)
-			ctx.Write(response)
-			return
-		}
-
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
 			Message: "Failed to get all liked Tweets",
@@ -81,9 +68,14 @@ func GetLikedTweetsByUser(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer likeRows.Close()
+
 	var tweets []models.Tweet
+	var found bool
 
 	for likeRows.Next() {
+		found = true
+
 		var likedTweetId string
 
 		if err := likeRows.Scan(&likedTweetId); err != nil {
@@ -149,6 +141,19 @@ func GetLikedTweetsByUser(ctx *fasthttp.RequestCtx) {
 		}
 
 		tweets = append(tweets, tweet)
+	}
+
+	if !found {
+		response := responses.CreateErrorResponse(&responses.Error{
+			Status:  fasthttp.StatusNotFound,
+			Message: "No Liked Tweets by user",
+		})
+
+		go logging.Logger.Error("No Liked Tweets by user", zap.String("tag", tag), zap.Error(err))
+
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		ctx.Write(response)
+		return
 	}
 
 	response := responses.CreateSuccessResponse[[]models.Tweet](&responses.Success[[]models.Tweet]{

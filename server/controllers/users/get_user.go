@@ -24,7 +24,8 @@ func GetUser(ctx *fasthttp.RequestCtx) {
 			location,
 			tag,
 			website,
-			created_at
+			created_at,
+			highlighted_tweet_id
 		FROM "Users"
 		WHERE tag = $1
 	`, tag)
@@ -34,6 +35,7 @@ func GetUser(ctx *fasthttp.RequestCtx) {
 	var bio sql.NullString
 	var location sql.NullString
 	var website sql.NullString
+	var highlightedTweetId sql.NullString
 
 	if err := row.Scan(
 		&user.UserId,
@@ -45,6 +47,7 @@ func GetUser(ctx *fasthttp.RequestCtx) {
 		&user.Tag,
 		&website,
 		&user.CreatedAt,
+		&highlightedTweetId,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			response := responses.CreateErrorResponse(&responses.Error{
@@ -85,6 +88,10 @@ func GetUser(ctx *fasthttp.RequestCtx) {
 
 	if location.Valid {
 		user.Location = location.String
+	}
+
+	if highlightedTweetId.Valid {
+		user.HighlightedTweetId = highlightedTweetId.String
 	}
 
 	response := responses.CreateSuccessResponse[models.User](&responses.Success[models.User]{

@@ -7,7 +7,7 @@ export default function UserImagesLayout({ children }: PropsWithChildren) {
   return (
     <div className="absolute bg-[rgba(0,0,0,0.9)] h-screen w-screen inset-0 z-50">
       <div className="p-4">
-        <CloseButton>
+        <CloseButton className="text-white bg-black hover:bg-gray-900">
           <Close height={24} width={24} />
         </CloseButton>
       </div>

@@ -36,19 +36,6 @@ func GetMediaTweetsByQuery(ctx *fasthttp.RequestCtx) {
   `, query, limit, page)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
-			response := responses.CreateErrorResponse(&responses.Error{
-				Status:  fasthttp.StatusNotFound,
-				Message: "No media Tweets with that query",
-			})
-
-			go logging.Logger.Error("No media Tweets with that query", zap.String("query", query), zap.Error(err))
-
-			ctx.SetStatusCode(fasthttp.StatusNotFound)
-			ctx.Write(response)
-			return
-		}
-
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
 			Message: "Failed to load media Tweets",
@@ -60,9 +47,14 @@ func GetMediaTweetsByQuery(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
+	defer rows.Close()
+
 	var tweets []models.Tweet
+	var found bool
 
 	for rows.Next() {
+		found = true
+
 		var tweet models.Tweet
 		var media sql.NullString
 
@@ -92,6 +84,19 @@ func GetMediaTweetsByQuery(ctx *fasthttp.RequestCtx) {
 		}
 
 		tweets = append(tweets, tweet)
+	}
+
+	if !found {
+		response := responses.CreateErrorResponse(&responses.Error{
+			Status:  fasthttp.StatusNotFound,
+			Message: "No media Tweets with that query",
+		})
+
+		go logging.Logger.Error("No media Tweets with that query", zap.String("query", query), zap.Error(err))
+
+		ctx.SetStatusCode(fasthttp.StatusNotFound)
+		ctx.Write(response)
+		return
 	}
 
 	response := responses.CreateSuccessResponse[[]models.Tweet](&responses.Success[[]models.Tweet]{
