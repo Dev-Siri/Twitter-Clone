@@ -1,0 +1,11 @@
+/home/dev-siri/Desktop/Projects/JavaScript+Dart/Twitter-Clone/algorithms/trends/target/debug/deps/matchit-acc91ea8141d454a.rmeta: /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/lib.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/error.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/params.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/router.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/tree.rs
+
+/home/dev-siri/Desktop/Projects/JavaScript+Dart/Twitter-Clone/algorithms/trends/target/debug/deps/libmatchit-acc91ea8141d454a.rlib: /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/lib.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/error.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/params.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/router.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/tree.rs
+
+/home/dev-siri/Desktop/Projects/JavaScript+Dart/Twitter-Clone/algorithms/trends/target/debug/deps/matchit-acc91ea8141d454a.d: /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/lib.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/error.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/params.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/router.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/tree.rs
+
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/lib.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/error.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/params.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/router.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/matchit-0.7.3/src/tree.rs:

@@ -1,0 +1,9 @@
+/home/dev-siri/Desktop/Projects/JavaScript+Dart/Twitter-Clone/algorithms/trends/target/debug/deps/postgres_types-2a6843fa33f6c057.rmeta: /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/lib.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/pg_lsn.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/private.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/special.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/type_gen.rs
+
+/home/dev-siri/Desktop/Projects/JavaScript+Dart/Twitter-Clone/algorithms/trends/target/debug/deps/postgres_types-2a6843fa33f6c057.d: /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/lib.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/pg_lsn.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/private.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/special.rs /home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/type_gen.rs
+
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/lib.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/pg_lsn.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/private.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/special.rs:
+/home/dev-siri/.cargo/registry/src/index.crates.io-6f17d22bba15001f/postgres-types-0.2.6/src/type_gen.rs:
