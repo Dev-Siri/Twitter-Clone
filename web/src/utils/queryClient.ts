@@ -14,6 +14,7 @@ type Method =
   | "PATCH";
 
 interface Options {
+  baseUrl: string;
   method: Method;
   cache: RequestInit["cache"];
   body: Record<string, any>;
@@ -36,6 +37,7 @@ type ApiResponse<T> = { status: number } & (
 export default async function queryClient<T>(
   endpoint: `/${string}`,
   {
+    baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL,
     method = "GET",
     body,
     searchParams,
@@ -44,7 +46,7 @@ export default async function queryClient<T>(
     tags,
   }: Partial<Options> = {}
 ): Promise<ApiResponse<T>> {
-  const url = new URL(endpoint, process.env.NEXT_PUBLIC_BACKEND_URL);
+  const url = new URL(endpoint, baseUrl);
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
