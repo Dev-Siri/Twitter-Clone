@@ -1,5 +1,9 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:twitter/screens/i/flow/login/step_one.dart";
+import "package:twitter/screens/i/flow/login/step_two.dart";
+import "package:twitter/services/user_service.dart";
+import "package:twitter/utils/encoding.dart";
 import "package:twitter/widgets/top_bar.dart";
 import "package:twitter/widgets/ui/button.dart";
 
@@ -15,32 +19,40 @@ enum LoginSteps { identification, password }
 class _LoginFlowState extends State<LoginFlow> {
   LoginSteps _currentStep = LoginSteps.identification;
 
-  String _loginValue = "";
-  LoginType _loginType = LoginType.email;
+  String _email = "";
+  String _password = "";
+  String _errorMessage = "";
+  bool _isLoading = false;
 
-  Widget _getCurrentStep() {
-    if (_currentStep == LoginSteps.identification) {
-      return StepOne(
-        onChange: (value, type) => setState(() {
-          _loginValue = value;
-          _loginType = type;
-        }),
-      );
+  Future<void> _login() async {
+    setState(() => _isLoading = true);
+
+    final service = context.read<UserService>();
+    final loginResponse = await context
+        .read<UserService>()
+        .login(email: _email, password: _password);
+
+    if (loginResponse is ApiResponseError) {
+      setState(() {
+        _errorMessage = loginResponse.message;
+        _isLoading = false;
+      });
+      return;
     }
 
-    return const Placeholder();
-  }
+    if (loginResponse is ApiResponseSuccess) {
+      service.setUser(loginResponse.data);
+      Navigator.pushReplacementNamed(context, "/");
+    }
 
-  Future<void> _login() async {}
+    _isLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.close),
-        ),
+      appBar: const TopBar(
+        leading: CloseButton(),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 40),
@@ -52,7 +64,7 @@ class _LoginFlowState extends State<LoginFlow> {
                 children: <Widget>[
                   Text(
                     _currentStep == LoginSteps.identification
-                        ? "To get started, first enter your email, or @username"
+                        ? "To get started, first enter your email"
                         : "Enter your password",
                     textAlign: TextAlign.start,
                     style: const TextStyle(
@@ -60,7 +72,9 @@ class _LoginFlowState extends State<LoginFlow> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  _getCurrentStep(),
+                  StepOne(onChange: (value) => setState(() => _email = value)),
+                  if (_currentStep == LoginSteps.password)
+                    StepTwo(onChange: (value) => _password = value),
                 ],
               ),
             ),
@@ -78,12 +92,24 @@ class _LoginFlowState extends State<LoginFlow> {
               child: Row(
                 children: <Widget>[
                   const Spacer(),
+                  if (_errorMessage != "")
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(
+                        _errorMessage,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
                   Button(
                     text: "Next",
                     small: true,
+                    isLoading: _isLoading,
+                    disabled: _email == "",
                     onPressed: _currentStep == LoginSteps.identification
-                        ? () =>
-                            setState(() => _currentStep = LoginSteps.password)
+                        ? () {
+                            setState(() => _currentStep = LoginSteps.password);
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          }
                         : _login,
                   ),
                 ],

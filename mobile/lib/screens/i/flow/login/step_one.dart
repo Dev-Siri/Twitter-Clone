@@ -1,21 +1,16 @@
 import "package:flutter/material.dart";
 import "package:twitter/widgets/ui/input.dart";
 
-enum LoginType { email, username }
-
 class StepOne extends StatelessWidget {
-  final void Function(String value, LoginType type) onChange;
+  final void Function(String value) onChange;
 
   const StepOne({
     super.key,
     required this.onChange,
   });
 
-  void _parseValue(String value) {
-    final loginType =
-        value.startsWith("@") ? LoginType.username : LoginType.email;
-
-    onChange(value, loginType);
+  void _parseValue(String newValue) {
+    onChange(newValue);
   }
 
   @override
@@ -27,6 +22,5 @@ class StepOne extends StatelessWidget {
         onChanged: _parseValue,
       ),
     );
-    // return Padding();
   }
 }

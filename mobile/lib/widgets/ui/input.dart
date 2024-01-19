@@ -4,12 +4,18 @@ class Input extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String value)? onChanged;
   final String? placeholder;
+  final Widget? leading;
+  final TextInputType? keyboardType;
+  final bool censored;
 
   const Input({
     super.key,
     this.controller,
     this.onChanged,
     this.placeholder,
+    this.leading,
+    this.keyboardType,
+    this.censored = false,
   });
 
   @override
@@ -20,6 +26,8 @@ class Input extends StatelessWidget {
       controller: controller,
       onChanged: onChanged,
       cursorColor: primaryColor,
+      keyboardType: keyboardType,
+      obscureText: censored,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -33,6 +41,7 @@ class Input extends StatelessWidget {
             width: 2,
           ),
         ),
+        suffixIcon: leading,
         floatingLabelStyle: TextStyle(color: primaryColor),
         labelText: placeholder,
       ),

@@ -1,22 +1,30 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:twitter/models/responses/api_response.dart";
 
-ApiResponse<T> parseHttpResponse<T>(
+class ApiResponse {}
+
+class ApiResponseSuccess<T> extends ApiResponse {
+  final T data;
+
+  ApiResponseSuccess({required this.data});
+}
+
+class ApiResponseError extends ApiResponse {
+  final String message;
+
+  ApiResponseError({required this.message});
+}
+
+ApiResponse parseHttpResponse<T>(
   http.Response response,
   T Function(dynamic) converter,
 ) {
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+  final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
 
-    return ApiResponse.fromJson(jsonResponse, converter);
+  if (jsonResponse["success"]) {
+    return ApiResponseSuccess<T>(data: converter(jsonResponse["data"]));
   }
 
-  final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-  return ApiResponse<T>(
-    success: false,
-    status: jsonResponse["status"],
-    message: jsonResponse["message"],
-  );
+  return ApiResponseError(message: jsonResponse["message"]);
 }

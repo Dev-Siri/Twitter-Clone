@@ -15,6 +15,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
+      scrolledUnderElevation: 0,
       leading: leading ??
           const SizedBox(
             height: 0,
