@@ -13,11 +13,11 @@ import queryClient from "@/utils/queryClient";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import CreateTweet from "@/components/CreateTweet";
+import InteractiveText from "@/components/InteractiveText";
 import ProfilePreview from "@/components/ProfilePreview";
-import TweetInteractions from "@/components/TweetInteractions";
-import TweetOptions from "@/components/TweetOptions";
-import TweetText from "@/components/TweetText";
 import Retweet from "@/components/icons/Retweet";
+import TweetInteractions from "@/components/tweet/TweetInteractions";
+import TweetOptions from "@/components/tweet/TweetOptions";
 import DropdownMenu from "@/components/ui/DropdownMenu";
 import Loading from "@/components/ui/Loading";
 import TweetReplies from "./replies";
@@ -107,7 +107,7 @@ export default async function Tweet({ id }: Props) {
         </section>
         <section>
           <div className="mt-4 text-lg">
-            <TweetText>{caption}</TweetText>
+            <InteractiveText>{caption}</InteractiveText>
           </div>
           {media && (
             <div className="mt-2">

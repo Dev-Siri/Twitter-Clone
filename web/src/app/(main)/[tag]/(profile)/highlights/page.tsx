@@ -4,8 +4,8 @@ import type { ApiResponseTweet } from "@/types";
 
 import queryClient from "@/utils/queryClient";
 
-import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
+import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
   params: { tag: string };
@@ -27,5 +27,5 @@ export default async function Highlight({ params: { tag } }: Props) {
     );
   }
 
-  return <Tweet {...highlightedTweetResponse.data} />;
+  return <TweetCard {...highlightedTweetResponse.data} />;
 }

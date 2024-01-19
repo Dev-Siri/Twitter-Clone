@@ -6,7 +6,7 @@ import queryClient from "@/utils/queryClient";
 import Error from "@/components/icons/Error";
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";
-import Tweet from "@/components/Tweet";
+import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
   params: { tag: string };
@@ -53,7 +53,7 @@ export default async function Profile({ params: { tag } }: Props) {
     if (moreTweetsResponse.success)
       return (
         moreTweetsResponse?.data?.map((tweet) => (
-          <Tweet key={tweet.tweetId} {...tweet} />
+          <TweetCard key={tweet.tweetId} {...tweet} />
         )) ?? []
       );
 
@@ -63,10 +63,10 @@ export default async function Profile({ params: { tag } }: Props) {
   return (
     <>
       {pinnedTweetResponse.success && pinnedTweetResponse.status !== 404 && (
-        <Tweet {...pinnedTweetResponse.data} pinned />
+        <TweetCard {...pinnedTweetResponse.data} pinned />
       )}
       {tweetsResponse.data.map((tweet) => (
-        <Tweet {...tweet} key={tweet.tweetId} />
+        <TweetCard {...tweet} key={tweet.tweetId} />
       ))}
       <LoadMore fetcher={fetchMoreTweets} fetcherParameters={{ tag }} />
     </>

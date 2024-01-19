@@ -6,7 +6,7 @@ import type { User } from "@/types";
 import queryClient from "@/utils/queryClient";
 
 import Image from "next/image";
-import TweetText from "./TweetText";
+import InteractiveText from "./InteractiveText";
 import Error from "./icons/Error";
 import Loading from "./ui/Loading";
 import UpMenu from "./ui/UpMenu";
@@ -83,7 +83,7 @@ export default function ProfilePreview({ children, tag }: Props) {
                 <h3 className="font-bold text-xl mt-3">{profile.data.name}</h3>
                 <p className="text-md text-gray-500">@{profile.data.tag}</p>
                 <div className="mt-2">
-                  <TweetText>{profile.data.bio ?? ""}</TweetText>
+                  <InteractiveText>{profile.data.bio ?? ""}</InteractiveText>
                 </div>
               </>
             )}

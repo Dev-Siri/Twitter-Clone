@@ -5,8 +5,8 @@ import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";
-import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
+import TweetCard from "@/components/tweet/TweetCard";
 import { LIMIT } from "@/constants/fetch";
 
 interface Props {
@@ -59,7 +59,7 @@ export default async function Media({ params: { tag } }: Props) {
     if (moreMediaTweetsResponse.success)
       return (
         moreMediaTweetsResponse?.data?.map((tweet) => (
-          <Tweet key={tweet.tweetId} {...tweet} />
+          <TweetCard key={tweet.tweetId} {...tweet} />
         )) ?? []
       );
 
@@ -69,7 +69,7 @@ export default async function Media({ params: { tag } }: Props) {
   return tweetsResponse.success ? (
     <>
       {tweetsResponse.data.map((tweet) => (
-        <Tweet key={tweet.tweetId} {...tweet} />
+        <TweetCard key={tweet.tweetId} {...tweet} />
       ))}
       <LoadMore
         fetcher={fetchMoreMediaTweetsByUser}

@@ -8,11 +8,11 @@ import { getRelativeTime } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
 import queryClient from "@/utils/queryClient";
 
-import ButtonLink from "./ButtonLink";
-import Error from "./icons/Error";
-import Loading from "./ui/Loading";
+import ButtonLink from "../ButtonLink";
+import Error from "../icons/Error";
+import Loading from "../ui/Loading";
 
-const VideoPlayer = lazy(() => import("./VideoPlayer"));
+const VideoPlayer = lazy(() => import("../VideoPlayer"));
 
 interface Props {
   id: string;

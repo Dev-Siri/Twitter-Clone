@@ -10,15 +10,15 @@ import { getMediaType } from "@/utils/image";
 import queryClient from "@/utils/queryClient";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
-import ProfilePreview from "./ProfilePreview";
+import InteractiveText from "../InteractiveText";
+import ProfilePreview from "../ProfilePreview";
+import Pin from "../icons/Pin";
+import Retweet from "../icons/Retweet";
+import DropdownMenu from "../ui/DropdownMenu";
 import TweetInteractions from "./TweetInteractions";
 import TweetOptions from "./TweetOptions";
-import TweetText from "./TweetText";
-import Pin from "./icons/Pin";
-import Retweet from "./icons/Retweet";
-import DropdownMenu from "./ui/DropdownMenu";
 
-const VideoPlayer = lazy(() => import("./VideoPlayer"));
+const VideoPlayer = lazy(() => import("../VideoPlayer"));
 
 interface Props
   extends ApiResponseTweet<"userId" | "inReplyToTweetId" | "platform"> {
@@ -101,7 +101,7 @@ export default async function Tweet({ pinned, chained, ...props }: Props) {
             )}
           </div>
           <div className="mb-2">
-            <TweetText>{caption}</TweetText>
+            <InteractiveText>{caption}</InteractiveText>
           </div>
           {media && (
             <div className="mb-2">

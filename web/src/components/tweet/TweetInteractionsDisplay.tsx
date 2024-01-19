@@ -5,14 +5,14 @@ import { lazy, useMemo, useState } from "react";
 import { compactify } from "@/utils/formatting";
 
 import queryClient from "@/utils/queryClient";
-import EngagementText from "./EngagementText";
+import EngagementText from "../EngagementText";
+import Comment from "../icons/Comment";
+import Retweet from "../icons/Retweet";
+import UpMenu from "../ui/UpMenu";
 import RetweetOptions from "./RetweetOptions";
-import Comment from "./icons/Comment";
-import Retweet from "./icons/Retweet";
-import UpMenu from "./ui/UpMenu";
 
-const HeartFilled = lazy(() => import("./icons/HeartFilled"));
-const HeartOutlined = lazy(() => import("./icons/HeartOutlined"));
+const HeartFilled = lazy(() => import("../icons/HeartFilled"));
+const HeartOutlined = lazy(() => import("../icons/HeartOutlined"));
 
 interface Props extends TweetEngagements {
   isAlreadyRetweeted: boolean;

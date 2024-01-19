@@ -4,13 +4,13 @@ import { findTwitterUrls, getTwitterStatusUuid } from "@/utils/url";
 
 import ButtonLink from "./ButtonLink";
 import ProfilePreview from "./ProfilePreview";
-import QuotedTweet from "./QuotedTweet";
+import QuotedTweet from "./tweet/QuotedTweet";
 
 interface Props {
   children: string;
 }
 
-export default function TweetText({ children }: Props) {
+export default function InteractiveText({ children }: Props) {
   const words = children.split(/(\s+)/);
 
   const twitterQuotedUrls = findTwitterUrls(words);

@@ -7,8 +7,8 @@ import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import queryClient from "@/utils/queryClient";
 
 import Link from "next/link";
-import Quote from "./icons/Quote";
-import Retweet from "./icons/Retweet";
+import Quote from "../icons/Quote";
+import Retweet from "../icons/Retweet";
 
 interface Props {
   userId: string;

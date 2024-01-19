@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import type { User } from "@/types";
 
-import TweetText from "./TweetText";
+import InteractiveText from "./InteractiveText";
 
 type Props = Pick<User, "userId" | "userImage" | "name" | "tag" | "bio">;
 
@@ -21,7 +21,7 @@ export default function UserTile({ name, userImage, bio, tag }: Props) {
         <section>
           <h3 className="font-bold">{name}</h3>
           <p className="text-gray-500 text-sm">@{tag}</p>
-          <TweetText>{bio ?? ""}</TweetText>
+          <InteractiveText>{bio ?? ""}</InteractiveText>
         </section>
       </Link>
     </article>

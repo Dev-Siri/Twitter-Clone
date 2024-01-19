@@ -3,7 +3,7 @@ import type { TweetEngagements } from "@/types";
 import { useSession } from "@/hooks/useSession";
 import queryClient from "@/utils/queryClient";
 
-import Error from "./icons/Error";
+import Error from "../icons/Error";
 import TweetInteractionsDisplay from "./TweetInteractionsDisplay";
 
 interface Props {

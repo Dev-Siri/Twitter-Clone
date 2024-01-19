@@ -5,8 +5,8 @@ import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
-import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
+import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
   searchParams: {
@@ -73,7 +73,7 @@ export default async function TopSearch({ searchParams: { q } }: Props) {
     if (moreTweetsResponse.success)
       return (
         moreTweetsResponse?.data?.map((tweet) => (
-          <Tweet key={tweet.tweetId} {...tweet} />
+          <TweetCard key={tweet.tweetId} {...tweet} />
         )) ?? []
       );
 
@@ -83,7 +83,7 @@ export default async function TopSearch({ searchParams: { q } }: Props) {
   return (
     <>
       {tweetsResponse.data.map((tweet) => (
-        <Tweet key={tweet.tweetId} {...tweet} />
+        <TweetCard key={tweet.tweetId} {...tweet} />
       ))}
       <LoadMore
         fetcher={fetchMoreTweetsByQuery}

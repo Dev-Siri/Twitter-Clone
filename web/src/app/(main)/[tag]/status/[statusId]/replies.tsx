@@ -1,12 +1,11 @@
-import type { ApiResponseTweet } from "@/types";
+import type { ApiResponseTweet, FetchParameters } from "@/types";
 
 import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
-import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
-import { FetchParameters } from "@/types";
+import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
   tweetId: string;
@@ -48,7 +47,7 @@ export default async function TweetReplies({ tweetId }: Props) {
     if (moreTweetsResponse.success)
       return (
         moreTweetsResponse?.data?.map((tweet) => (
-          <Tweet key={tweet.tweetId} {...tweet} />
+          <TweetCard key={tweet.tweetId} {...tweet} />
         )) ?? []
       );
 
@@ -59,7 +58,7 @@ export default async function TweetReplies({ tweetId }: Props) {
     <>
       {repliesResponse.data &&
         repliesResponse.data.map((reply) => (
-          <Tweet {...reply} key={reply.tweetId} />
+          <TweetCard {...reply} key={reply.tweetId} />
         ))}
       <LoadMore
         fetcher={fetchMoreTweetReplies}

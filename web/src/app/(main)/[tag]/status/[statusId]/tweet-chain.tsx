@@ -4,7 +4,7 @@ import type { ApiResponseTweet } from "@/types";
 
 import queryClient from "@/utils/queryClient";
 
-import Tweet from "@/components/Tweet";
+import TweetCard from "@/components/tweet/TweetCard";
 import Loading from "@/components/ui/Loading";
 
 interface Props {
@@ -34,7 +34,7 @@ export default async function TweetChain({ replyTweetId }: Props) {
 
   return (
     <>
-      <Tweet {...tweetResponse.data} chained />
+      <TweetCard {...tweetResponse.data} chained />
       {tweetResponse.data.inReplyToTweetId && (
         <Suspense
           fallback={

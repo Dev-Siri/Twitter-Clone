@@ -22,7 +22,7 @@ import Media from "@/components/icons/Media";
 import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import { getTwitterStatusUuid } from "@/utils/url";
 import ExpandableTextArea from "./ExpandableTextArea";
-import QuotedTweet from "./QuotedTweet";
+import QuotedTweet from "./tweet/QuotedTweet";
 
 const VideoPlayer = lazy(() => import("@/components/VideoPlayer"));
 

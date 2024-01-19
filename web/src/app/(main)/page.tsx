@@ -11,8 +11,8 @@ import queryClient from "@/utils/queryClient";
 import CreateTweet from "@/components/CreateTweet";
 import HeadTitle from "@/components/HeadTitle";
 import LoadMore from "@/components/LoadMore";
-import Tweet from "@/components/Tweet";
 import Error from "@/components/icons/Error";
+import TweetCard from "@/components/tweet/TweetCard";
 import Loading from "@/components/ui/Loading";
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ async function Tweets() {
     if (moreTweetsResponse.success)
       return (
         moreTweetsResponse?.data?.map((tweet) => (
-          <Tweet key={tweet.tweetId} {...tweet} />
+          <TweetCard key={tweet.tweetId} {...tweet} />
         )) ?? []
       );
 
@@ -65,7 +65,7 @@ async function Tweets() {
   return (
     <>
       {tweetsResponse.data.map((tweet) => (
-        <Tweet key={tweet.tweetId} {...tweet} />
+        <TweetCard key={tweet.tweetId} {...tweet} />
       ))}
       <LoadMore fetcher={fetchMoreTweets} />
     </>

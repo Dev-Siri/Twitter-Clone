@@ -2,9 +2,9 @@
 import { useRouter } from "next/navigation";
 
 import queryClient from "@/utils/queryClient";
-import Delete from "./icons/Delete";
-import Highlight from "./icons/Highlight";
-import Pin from "./icons/Pin";
+import Delete from "../icons/Delete";
+import Highlight from "../icons/Highlight";
+import Pin from "../icons/Pin";
 
 interface Props {
   tweetId: string;

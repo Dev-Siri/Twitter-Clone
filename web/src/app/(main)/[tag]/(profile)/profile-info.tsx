@@ -11,8 +11,8 @@ import queryClient from "@/utils/queryClient";
 import FollowButton from "@/components/FollowButton";
 import FollowingMetricCount from "@/components/FollowingMetricCount";
 import HeadTitle from "@/components/HeadTitle";
+import InteractiveText from "@/components/InteractiveText";
 import TabLink from "@/components/TabLink";
-import TweetText from "@/components/TweetText";
 import Calendar from "@/components/icons/Calendar";
 import Error from "@/components/icons/Error";
 import LinkedWebsite from "@/components/icons/LinkedWebsite";
@@ -119,7 +119,7 @@ export default async function ProfileInfo({ userTag }: Props) {
         <h3 className="mt-10 font-bold text-2xl">{name}</h3>
         <h4 className="text-gray-500">@{tag}</h4>
         <div className="mt-3">
-          <TweetText>{bio ?? ""}</TweetText>
+          <InteractiveText>{bio ?? ""}</InteractiveText>
         </div>
       </section>
       <section className="flex gap-4 px-4 pt-4">
