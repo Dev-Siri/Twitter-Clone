@@ -4,7 +4,7 @@ import type { ApiResponseTweet } from "@/types";
 
 import queryClient from "@/utils/queryClient";
 
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
@@ -21,7 +21,7 @@ export default async function Highlight({ params: { tag } }: Props) {
 
     return (
       <div className="flex flex-col items-center justify-center p-10 text-red-500">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to load highlighted Tweet</p>
       </div>
     );

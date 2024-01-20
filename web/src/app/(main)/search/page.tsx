@@ -5,7 +5,7 @@ import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
@@ -47,7 +47,7 @@ export default async function TopSearch({ searchParams: { q } }: Props) {
 
     return (
       <div className="flex flex-col items-center justify-center text-red-500 pt-20">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to search Tweets matching search &quot;{q}&quot;</p>
       </div>
     );

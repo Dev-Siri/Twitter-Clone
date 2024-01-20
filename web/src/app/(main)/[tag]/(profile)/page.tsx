@@ -3,7 +3,7 @@ import type { ApiResponseTweet, FetchParameters } from "@/types";
 import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
 
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";
 import TweetCard from "@/components/tweet/TweetCard";
@@ -31,7 +31,7 @@ export default async function Profile({ params: { tag } }: Props) {
 
     return (
       <div className="flex flex-col py-10 items-center justify-center text-red-500">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to load tweets</p>
       </div>
     );

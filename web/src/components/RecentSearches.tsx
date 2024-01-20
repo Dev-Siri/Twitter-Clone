@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import useRecentSearches from "@/stores/recent-searches";
 import { recentSearchesSchema } from "@/utils/validation/recent-searches";
 
-import Close from "./icons/Close";
-import ExploreFilled from "./icons/ExploreFilled";
+import CloseIcon from "./icons/Close";
+import ExploreFilledIcon from "./icons/ExploreFilled";
 import Loading from "./ui/Loading";
 
 export default function RecentSearches() {
@@ -74,7 +74,7 @@ export default function RecentSearches() {
                 }`}
               >
                 <div className="px-3">
-                  <ExploreFilled />
+                  <ExploreFilledIcon height={24} width={24} />
                 </div>
                 <Link
                   className="pl-2 w-full"
@@ -87,7 +87,7 @@ export default function RecentSearches() {
                   type="button"
                   onClick={() => removeOneSearch(id)}
                 >
-                  <Close height={20} width={20} />
+                  <CloseIcon height={20} width={20} />
                 </button>
               </div>
             ))}

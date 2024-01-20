@@ -13,10 +13,10 @@ import FollowingMetricCount from "@/components/FollowingMetricCount";
 import HeadTitle from "@/components/HeadTitle";
 import InteractiveText from "@/components/InteractiveText";
 import TabLink from "@/components/TabLink";
-import Calendar from "@/components/icons/Calendar";
-import Error from "@/components/icons/Error";
-import LinkedWebsite from "@/components/icons/LinkedWebsite";
-import LocationPin from "@/components/icons/LocationPin";
+import CalendarIcon from "@/components/icons/Calendar";
+import ErrorIcon from "@/components/icons/Error";
+import LinkedWebsiteIcon from "@/components/icons/LinkedWebsite";
+import LocationPinIcon from "@/components/icons/LocationPin";
 
 interface Props {
   userTag: string;
@@ -39,7 +39,7 @@ export default async function ProfileInfo({ userTag }: Props) {
   if (!userResponse.success) {
     if (userResponse.status === 404) notFound();
 
-    throw new globalThis.Error(userResponse.message);
+    throw new Error(userResponse.message);
   }
 
   const loggedInUser = useSession();
@@ -125,13 +125,13 @@ export default async function ProfileInfo({ userTag }: Props) {
       <section className="flex gap-4 px-4 pt-4">
         {location && (
           <div className="flex items-center gap-1.5 text-gray-500">
-            <LocationPin height={20} width={20} />
+            <LocationPinIcon height={20} width={20} />
             <p>{location}</p>
           </div>
         )}
         {website && (
           <div className="flex items-center gap-1.5 text-gray-500">
-            <LinkedWebsite height={20} width={20} />
+            <LinkedWebsiteIcon height={20} width={20} />
             <a
               href={website}
               target="_blank"
@@ -144,7 +144,7 @@ export default async function ProfileInfo({ userTag }: Props) {
         )}
         {createdAt && (
           <div className="flex items-center gap-1.5 text-gray-500">
-            <Calendar height={20} width={20} />
+            <CalendarIcon height={20} width={20} />
             <p>Joined {getJoinedDate(createdAt)}</p>
           </div>
         )}
@@ -152,7 +152,7 @@ export default async function ProfileInfo({ userTag }: Props) {
       <section className="px-4 pt-2">
         {!followersResponse.success || !followingResponse.success ? (
           <div className="flex text-red-500 items-center gap-1">
-            <Error height={18} width={18} />
+            <ErrorIcon height={18} width={18} />
             <>Failed to get follower count</>
           </div>
         ) : (

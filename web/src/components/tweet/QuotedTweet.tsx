@@ -9,7 +9,7 @@ import { getMediaType } from "@/utils/image";
 import queryClient from "@/utils/queryClient";
 
 import ButtonLink from "../ButtonLink";
-import Error from "../icons/Error";
+import ErrorIcon from "../icons/Error";
 import Loading from "../ui/Loading";
 
 const VideoPlayer = lazy(() => import("../VideoPlayer"));
@@ -71,7 +71,7 @@ export default function QuotedTweet({ id }: Props) {
   if (quotedTweet.state === "error")
     return (
       <div className="h-2/4 flex flex-col items-center justify-center text-red-600">
-        <Error height={20} width={20} />
+        <ErrorIcon height={20} width={20} />
         <p className="font-semibold">Failed to load Tweet</p>
       </div>
     );

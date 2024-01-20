@@ -1,7 +1,7 @@
 "use client";
 import { useState, type PropsWithChildren } from "react";
 
-import AccordionChevron from "../icons/AccordianChevron";
+import AccordionChevronIcon from "../icons/AccordianChevron";
 
 interface Props extends PropsWithChildren {
   trigger: string;
@@ -22,7 +22,7 @@ export default function Accordion({ trigger, children }: Props) {
             isOpen ? "text-twitter-blue -rotate-180" : "dark:text-white"
           }`}
         >
-          <AccordionChevron height={24} width={24} />
+          <AccordionChevronIcon height={24} width={24} />
         </span>
       </summary>
       {children}

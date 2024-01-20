@@ -6,7 +6,7 @@ import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
 import UserTile from "@/components/UserTile";
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 
 interface Props {
   searchParams: {
@@ -45,7 +45,7 @@ export default async function PeopleSearch({ searchParams: { q } }: Props) {
 
     return (
       <div className="flex flex-col items-center justify-center text-red-500 pt-20">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to search people matching search &quot;{q}&quot;</p>
       </div>
     );

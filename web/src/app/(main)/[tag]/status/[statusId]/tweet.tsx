@@ -15,7 +15,7 @@ import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 import CreateTweet from "@/components/CreateTweet";
 import InteractiveText from "@/components/InteractiveText";
 import ProfilePreview from "@/components/ProfilePreview";
-import Retweet from "@/components/icons/Retweet";
+import RetweetIcon from "@/components/icons/Retweet";
 import TweetInteractions from "@/components/tweet/TweetInteractions";
 import TweetOptions from "@/components/tweet/TweetOptions";
 import DropdownMenu from "@/components/ui/DropdownMenu";
@@ -72,7 +72,7 @@ export default async function Tweet({ id }: Props) {
       <section className="px-4">
         {retweet && (
           <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 py-1">
-            <Retweet height={15} width={15} />
+            <RetweetIcon height={15} width={15} />
             <Link
               href={`/${tweetResponse.data.tag}`}
               className="hover:underline"

@@ -1,8 +1,12 @@
 "use client";
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
-import ThreeDotsHorizontal from "../icons/ThreeDotsHorizontal";
+import ThreeDotsHorizontalIcon from "../icons/ThreeDotsHorizontal";
 
-export default function DropdownMenu({ children }: PropsWithChildren) {
+interface Props extends PropsWithChildren {
+  label?: string;
+}
+
+export default function DropdownMenu({ children, label }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleClick(
@@ -26,8 +30,9 @@ export default function DropdownMenu({ children }: PropsWithChildren) {
         type="button"
         className="text-gray-500 p-1.5 rounded-full z-50 duration-200 hover:bg-blue-100 hover:dark:bg-blue-950 hover:text-twitter-blue"
         onClick={handleClick}
+        aria-label={label}
       >
-        <ThreeDotsHorizontal height={20} width={20} />
+        <ThreeDotsHorizontalIcon height={20} width={20} />
       </button>
       {isOpen && (
         <div

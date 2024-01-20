@@ -8,6 +8,7 @@ interface Props extends PropsWithChildren {
   href: string;
   activeIcon: ReactNode;
   inactiveIcon: ReactNode;
+  label?: string;
 }
 
 export default function SidebarLink({
@@ -15,6 +16,7 @@ export default function SidebarLink({
   href,
   activeIcon,
   inactiveIcon,
+  label,
 }: Props) {
   const pathname = usePathname();
   const isActive = pathname === href;
@@ -24,7 +26,7 @@ export default function SidebarLink({
       href={href}
       className="flex items-center gap-4 duration-200 hover:bg-gray-200 hover:dark:bg-slate-800 p-4 rounded-full w-fit min-[1265px]:pr-8"
     >
-      {isActive ? activeIcon : inactiveIcon}
+      <span aria-label={label}>{isActive ? activeIcon : inactiveIcon}</span>
       <span
         className={`text-xl hidden min-[1265px]:block ${
           isActive && "font-bold"

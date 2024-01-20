@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { useSession } from "@/hooks/useSession";
 
-import ThreeDotsHorizontal from "@/components/icons/ThreeDotsHorizontal";
+import ThreeDotsHorizontalIcon from "@/components/icons/ThreeDotsHorizontal";
 import UpMenu from "@/components/ui/UpMenu";
 
 export default function ProfilePreview() {
@@ -42,7 +42,7 @@ export default function ProfilePreview() {
           </p>
         </section>
         <section className="ml-auto mr-2 hidden min-[1265px]:block">
-          <ThreeDotsHorizontal height={24} width={24} />
+          <ThreeDotsHorizontalIcon height={24} width={24} />
         </section>
       </article>
     </UpMenu>

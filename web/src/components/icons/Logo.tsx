@@ -6,7 +6,7 @@ interface Props {
 
 export default function Logo(props: Props) {
   return (
-    <svg viewBox="0 0 220 220" {...props}>
+    <svg viewBox="0 0 220 220" aria-hidden {...props}>
       <g>
         <path
           xmlns="http://www.w3.org/2000/svg"

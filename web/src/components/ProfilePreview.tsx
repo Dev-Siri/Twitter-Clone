@@ -7,7 +7,7 @@ import queryClient from "@/utils/queryClient";
 
 import Image from "next/image";
 import InteractiveText from "./InteractiveText";
-import Error from "./icons/Error";
+import ErrorIcon from "./icons/Error";
 import Loading from "./ui/Loading";
 import UpMenu from "./ui/UpMenu";
 
@@ -62,7 +62,7 @@ export default function ProfilePreview({ children, tag }: Props) {
           <div className="p-4 w-80">
             {profile.state === "error" && (
               <div className="flex flex-col items-center justify-center text-red-500">
-                <Error height={24} width={24} />
+                <ErrorIcon height={24} width={24} />
                 <p>Failed to load profile</p>
               </div>
             )}

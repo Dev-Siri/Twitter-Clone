@@ -11,8 +11,8 @@ import updateUser from "@/actions/users/update";
 
 import Modal from "@/components/Modal";
 import SubmitButton from "@/components/SubmitButton";
-import Close from "@/components/icons/Close";
-import Media from "@/components/icons/Media";
+import CloseIcon from "@/components/icons/Close";
+import MediaIcon from "@/components/icons/Media";
 import Input from "@/components/ui/Input";
 
 type Props = Omit<User, "email" | "pinnedTweetId" | "highlightedTweetId">;
@@ -70,7 +70,7 @@ export default function UpdateForm({
           htmlFor="userImage"
           className="absolute bg-black p-3 mt-[160px] ml-[73px] z-50 opacity-70 cursor-pointer rounded-full"
         >
-          <Media height={24} width={24} />
+          <MediaIcon height={24} width={24} />
         </label>
         <Image
           src={previewPfp ? URL.createObjectURL(previewPfp) : userImage}
@@ -85,7 +85,7 @@ export default function UpdateForm({
             banner || previewBanner ? "ml-64" : "ml-72"
           }`}
         >
-          <Media height={24} width={24} />
+          <MediaIcon height={24} width={24} />
         </label>
         {(banner || previewBanner) && (
           <button
@@ -93,7 +93,7 @@ export default function UpdateForm({
             className="absolute bg-black p-3 mt-16 ml-80 opacity-70 cursor-pointer rounded-full"
             onClick={removeBanner}
           >
-            <Close height={24} width={24} />
+            <CloseIcon height={24} width={24} />
           </button>
         )}
         <section className="h-[200px] w-full bg-twitter-blue">

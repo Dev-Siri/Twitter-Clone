@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 
 import useRecentSearches from "@/stores/recent-searches";
 
-import ExploreOutlined from "./icons/ExploreOutlined";
+import ExploreOutlinedIcon from "./icons/ExploreOutlined";
 import RecentSearches from "./RecentSearches";
 
 export default function SearchInput() {
@@ -66,7 +66,7 @@ export default function SearchInput() {
             isInputFocused ? "text-twitter-blue" : "text-gray-500"
           }`}
         >
-          <ExploreOutlined height={20} width={20} />
+          <ExploreOutlinedIcon height={20} width={20} />
         </div>
         <input
           type="search"

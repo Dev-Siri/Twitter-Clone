@@ -1,6 +1,11 @@
-export default function ProfileOutlined() {
+interface Props {
+  height?: number;
+  width?: number;
+}
+
+export default function ProfileOutlined(props: Props) {
   return (
-    <svg viewBox="0 0 24 24" height={24} width={24}>
+    <svg viewBox="0 0 24 24" aria-hidden {...props}>
       <g>
         <path
           fill="currentColor"

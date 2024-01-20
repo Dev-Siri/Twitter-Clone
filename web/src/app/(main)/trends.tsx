@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import queryClient from "@/utils/queryClient";
 
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 
 interface Trend {
   term: string;
@@ -18,7 +18,7 @@ export default async function Trends() {
     <div className="bg-gray-300 dark:bg-gray-900 rounded-xl">
       {!trendsResponse.success ? (
         <div className="flex flex-col items-center p-4 justify-center text-red-500">
-          <Error height={24} width={24} />
+          <ErrorIcon height={24} width={24} />
           <p>Failed to load trends.</p>
         </div>
       ) : (

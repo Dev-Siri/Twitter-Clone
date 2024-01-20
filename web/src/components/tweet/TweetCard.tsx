@@ -12,8 +12,8 @@ import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import InteractiveText from "../InteractiveText";
 import ProfilePreview from "../ProfilePreview";
-import Pin from "../icons/Pin";
-import Retweet from "../icons/Retweet";
+import PinIcon from "../icons/Pin";
+import RetweetIcon from "../icons/Retweet";
 import DropdownMenu from "../ui/DropdownMenu";
 import TweetInteractions from "./TweetInteractions";
 import TweetOptions from "./TweetOptions";
@@ -61,10 +61,10 @@ export default async function Tweet({ pinned, chained, ...props }: Props) {
     >
       {(pinned || retweet) && (
         <p className="flex gap-2 items-center text-gray-500 font-semibold text-sm pl-5 pt-2">
-          {retweet && <Retweet height={15} width={15} />}
-          {pinned && <Pin height={15} width={15} />}
+          {retweet && <RetweetIcon height={15} width={15} />}
+          {pinned && <PinIcon height={15} width={15} />}
           <Link href={`/${props.tag}`} className="hover:underline">
-            {retweet ? `${props.name} retweeted` : `Pinned by @${tag}`}
+            {retweet ? `${props.name} Retweeted` : `Pinned by @${tag}`}
           </Link>
         </p>
       )}
@@ -94,7 +94,7 @@ export default async function Tweet({ pinned, chained, ...props }: Props) {
             </time>
             {tag === user?.tag && (
               <div className="ml-auto">
-                <DropdownMenu>
+                <DropdownMenu label="Tweet Options">
                   <TweetOptions tweetId={tweetId} currentUserId={user.userId} />
                 </DropdownMenu>
               </div>

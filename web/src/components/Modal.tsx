@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-
 import {
   useCallback,
   useEffect,
@@ -9,8 +8,9 @@ import {
 } from "react";
 
 import { useQuotedTweetStore } from "@/stores/predefined-tweet";
+
 import CloseButton from "./CloseButton";
-import Close from "./icons/Close";
+import CloseIcon from "./icons/Close";
 
 interface Props extends ComponentProps<"dialog"> {
   title?: string;
@@ -65,7 +65,7 @@ export default function Modal({
           >
             {closeAction && (
               <CloseButton>
-                <Close height={24} width={24} />
+                <CloseIcon height={24} width={24} />
               </CloseButton>
             )}
             {title && <h3 className="text-xl font-bold">{title}</h3>}

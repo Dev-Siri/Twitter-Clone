@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Verified from "@/components/icons/Verified";
+import VerifiedIcon from "@/components/icons/Verified";
 import twitterLogo from "./logo-img.avif";
 
 export default function PreviewTweet() {
@@ -19,8 +19,11 @@ export default function PreviewTweet() {
       <div className="ml-3">
         <section className="flex items-center">
           <p className="font-semibold">Twitter</p>
-          <span className="text-twitter-blue ml-1">
-            <Verified height={20} width={20} />
+          <span
+            aria-label="Verified Account"
+            className="text-twitter-blue ml-1"
+          >
+            <VerifiedIcon height={20} width={20} />
           </span>
           <p className="text-gray-500 ml-1">@twitter · 1hr ago</p>
         </section>

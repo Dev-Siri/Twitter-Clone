@@ -4,7 +4,7 @@ import { LIMIT } from "@/constants/fetch";
 import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
@@ -26,7 +26,7 @@ export default async function TweetReplies({ tweetId }: Props) {
   if (!repliesResponse.success)
     return (
       <div className="flex flex-col items-center justify-center text-red-500 p-10">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to load replies</p>
       </div>
     );

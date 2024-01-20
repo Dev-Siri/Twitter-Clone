@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import type { ComponentProps } from "react";
+import type { ComponentProps, MouseEvent } from "react";
 
 interface Props extends ComponentProps<"span"> {
   href: string;
@@ -29,8 +29,17 @@ interface Props extends ComponentProps<"span"> {
 export default function ButtonLink({ children, href, ...props }: Props) {
   const router = useRouter();
 
+  function handleLinkClick(
+    e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>
+  ) {
+    if (e.ctrlKey || e.metaKey)
+      return window.open(`${location.origin}${href}`, "_blank");
+
+    router.push(href);
+  }
+
   return (
-    <span onClick={() => router.push(href)} {...props}>
+    <span role="link" onClick={handleLinkClick} {...props}>
       {children}
     </span>
   );

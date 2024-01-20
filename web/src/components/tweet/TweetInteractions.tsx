@@ -3,7 +3,7 @@ import type { TweetEngagements } from "@/types";
 import { useSession } from "@/hooks/useSession";
 import queryClient from "@/utils/queryClient";
 
-import Error from "../icons/Error";
+import ErrorIcon from "../icons/Error";
 import TweetInteractionsDisplay from "./TweetInteractionsDisplay";
 
 interface Props {
@@ -44,7 +44,7 @@ export default async function TweetInteractions(props: Props) {
   )
     return (
       <div className="flex justify-center items-center gap-1 text-red-500">
-        <Error height={18} width={18} />
+        <ErrorIcon height={18} width={18} />
         <p>Failed to load engagements</p>
       </div>
     );

@@ -6,13 +6,13 @@ import { compactify } from "@/utils/formatting";
 
 import queryClient from "@/utils/queryClient";
 import EngagementText from "../EngagementText";
-import Comment from "../icons/Comment";
-import Retweet from "../icons/Retweet";
+import CommentIcon from "../icons/Comment";
+import RetweetIcon from "../icons/Retweet";
 import UpMenu from "../ui/UpMenu";
 import RetweetOptions from "./RetweetOptions";
 
-const HeartFilled = lazy(() => import("../icons/HeartFilled"));
-const HeartOutlined = lazy(() => import("../icons/HeartOutlined"));
+const HeartFilledIcon = lazy(() => import("../icons/HeartFilled"));
+const HeartOutlinedIcon = lazy(() => import("../icons/HeartOutlined"));
 
 interface Props extends TweetEngagements {
   isAlreadyRetweeted: boolean;
@@ -105,7 +105,7 @@ export default function TweetInteractionsDisplay({
       >
         <div className="text-gray-500 w-10 flex items-center justify-center gap-1 cursor-pointer group duration-200 hover:text-twitter-blue">
           <div className="duration-200 p-1 rounded-full group-hover:bg-twitter-blue group-hover:bg-opacity-30">
-            <Comment height={24} width={24} />
+            <CommentIcon height={24} width={24} />
           </div>
           {!!replies && layout === "card" && <p>{compactify(replies)}</p>}
         </div>
@@ -125,12 +125,13 @@ export default function TweetInteractionsDisplay({
           }
         >
           <div
+            aria-label="Retweet"
             className={`text-gray-500 w-10 mt-2 flex items-center justify-center gap-1 cursor-pointer group duration-200 hover:text-twitter-blue ${
               alreadyRetweeted && "text-twitter-blue"
             }`}
           >
             <div className="duration-200 p-1 rounded-full group-hover:bg-twitter-blue group-hover:bg-opacity-30">
-              <Retweet height={24} width={24} />
+              <RetweetIcon height={24} width={24} />
             </div>
             {!!retweetAndQuoteTweets && layout === "card" && (
               <p>{compactify(retweetAndQuoteTweets)}</p>
@@ -146,11 +147,12 @@ export default function TweetInteractionsDisplay({
             type="button"
             onClick={handleLikeTweet}
             className="rounded-full p-1 duration-200 group-hover:bg-red-950"
+            aria-label={isLiked ? "Unlike" : "Like"}
           >
             {isLiked ? (
-              <HeartFilled height={24} width={24} />
+              <HeartFilledIcon height={24} width={24} />
             ) : (
-              <HeartOutlined height={24} width={24} />
+              <HeartOutlinedIcon height={24} width={24} />
             )}
           </button>
           {!!likeCount && layout === "card" && <p>{compactify(likeCount)}</p>}

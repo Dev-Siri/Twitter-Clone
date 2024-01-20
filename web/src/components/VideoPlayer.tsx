@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import Muted from "./icons/Muted";
-import Paused from "./icons/Paused";
-import PictureInPicture from "./icons/PictureInPicture";
-import Playing from "./icons/Playing";
-import Speaker from "./icons/Speaker";
+import MutedIcon from "./icons/Muted";
+import PausedIcon from "./icons/Paused";
+import PictureInPictureIcon from "./icons/PictureInPicture";
+import PlayingIcon from "./icons/Playing";
+import SpeakerIcon from "./icons/Speaker";
 
 interface Props {
   url: string;
@@ -151,9 +151,9 @@ export default function VideoPlayer({ url }: Props) {
               onClick={handlePlayAndPause}
             >
               {isPlaying ? (
-                <Playing {...iconProps} />
+                <PlayingIcon {...iconProps} />
               ) : (
-                <Paused {...iconProps} />
+                <PausedIcon {...iconProps} />
               )}
             </button>
             <p className="ml-auto">
@@ -164,14 +164,18 @@ export default function VideoPlayer({ url }: Props) {
               className="rounded-full p-2 duration-200 hover:bg-white hover:bg-opacity-10"
               onClick={() => setIsMuted((prevIsMuted) => !prevIsMuted)}
             >
-              {isMuted ? <Muted {...iconProps} /> : <Speaker {...iconProps} />}
+              {isMuted ? (
+                <MutedIcon {...iconProps} />
+              ) : (
+                <SpeakerIcon {...iconProps} />
+              )}
             </button>
             <button
               type="button"
               className="rounded-full p-2 duration-200 hover:bg-white hover:bg-opacity-10"
               onClick={togglePictureInPicture}
             >
-              <PictureInPicture {...iconProps} />
+              <PictureInPictureIcon {...iconProps} />
             </button>
           </div>
         </div>

@@ -11,7 +11,7 @@ import queryClient from "@/utils/queryClient";
 import CreateTweet from "@/components/CreateTweet";
 import HeadTitle from "@/components/HeadTitle";
 import LoadMore from "@/components/LoadMore";
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";
 import Loading from "@/components/ui/Loading";
 
@@ -34,7 +34,7 @@ async function Tweets() {
   if (!tweetsResponse.success)
     return (
       <article className="h-2/4 flex flex-col items-center justify-center text-red-600">
-        <Error height={20} width={20} />
+        <ErrorIcon height={20} width={20} />
         <p className="font-semibold">Failed to load Tweets</p>
       </article>
     );

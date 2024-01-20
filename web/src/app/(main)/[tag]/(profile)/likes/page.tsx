@@ -6,7 +6,7 @@ import queryClient from "@/utils/queryClient";
 
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";
-import Error from "@/components/icons/Error";
+import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";
 
 interface Props {
@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!userResponse.success) {
     if (userResponse.status === 404) return { title: "Profile / Twitter" };
 
-    throw new globalThis.Error(userResponse.message);
+    throw new Error(userResponse.message);
   }
 
   return {
@@ -55,7 +55,7 @@ export default async function Likes({ params: { tag } }: Props) {
 
     return (
       <div className="flex flex-col items-center justify-center text-red-500 py-10">
-        <Error height={24} width={24} />
+        <ErrorIcon height={24} width={24} />
         <p>Failed to get Liked Tweets</p>
       </div>
     );

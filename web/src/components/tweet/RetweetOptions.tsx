@@ -7,8 +7,8 @@ import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import queryClient from "@/utils/queryClient";
 
 import Link from "next/link";
-import Quote from "../icons/Quote";
-import Retweet from "../icons/Retweet";
+import QuoteIcon from "../icons/Quote";
+import RetweetIcon from "../icons/Retweet";
 
 interface Props {
   userId: string;
@@ -81,7 +81,7 @@ export default function RetweetOptions({
         className="font-semibold flex w-full items-center gap-3 pl-4 p-3 -z-10 duration-200 hover:bg-slate-900"
         onClick={retweet}
       >
-        <Retweet height={20} width={20} />{" "}
+        <RetweetIcon height={20} width={20} />{" "}
         {isAlreadyRetweeted ? "Undo retweet" : "Retweet"}
       </button>
       <Link
@@ -97,7 +97,7 @@ export default function RetweetOptions({
           )
         }
       >
-        <Quote height={20} width={20} /> Quote Tweet
+        <QuoteIcon height={20} width={20} /> Quote Tweet
       </Link>
     </div>
   );

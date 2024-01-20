@@ -17,8 +17,8 @@ import createTweet from "@/actions/tweets/create";
 import { LoadingContext } from "@/context/LoadingContext";
 
 import SubmitButton from "@/components/SubmitButton";
-import Close from "@/components/icons/Close";
-import Media from "@/components/icons/Media";
+import CloseIcon from "@/components/icons/Close";
+import MediaIcon from "@/components/icons/Media";
 import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import { getTwitterStatusUuid } from "@/utils/url";
 import ExpandableTextArea from "./ExpandableTextArea";
@@ -123,7 +123,7 @@ ${quotedTweetUrl}`
             className="absolute p-2 mt-4 mr-4 ml-auto right-0 z-50 bg-white dark:bg-gray-900 rounded-full duration-200 hover:bg-gray-300 hover:dark:bg-gray-800"
             onClick={clearMedia}
           >
-            <Close height={24} width={24} />
+            <CloseIcon height={24} width={24} />
           </button>
           {mediaType === "image" ? (
             <Image
@@ -149,7 +149,7 @@ ${quotedTweetUrl}`
                 : "text-twitter-blue"
             }`}
           >
-            <Media height={20} width={20} />
+            <MediaIcon height={20} width={20} />
           </label>
           {!state.success && state.errors?.["media"] && (
             <p className="text-red-500 text-sm">{state.errors["media"]}</p>

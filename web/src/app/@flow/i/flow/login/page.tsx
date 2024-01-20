@@ -8,7 +8,7 @@ import login from "@/actions/users/login";
 
 import Modal from "@/components/Modal";
 import SubmitButton from "@/components/SubmitButton";
-import Eye from "@/components/icons/Eye";
+import EyeIcon from "@/components/icons/Eye";
 import Input from "@/components/ui/Input";
 
 export default function LoginFlow() {
@@ -45,11 +45,12 @@ export default function LoginFlow() {
             <button
               type="button"
               className="absolute z-50 inset-0 bg-transparent h-fit w-fit p-2 rounded-md ml-auto mt-auto"
+              aria-label={`${showPassword ? "Hide" : "Show"} password`}
               onClick={() =>
                 setShowPassword((prevShowPassword) => !prevShowPassword)
               }
             >
-              <Eye />
+              <EyeIcon height={24} width={24} />
             </button>
           </div>
           {!state.success && state.errors?.["password"] && (

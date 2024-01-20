@@ -14,6 +14,7 @@ interface Props extends PropsWithChildren {
   onHover?(): void | Promise<void>;
   className?: string;
   closeOnClick?: boolean;
+  label?: string;
   pos: {
     x: number;
     y: number;
@@ -26,6 +27,7 @@ export default function UpMenu({
   options,
   onHover,
   className,
+  label,
   closeOnClick = true,
   pos: { x, y },
   showType = "click",
@@ -72,6 +74,7 @@ export default function UpMenu({
         onClick={handleMenuClick}
         onMouseEnter={handleHover("enter")}
         onMouseLeave={handleHover("leave")}
+        aria-label={label}
         className={`${className} cursor-pointer`}
       >
         {children}

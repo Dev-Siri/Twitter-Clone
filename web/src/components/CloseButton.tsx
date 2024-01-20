@@ -23,6 +23,7 @@ export default function CloseButton({ children, className }: Props) {
       className={`p-2 text-5xl duration-200 rounded-full ${
         className ?? "hover:bg-gray-300 hover:dark:bg-gray-900"
       }`}
+      aria-label="Go back"
       onClick={handleClose}
     >
       {children}

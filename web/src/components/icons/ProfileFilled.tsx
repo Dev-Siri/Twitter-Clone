@@ -1,6 +1,11 @@
-export default function ProfileFilled() {
+interface Props {
+  height?: number;
+  width?: number;
+}
+
+export default function ProfileFilled(props: Props) {
   return (
-    <svg viewBox="0 0 24 24" height={24} width={24}>
+    <svg viewBox="0 0 24 24" aria-hidden {...props}>
       <g>
         <path
           fill="currentColor"

@@ -1,6 +1,6 @@
 import { lazy, type PropsWithChildren } from "react";
 
-import ArrowBack from "./icons/ArrowBack";
+import ArrowBackIcon from "./icons/ArrowBack";
 
 const CloseButton = lazy(() => import("./CloseButton"));
 
@@ -22,7 +22,7 @@ export default function HeadTitle({
     >
       {showBackButton && (
         <CloseButton>
-          <ArrowBack height={20} width={20} />
+          <ArrowBackIcon height={20} width={20} />
         </CloseButton>
       )}
       <section>
