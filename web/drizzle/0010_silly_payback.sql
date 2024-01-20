@@ -1,1 +1,0 @@
-ALTER TABLE "Users" ADD COLUMN "tag" varchar(255) NOT NULL;

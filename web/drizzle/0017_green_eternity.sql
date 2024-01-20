@@ -1,1 +1,0 @@
-ALTER TABLE "Tweets" ADD COLUMN "in_reply_to_tweet_id" char(36);
