@@ -52,7 +52,7 @@ export function getRelativeTime(dateString: string) {
   }
 }
 
-export async function getJoinedDate(dateString: string) {
+export function getJoinedDate(dateString: string) {
   const date = new Date(dateString);
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.getFullYear();
@@ -60,7 +60,7 @@ export async function getJoinedDate(dateString: string) {
   return `${month} ${year}`;
 }
 
-export async function getTweetCreatedDate(dateString: string) {
+export function getTweetCreatedDate(dateString: string) {
   const date = new Date(dateString);
   const month = date.toLocaleString("en-US", { month: "short" });
   const hour = date.getHours();
