@@ -35,7 +35,7 @@ class ProfileDrawer extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(
                         width: 1,
-                        color: Colors.grey.shade300,
+                        color: Colors.grey.shade200,
                       ),
                     ),
                   ),

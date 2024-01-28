@@ -18,6 +18,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.9
+  intl: ^0.19.0
+  page_transition: ^2.1.0
+  full_screen_image: ^2.0.0
+  vector_graphics: ^1.1.9+2
 
 dev_dependencies:
   flutter_test:

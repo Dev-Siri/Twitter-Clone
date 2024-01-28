@@ -1,5 +1,10 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:full_screen_image/full_screen_image.dart";
+import "package:twitter/models/tweet/grouped_tweet.dart";
+import "package:twitter/utils/date.dart";
+import "package:twitter/widgets/interactive_text.dart";
+import "package:twitter/widgets/tweet/tweet_interactions.dart";
 
 class TweetCard extends StatelessWidget {
   final String caption;
@@ -28,11 +33,23 @@ class TweetCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey.shade300),
+          bottom: BorderSide(width: 1, color: Colors.grey.shade200),
         ),
       ),
       child: MaterialButton(
-        onPressed: () => print("something happened"),
+        onPressed: () => Navigator.pushNamed(
+          context,
+          "/user/status",
+          arguments: GroupedTweet(
+            caption: caption,
+            createdAt: createdAt,
+            tweetId: tweetId,
+            userId: userId,
+            name: name,
+            userImage: userImage,
+            tag: tag,
+          ),
+        ),
         padding: const EdgeInsets.all(10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +58,7 @@ class TweetCard extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10),
               child: CircleAvatar(
                 foregroundImage: CachedNetworkImageProvider(userImage),
-                radius: 23,
+                radius: 20,
               ),
             ),
             Expanded(
@@ -61,7 +78,7 @@ class TweetCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 4),
                         child: Text(
-                          "@$tag",
+                          "@$tag · ${getRelativeTime(createdAt)}",
                           style: const TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.normal,
@@ -70,9 +87,24 @@ class TweetCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  Text(
-                    caption,
-                    softWrap: true,
+                  InteractiveText(text: caption),
+                  if (media != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: FullScreenWidget(
+                        disposeLevel: DisposeLevel.Low,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: CachedNetworkImage(imageUrl: media!),
+                        ),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 38),
+                    child: TweetInteractions(
+                      layout: TweetInteractionsLayout.card,
+                      tweetId: tweetId,
+                    ),
                   ),
                 ],
               ),

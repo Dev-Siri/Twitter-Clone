@@ -47,7 +47,7 @@ class _StateWrapperState extends State<StateWrapper> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Twitter",
-      routes: routes,
+      onGenerateRoute: generateRoute,
       initialRoute: _initialRoute,
       theme: ThemeData(
         primaryColor: const Color.fromRGBO(29, 155, 240, 1),

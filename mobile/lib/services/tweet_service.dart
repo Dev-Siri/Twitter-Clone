@@ -1,24 +1,51 @@
 import "package:http/http.dart" as http;
 import "package:twitter/constants.dart";
-import "package:twitter/models/tweet.dart";
+import "package:twitter/models/tweet/grouped_tweet.dart";
+import "package:twitter/models/tweet/individual_tweet.dart";
+import "package:twitter/models/tweet/tweet_engagements.dart";
 import "package:twitter/utils/encoding.dart";
 
 class TweetService {
-  static const url = "$backendUrl/tweets";
-  static const limit = 10;
+  static const _url = "$backendUrl/tweets";
+  static const _limit = 10;
 
-  Future<ApiResponse> fetchTweets({
-    required int page,
-  }) async {
+  Future<ApiResponse> fetchTweets({required int page}) async {
     final response = await http.get(
-      Uri.parse("$url?page=$page&limit=$limit"),
+      Uri.parse("$_url?page=$page&limit=$_limit"),
     );
 
-    final parsedResponse = parseHttpResponse<List<Tweet>>(
-        response,
-        (tweets) => (tweets as List<dynamic>)
-            .map((final tweet) => Tweet.fromJson(tweet))
-            .toList());
+    final parsedResponse =
+        parseHttpResponse<List<GroupedTweet>>(response, (tweets) {
+      final typedTweets = (tweets as List<dynamic>?);
+
+      if (typedTweets == null) return [];
+
+      return typedTweets
+          .map((final tweet) => GroupedTweet.fromJson(tweet))
+          .toList();
+    });
+
+    return parsedResponse;
+  }
+
+  Future<ApiResponse> fetchTweet({required String tweetId}) async {
+    final response = await http.get(Uri.parse("$_url/$tweetId"));
+
+    final parsedResponse = parseHttpResponse<IndividualTweet>(
+        response, (tweet) => IndividualTweet.fromJson(tweet));
+
+    return parsedResponse;
+  }
+
+  Future<ApiResponse> fetchTweetEngagements({required String tweetId}) async {
+    final response = await http.get(
+      Uri.parse("$_url/$tweetId/engagements"),
+    );
+
+    final parsedResponse = parseHttpResponse<TweetEngagements>(
+      response,
+      (engagements) => TweetEngagements.fromJson(engagements),
+    );
 
     return parsedResponse;
   }

@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+svg_dir="assets/icons/svg"
+output_dir="assets/icons/compiled"
+
+if [ -d "$svg_dir" ]; then
+  for file in "$svg_dir"/*; do
+    filename=$(basename "$file")
+
+    dart run vector_graphics_compiler -i "$svg_dir/$filename" -o "$output_dir/$filename.vec" &
+  done
+else
+  echo "Directory does not exist."
+fi
