@@ -63,7 +63,7 @@ export default function QuotedTweet({ id }: Props) {
 
   if (quotedTweet.state === "loading")
     return (
-      <div className="flex items-center justify-center border-2 border-slate-800 rounded-lg p-3 my-2">
+      <div className="flex items-center justify-center border-2 border-gray-300 rounded-lg p-3 my-2 dark:border-slate-800">
         <Loading />
       </div>
     );
@@ -80,7 +80,7 @@ export default function QuotedTweet({ id }: Props) {
     quotedTweet.data;
 
   return (
-    <div className="border-2 w-full border-slate-800 rounded-lg my-2 duration-200 hover:bg-really-dark">
+    <div className="border-2 w-full border-gray-300 rounded-lg my-2 duration-200 hover:bg-gray-100 hover:dark:bg-really-dark dark:border-slate-800">
       <ButtonLink href={`/${tag}/status/${tweetId}`} className="cursor-pointer">
         <div className="p-3">
           <div className="flex items-center gap-2">
@@ -92,7 +92,9 @@ export default function QuotedTweet({ id }: Props) {
               className="rounded-full"
             />
             <p className="text-gray-500 text-base">
-              <span className="font-semibold text-white">{name} </span>
+              <span className="font-semibold text-black dark:text-white">
+                {name}{" "}
+              </span>
               <span>@{tag} </span>
               <span>· {getRelativeTime(createdAt)}</span>
             </p>

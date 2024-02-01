@@ -15,7 +15,7 @@ export default async function Trends() {
   });
 
   return (
-    <div className="bg-gray-300 dark:bg-gray-900 rounded-xl">
+    <div className="bg-gray-100 dark:bg-gray-900 rounded-xl">
       {!trendsResponse.success ? (
         <div className="flex flex-col items-center p-4 justify-center text-red-500">
           <ErrorIcon height={24} width={24} />
@@ -31,7 +31,7 @@ export default async function Trends() {
               className="cursor-pointer"
             >
               <div
-                className={`duration-200 hover:bg-gray-800 p-4 ${
+                className={`duration-200 hover:bg-gray-200 hover:dark:bg-gray-800 p-4 ${
                   i + 1 === trendsResponse.data.slice(0, 4).length &&
                   "rounded-b-2xl"
                 }`}

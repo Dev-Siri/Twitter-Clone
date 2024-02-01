@@ -55,7 +55,7 @@ export default async function TweetCard({ pinned, chained, ...props }: Props) {
 
   return (
     <article
-      className={`pb-2 duration-200 hover:bg-gray-200 dark:hover:bg-really-dark ${
+      className={`pb-2 duration-200 hover:bg-gray-100 dark:hover:bg-really-dark ${
         !chained && "border-b-gray-300 dark:border-b-gray-800"
       }`}
     >
