@@ -29,6 +29,7 @@ export interface TweetEngagements {
   replies: number;
   retweets: number;
   quoteTweets: number;
+  bookmarks: number;
 }
 
 export type ApiResponseTweet<T extends keyof Tweet | never = never> = Omit<

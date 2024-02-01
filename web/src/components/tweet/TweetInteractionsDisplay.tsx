@@ -6,6 +6,8 @@ import { compactify } from "@/utils/formatting";
 
 import queryClient from "@/utils/queryClient";
 import EngagementText from "../EngagementText";
+import BookmarkFilledIcon from "../icons/BookmarkFilled";
+import BookmarkOutlinedIcon from "../icons/BookmarkOutlined";
 import CommentIcon from "../icons/Comment";
 import RetweetIcon from "../icons/Retweet";
 import UpMenu from "../ui/UpMenu";
@@ -17,7 +19,9 @@ const HeartOutlinedIcon = lazy(() => import("../icons/HeartOutlined"));
 interface Props extends TweetEngagements {
   isAlreadyRetweeted: boolean;
   isAlreadyLiked: boolean;
+  isAlreadyBookmarked: boolean;
   actualTweetofRetweetId: string;
+  tag: string;
   tweetId: string;
   userId: string;
   name: string;
@@ -31,16 +35,21 @@ export default function TweetInteractionsDisplay({
   userId,
   retweets,
   quoteTweets,
+  bookmarks,
+  tag,
   actualTweetofRetweetId,
   tweetId,
   layout,
   isAlreadyRetweeted,
   isAlreadyLiked,
+  isAlreadyBookmarked,
 }: Props) {
   const [retweetCount, setRetweetCount] = useState(retweets);
   const [alreadyRetweeted, setAlreadyRetweeted] = useState(isAlreadyRetweeted);
   const [likeCount, setLikeCount] = useState(likes);
   const [isLiked, setIsLiked] = useState(isAlreadyLiked);
+  const [bookmarkCount, setBookmarkCount] = useState(bookmarks);
+  const [isBookmarked, setIsBookmarked] = useState(isAlreadyBookmarked);
 
   const retweetAndQuoteTweets = useMemo(
     () => retweetCount + quoteTweets,
@@ -70,6 +79,25 @@ export default function TweetInteractionsDisplay({
     }
   }
 
+  async function handleBookmarkTweet() {
+    const bookmarkResult = await queryClient(`/tweets/${tweetId}/bookmark`, {
+      method: "POST",
+      searchParams: { tag },
+    });
+
+    setBookmarkCount((prevBookmarkCount) =>
+      isBookmarked ? --prevBookmarkCount : ++prevBookmarkCount
+    );
+    setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+
+    if (!bookmarkResult.success) {
+      setBookmarkCount((prevBookmarkCount) =>
+        isBookmarked ? ++prevBookmarkCount : --prevBookmarkCount
+      );
+      setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+    }
+  }
+
   return (
     <div className="w-full">
       {showSeparateEngagements && (
@@ -92,13 +120,16 @@ export default function TweetInteractionsDisplay({
           >
             {likeCount === 1 ? "Like" : "Likes"}
           </EngagementText>
+          <EngagementText metric={bookmarkCount}>
+            {bookmarkCount === 1 ? "Bookmark" : "Bookmarks"}
+          </EngagementText>
         </div>
       )}
       <div
         className={`flex ${
           layout === "card"
             ? "pr-[67px] gap-20"
-            : `flex-row justify-center gap-28 pl-[23%] ${
+            : `flex-row justify-center gap-28 pl-[4%] ${
                 showSeparateEngagements && "pt-2"
               }`
         }`}
@@ -156,6 +187,31 @@ export default function TweetInteractionsDisplay({
             )}
           </button>
           {!!likeCount && layout === "card" && <p>{compactify(likeCount)}</p>}
+        </div>
+        <div
+          className={`flex gap-1 flex-1 items-center duration-200 w-10 group ${
+            isBookmarked
+              ? "text-twitter-blue"
+              : "text-gray-500 hover:text-twitter-blue"
+          }`}
+        >
+          <button
+            type="button"
+            onClick={handleBookmarkTweet}
+            className="rounded-full p-1 duration-200 group-hover:bg-twitter-blue group-hover:bg-opacity-30"
+            aria-label={
+              isBookmarked ? "Remove from bookmarks" : "Bookmark Tweet"
+            }
+          >
+            {isBookmarked ? (
+              <BookmarkFilledIcon height={24} width={24} />
+            ) : (
+              <BookmarkOutlinedIcon height={24} width={24} />
+            )}
+          </button>
+          {!!bookmarkCount && layout === "card" && (
+            <p>{compactify(bookmarkCount)}</p>
+          )}
         </div>
       </div>
     </div>

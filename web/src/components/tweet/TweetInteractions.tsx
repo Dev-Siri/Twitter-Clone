@@ -24,6 +24,7 @@ export default async function TweetInteractions(props: Props) {
     tweetEngagmentsResponse,
     alreadyRetweetedResponse,
     alreadyLikedResponse,
+    alreadyBookmarkedResponse,
   ] = await Promise.all([
     queryClient<TweetEngagements>(`/tweets/${props.tweetId}/engagements`),
     queryClient<boolean>(
@@ -35,12 +36,16 @@ export default async function TweetInteractions(props: Props) {
     queryClient<boolean>(`/tweets/${props.tweetId}/engagements/already-liked`, {
       searchParams: { userId: user.userId },
     }),
+    queryClient<boolean>(`/tweets/${props.tweetId}/engagements/already-bookmarked`,{
+      searchParams: { tag: user.tag },
+    }),
   ]);
 
   if (
     !tweetEngagmentsResponse.success ||
     !alreadyLikedResponse.success ||
-    !alreadyRetweetedResponse.success
+    !alreadyRetweetedResponse.success ||
+    !alreadyBookmarkedResponse.success
   )
     return (
       <div className="flex justify-center items-center gap-1 text-red-500">
@@ -55,8 +60,10 @@ export default async function TweetInteractions(props: Props) {
       {...props}
       userId={user.userId}
       name={user.name}
+      tag={user.tag}
       isAlreadyLiked={alreadyLikedResponse.data}
       isAlreadyRetweeted={alreadyRetweetedResponse.data}
+      isAlreadyBookmarked={alreadyBookmarkedResponse.data}
     />
   );
 }

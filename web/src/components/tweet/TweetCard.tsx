@@ -30,7 +30,7 @@ interface Props
   chained?: boolean;
 }
 
-export default async function Tweet({ pinned, chained, ...props }: Props) {
+export default async function TweetCard({ pinned, chained, ...props }: Props) {
   const user = useSession();
 
   let retweet: ApiResponseTweet | null = null;

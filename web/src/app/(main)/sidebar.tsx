@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { useSession } from "@/hooks/useSession";
 
+import BookmarkFilledIcon from "@/components/icons/BookmarkFilled";
+import BookmarkOutlinedIcon from "@/components/icons/BookmarkOutlined";
 import ExploreFilledIcon from "@/components/icons/ExploreFilled";
 import ExploreOutlinedIcon from "@/components/icons/ExploreOutlined";
 import HomeFilledIcon from "@/components/icons/HomeFilled";
@@ -41,6 +43,14 @@ export default function Sidebar() {
         inactiveIcon={<ExploreOutlinedIcon height={24} width={24} />}
       >
         Explore
+      </SidebarLink>
+      <SidebarLink
+        href="/i/bookmarks"
+        label="Bookmarks"
+        activeIcon={<BookmarkFilledIcon height={24} width={24} />}
+        inactiveIcon={<BookmarkOutlinedIcon height={24} width={24} />}
+      >
+        Bookmarks
       </SidebarLink>
       <SidebarLink
         href={`/${user?.tag}`}
