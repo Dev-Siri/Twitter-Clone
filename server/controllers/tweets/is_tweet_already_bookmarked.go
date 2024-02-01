@@ -10,28 +10,27 @@ import (
 	"go.uber.org/zap"
 )
 
-func IsTweetAlreadyRetweeted(ctx *fasthttp.RequestCtx) {
-	tweetId := ctx.UserValue("id")
-	userId := string(ctx.QueryArgs().Peek("userId"))
+func IsTweetAlreadyBookmarked(ctx *fasthttp.RequestCtx) {
+	tweetId := ctx.UserValue("id").(string)
+	tag := string(ctx.QueryArgs().Peek("tag"))
 
 	row := db.Database.QueryRow(`
-		SELECT COUNT(*) FROM "Tweets"
-		WHERE caption LIKE 'https://twitter-revived.vercel.app/%/status/' || $1
-		AND user_id = $2;
-	`, tweetId, userId)
+		SELECT COUNT(*) FROM "Bookmarks"
+		WHERE tweet_id = $1 AND tag = $2;
+	`, tweetId, tag)
 
-	var numberOfTimesRetweeted int
+	var numberOfTimesBookmarked int
 
-	if err := row.Scan(&numberOfTimesRetweeted); err != nil {
+	if err := row.Scan(&numberOfTimesBookmarked); err != nil {
 		if err == sql.ErrNoRows {
-			numberOfTimesRetweeted = 0
+			numberOfTimesBookmarked = 0
 		} else {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to get whether the Tweet is already Retweeted",
+				Message: "Failed to get whether the Tweet is already bookmarked",
 			})
 
-			logging.Logger.Error("Failed to get whether the Tweet is already Retweeted", zap.Error(err))
+			logging.Logger.Error("Failed to get whether the Tweet is already bookmarked", zap.Error(err))
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
 			return
@@ -40,7 +39,7 @@ func IsTweetAlreadyRetweeted(ctx *fasthttp.RequestCtx) {
 
 	response := responses.CreateSuccessResponse[bool](&responses.Success[bool]{
 		Status: fasthttp.StatusOK,
-		Data:   numberOfTimesRetweeted > 0,
+		Data:   numberOfTimesBookmarked > 0,
 	})
 
 	ctx.SetStatusCode(fasthttp.StatusOK)

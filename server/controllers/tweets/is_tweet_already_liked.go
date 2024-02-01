@@ -11,7 +11,7 @@ import (
 )
 
 func IsTweetAlreadyLiked(ctx *fasthttp.RequestCtx) {
-	tweetId := ctx.UserValue("id")
+	tweetId := ctx.UserValue("id").(string)
 	userId := string(ctx.QueryArgs().Peek("userId"))
 
 	row := db.Database.QueryRow(`
@@ -27,10 +27,10 @@ func IsTweetAlreadyLiked(ctx *fasthttp.RequestCtx) {
 		} else {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to get whether the tweet is already liked",
+				Message: "Failed to get whether the Tweet is already liked",
 			})
 
-			logging.Logger.Error("Failed to get whether the tweet is already liked", zap.Error(err))
+			logging.Logger.Error("Failed to get whether the Tweet is already liked", zap.Error(err))
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
 			return

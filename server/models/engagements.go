@@ -5,4 +5,5 @@ type Engagement struct {
 	Replies     int `json:"replies"`
 	Retweets    int `json:"retweets"`
 	QuoteTweets int `json:"quoteTweets"`
+	Bookmarks   int `json:"bookmarks"`
 }

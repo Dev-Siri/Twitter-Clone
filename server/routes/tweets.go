@@ -17,9 +17,11 @@ func RegisterTweetsRoutes(r *router.Router) {
 	r.DELETE("/tweets/{id}", tweet_controllers.DeleteTweet)
 	r.PATCH("/tweets/{id}/like", tweet_controllers.LikeTweet)
 	r.PUT("/tweets/{id}/pin", tweet_controllers.PinTweet)
+	r.POST("/tweets/{id}/bookmark", tweet_controllers.BookmarkTweet)
 	r.PUT("/tweets/{id}/highlight", tweet_controllers.HighlightTweet)
 	r.GET("/tweets/{id}/engagements", tweet_controllers.GetTweetEngagements)
 	r.GET("/tweets/{id}/engagements/replies", tweet_controllers.GetTweetReplies)
 	r.GET("/tweets/{id}/engagements/already-liked", tweet_controllers.IsTweetAlreadyLiked)
 	r.GET("/tweets/{id}/engagements/already-retweeted", tweet_controllers.IsTweetAlreadyRetweeted)
+	r.GET("/tweets/{id}/engagements/already-bookmarked", tweet_controllers.IsTweetAlreadyBookmarked)
 }

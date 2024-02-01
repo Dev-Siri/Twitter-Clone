@@ -24,10 +24,10 @@ func LikeTweet(ctx *fasthttp.RequestCtx) {
 	if err := row.Scan(&likeCount); err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to read like count for tweet",
+			Message: "Failed to read like count for Tweet",
 		})
 
-		go logging.Logger.Error("Failed to read like count for tweet", zap.String("tweetId", tweetId), zap.Error(err))
+		go logging.Logger.Error("Failed to read like count for Tweet", zap.String("tweetId", tweetId), zap.Error(err))
 
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write(response)
@@ -43,8 +43,10 @@ func LikeTweet(ctx *fasthttp.RequestCtx) {
 		if err != nil {
 			response := responses.CreateErrorResponse(&responses.Error{
 				Status:  fasthttp.StatusInternalServerError,
-				Message: "Failed to unlike tweet",
+				Message: "Failed to unlike Tweet",
 			})
+
+			go logging.Logger.Error("Failed to unlike Tweet", zap.Error(err))
 
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 			ctx.Write(response)
@@ -60,7 +62,7 @@ func LikeTweet(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		response := responses.CreateErrorResponse(&responses.Error{
 			Status:  fasthttp.StatusInternalServerError,
-			Message: "Failed to like tweet",
+			Message: "Failed to like Tweet",
 		})
 
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
@@ -70,7 +72,7 @@ func LikeTweet(ctx *fasthttp.RequestCtx) {
 
 	response := responses.CreateSuccessResponse[string](&responses.Success[string]{
 		Status: fasthttp.StatusOK,
-		Data:   "Successfully liked tweet with id: " + tweetId,
+		Data:   "Successfully liked Tweet with id: " + tweetId,
 	})
 
 	ctx.SetStatusCode(fasthttp.StatusOK)

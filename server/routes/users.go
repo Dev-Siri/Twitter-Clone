@@ -20,6 +20,7 @@ func RegisterUsersRoutes(r *router.Router) {
 	r.GET("/users/{tag}/tweets/liked", user_controllers.GetLikedTweetsByUser)
 	r.GET("/users/{tag}/tweets/pinned", user_controllers.GetUserPinnedTweet)
 	r.GET("/users/{tag}/tweets/highlighted", user_controllers.GetUserHighlightedTweet)
+	r.GET("/users/{tag}/tweets/bookmarked", user_controllers.GetUserBookmarkedTweets)
 	r.GET("/users/{tag}/followers/count", user_controllers.GetUserFollowerCount)
 	r.GET("/users/{tag}/following/count", user_controllers.GetUserFollowingCount)
 }

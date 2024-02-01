@@ -18,11 +18,12 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 	replyCountChannel := make(chan int)
 	retweetCountChannel := make(chan int)
 	quoteTweetCountChannel := make(chan int)
+	bookmarkCountChannel := make(chan int)
 
 	go func() {
 		row := db.Database.QueryRow(`
 			SELECT COUNT(*) FROM "Likes"
-			WHERE tweet_id = $1
+			WHERE tweet_id = $1;
 		`, tweetId)
 
 		var likeCount int
@@ -39,7 +40,7 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 	go func() {
 		row := db.Database.QueryRow(`
 			SELECT COUNT(*) FROM "Tweets"
-			WHERE in_reply_to_tweet_id = $1
+			WHERE in_reply_to_tweet_id = $1;
 		`, tweetId)
 
 		var likeCount int
@@ -88,6 +89,23 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 		quoteTweetCountChannel <- quoteTweetCount
 	}()
 
+	go func() {
+		row := db.Database.QueryRow(`
+			SELECT COUNT(*) FROM "Bookmarks"
+			WHERE tweet_id = $1;
+		`, tweetId)
+
+		var bookmarkCount int
+
+		if err := row.Scan(&bookmarkCount); err != nil {
+			go logging.Logger.Error("Failed to load bookmark count", zap.Error(err))
+
+			errorChannel <- err
+		}
+
+		bookmarkCountChannel <- bookmarkCount
+	}()
+
 	select {
 	case err := <-errorChannel:
 		response := responses.CreateErrorResponse(&responses.Error{
@@ -102,6 +120,7 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 		replyCount := <-replyCountChannel
 		retweetCount := <-retweetCountChannel
 		quoteTweetCount := <-quoteTweetCountChannel
+		bookmarkCount := <-bookmarkCountChannel
 
 		response := responses.CreateSuccessResponse[models.Engagement](&responses.Success[models.Engagement]{
 			Status: fasthttp.StatusOK,
@@ -110,6 +129,7 @@ func GetTweetEngagements(ctx *fasthttp.RequestCtx) {
 				Replies:     replyCount,
 				Retweets:    retweetCount,
 				QuoteTweets: quoteTweetCount,
+				Bookmarks:   bookmarkCount,
 			},
 		})
 
