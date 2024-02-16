@@ -45,14 +45,21 @@ class _StateWrapperState extends State<StateWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    const twitterBlue = Color.fromRGBO(29, 155, 240, 1);
+
     return MaterialApp(
       title: "Twitter",
       onGenerateRoute: generateRoute,
       initialRoute: _initialRoute,
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(29, 155, 240, 1),
+        primaryColor: twitterBlue,
         useMaterial3: true,
         fontFamily: "Chirp",
+        textSelectionTheme: TextSelectionThemeData(
+          selectionColor: twitterBlue.withOpacity(0.3),
+          cursorColor: twitterBlue,
+          selectionHandleColor: twitterBlue,
+        ),
       ),
     );
   }

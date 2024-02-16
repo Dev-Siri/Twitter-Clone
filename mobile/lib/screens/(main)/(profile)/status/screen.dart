@@ -100,6 +100,7 @@ class _TweetStatusState extends State<TweetStatus> {
                     child: InteractiveText(
                       text: widget.tweet.caption,
                       fontSize: 20,
+                      selectable: true,
                     ),
                   ),
                   Padding(

@@ -6,11 +6,13 @@ import "package:twitter/widgets/tweet/quoted_tweet.dart";
 class InteractiveText extends StatelessWidget {
   final String text;
   final double fontSize;
+  final bool selectable;
 
   const InteractiveText({
     super.key,
     required this.text,
     this.fontSize = 16,
+    this.selectable = false,
   });
 
   @override
@@ -19,29 +21,29 @@ class InteractiveText extends StatelessWidget {
     final twitterQuotedUrls = findTwitterUrls(words);
     final firstUrl = twitterQuotedUrls.firstOrNull ?? "";
     final quoteTweetId = getTwitterStatusUuid(firstUrl);
-    final mainText = RichText(
-      text: TextSpan(
-          style: DefaultTextStyle.of(context).style,
-          children: words.where((word) => word != firstUrl).map(
-            (word) {
-              if (word.startsWith("@")) {
-                return TextSpan(
-                  recognizer: TapGestureRecognizer(),
-                  text: "$word ",
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: fontSize,
-                  ),
-                );
-              }
-
+    final span = TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: words.where((word) => word != firstUrl).map(
+          (word) {
+            if (word.startsWith("@")) {
               return TextSpan(
+                recognizer: TapGestureRecognizer()..onTap = () => print("h"),
                 text: "$word ",
-                style: TextStyle(fontSize: fontSize),
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: fontSize,
+                ),
               );
-            },
-          ).toList()),
-    );
+            }
+
+            return TextSpan(
+              text: "$word ",
+              style: TextStyle(fontSize: fontSize),
+            );
+          },
+        ).toList());
+    final mainText =
+        selectable ? SelectableText.rich(span) : RichText(text: span);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

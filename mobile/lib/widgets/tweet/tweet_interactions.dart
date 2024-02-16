@@ -4,6 +4,7 @@ import "package:provider/provider.dart";
 import "package:twitter/icons.dart";
 import "package:twitter/models/tweet/tweet_engagements.dart";
 import "package:twitter/services/tweet_service.dart";
+import "package:twitter/services/user_service.dart";
 import "package:twitter/utils/encoding.dart";
 import "package:twitter/widgets/tweet/engagement_text.dart";
 import "package:twitter/widgets/tweet/retweet_options.dart";
@@ -35,11 +36,22 @@ class _TweetInteractionsState extends State<TweetInteractions> {
 
   Future<void> _fetchEngagements() async {
     final tweetService = context.read<TweetService>();
+    final user = await context.read<UserService>().user;
+
     final engagementFuture =
         tweetService.fetchTweetEngagements(tweetId: widget.tweetId);
+    final isAlreadyLikedFuture = tweetService.fetchIsAlreadyLiked(
+      tweetId: widget.tweetId,
+      userId: user?.userId ?? "",
+    );
+    final isAlreadyRetweetedFuture = tweetService.fetchIsAlreadyRetweeted(
+      tweetId: widget.tweetId,
+      userId: user?.userId ?? "",
+    );
 
     final (tweetEngagementResponse, isLikedResponse, isRetweetedResponse) =
-        await (engagementFuture, Future.value(true), Future.value(true)).wait;
+        await (engagementFuture, isAlreadyLikedFuture, isAlreadyRetweetedFuture)
+            .wait;
 
     if (tweetEngagementResponse is ApiResponseSuccess && mounted) {
       final data = tweetEngagementResponse.data as TweetEngagements;
@@ -50,6 +62,14 @@ class _TweetInteractionsState extends State<TweetInteractions> {
         _retweets = data.retweets;
         _quoteTweets = data.quoteTweets;
       });
+    }
+
+    if (isLikedResponse is ApiResponseSuccess && mounted) {
+      setState(() => _isLiked = isLikedResponse.data as bool);
+    }
+
+    if (isRetweetedResponse is ApiResponseSuccess && mounted) {
+      setState(() => _isRetweeted = isRetweetedResponse.data as bool);
     }
   }
 
@@ -127,6 +147,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 onPressed: () =>
                     Navigator.pushNamed(context, "/user/status/reply"),
                 count: _replies,
+                textColor: Colors.grey,
                 showCount: widget.layout == TweetInteractionsLayout.card,
                 icon: SvgPicture(
                   comment,
@@ -150,6 +171,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                     onQuoteTweet: () => setState(() => _quoteTweets++),
                   ),
                 ),
+                textColor: _isRetweeted ? Colors.green : Colors.grey,
                 count: retweetsAndQuoteTweets,
                 showCount: widget.layout == TweetInteractionsLayout.card,
                 icon: SvgPicture(
@@ -175,6 +197,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   }
                 }),
                 count: _likes,
+                textColor: _isLiked ? Colors.red : Colors.grey,
                 showCount: widget.layout == TweetInteractionsLayout.card,
                 icon: SvgPicture(
                   _isLiked ? heartFilled : heartOutlined,

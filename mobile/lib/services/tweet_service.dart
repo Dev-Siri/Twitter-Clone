@@ -49,4 +49,32 @@ class TweetService {
 
     return parsedResponse;
   }
+
+  Future<ApiResponse> fetchIsAlreadyLiked({
+    required String tweetId,
+    required String userId,
+  }) async {
+    final response = await http.get(
+      Uri.parse("$_url/$tweetId/engagements/already-liked?userId=$userId"),
+    );
+
+    final parsedResponse =
+        parseHttpResponse<bool>(response, (isAlreadyLiked) => isAlreadyLiked);
+
+    return parsedResponse;
+  }
+
+  Future<ApiResponse> fetchIsAlreadyRetweeted({
+    required String tweetId,
+    required String userId,
+  }) async {
+    final response = await http.get(
+      Uri.parse("$_url/$tweetId/engagements/already-retweeted?userId=$userId"),
+    );
+
+    final parsedResponse = parseHttpResponse<bool>(
+        response, (isAlreadyRetweeted) => isAlreadyRetweeted);
+
+    return parsedResponse;
+  }
 }

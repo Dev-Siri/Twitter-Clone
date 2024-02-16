@@ -6,6 +6,7 @@ class TweetInteractionMetric extends StatelessWidget {
   final Widget icon;
   final int count;
   final bool showCount;
+  final Color textColor;
 
   const TweetInteractionMetric({
     super.key,
@@ -13,6 +14,7 @@ class TweetInteractionMetric extends StatelessWidget {
     required this.count,
     required this.icon,
     this.showCount = true,
+    required this.textColor,
   });
 
   @override
@@ -33,8 +35,8 @@ class TweetInteractionMetric extends StatelessWidget {
           if (count > 0 && showCount)
             Text(
               compactify(count),
-              style: const TextStyle(
-                color: Colors.grey,
+              style: TextStyle(
+                color: textColor,
                 fontWeight: FontWeight.normal,
               ),
             ),
