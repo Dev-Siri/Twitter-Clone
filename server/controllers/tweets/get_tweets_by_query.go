@@ -91,7 +91,7 @@ func GetTweetsByQuery(ctx *fasthttp.RequestCtx) {
 			Message: "No Tweets with that query",
 		})
 
-		go logging.Logger.Error("No Tweets with that query", zap.String("query", query), zap.Error(err))
+		go logging.Logger.Error("No Tweets with that query", zap.String("query", query))
 
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)

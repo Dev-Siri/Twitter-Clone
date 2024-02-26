@@ -14,7 +14,7 @@ func GetUserFollowerCount(ctx *fasthttp.RequestCtx) {
 
 	row := db.Database.QueryRow(`
 		SELECT COUNT(*) FROM "Followers"
-		WHERE follower = $1;
+		WHERE following = $1;
 	`, tag)
 
 	var followerCount int

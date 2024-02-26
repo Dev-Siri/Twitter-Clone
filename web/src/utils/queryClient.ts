@@ -23,7 +23,7 @@ interface Options {
   tags: string[];
 }
 
-type ApiResponse<T> = { status: number } & (
+export type ApiResponse<T> = { status: number } & (
   | {
       success: true;
       data: T;
@@ -108,6 +108,6 @@ export default async function queryClient<T>(
       console.error("The backend returned the data in an invalid shape.");
     else console.error("An unknown error was thrown:", error);
 
-    throw error; // triggers error.tsx
+    throw error;
   }
 }

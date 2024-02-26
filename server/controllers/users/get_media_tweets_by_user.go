@@ -92,8 +92,6 @@ func GetMediaTweetsByUser(ctx *fasthttp.RequestCtx) {
 			Message: "No Media Tweets by user",
 		})
 
-		go logging.Logger.Error("No Media Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
-
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)
 		return

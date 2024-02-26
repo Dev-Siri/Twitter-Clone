@@ -19,7 +19,9 @@ export default function FollowingMetricCount({
       </Link>
       <Link href={`/${tag}/followers`} className="hover:underline">
         <span className="font-bold">{followers} </span>
-        <span className="text-gray-500">Followers</span>
+        <span className="text-gray-500">
+          {followers === 1 ? "Follower" : "Followers"}
+        </span>
       </Link>
     </div>
   );

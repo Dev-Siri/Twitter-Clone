@@ -93,7 +93,7 @@ func GetLatestTweetsByQuery(ctx *fasthttp.RequestCtx) {
 			Message: "No latest Tweets with that query",
 		})
 
-		go logging.Logger.Error("No latest Tweets with that query", zap.String("query", query), zap.Error(err))
+		go logging.Logger.Error("No latest Tweets with that query", zap.String("query", query))
 
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)

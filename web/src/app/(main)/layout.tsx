@@ -3,8 +3,9 @@ import { Toaster } from "sonner";
 import type { Metadata } from "next";
 import type { PropsWithChildren, ReactNode } from "react";
 
-import LoadingBar from "@/components/LoadingBar";
+import DontShowWhen from "@/components/DontShowWhen";
 import LoadingContextProvider from "@/context/LoadingContext";
+import Main from "./main";
 import RecommendationView from "./recommendation-view";
 import Sidebar from "./sidebar";
 
@@ -22,11 +23,10 @@ export default function MainLayout({ children, create, options }: Props) {
   return (
     <LoadingContextProvider>
       <Sidebar />
-      <main className="h-screen w-full overflow-x-hidden overflow-auto min-[987px]:w-[66%] min-[1265px]:w-[44%]">
-        <LoadingBar />
-        {children}
-      </main>
-      <RecommendationView />
+      <Main>{children}</Main>
+      <DontShowWhen pathnameStartsWith="/messages">
+        <RecommendationView />
+      </DontShowWhen>
       <Toaster position="bottom-center" richColors theme="dark" />
       {create}
       {options}

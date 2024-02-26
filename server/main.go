@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"twitter/constants"
 	error_controllers "twitter/controllers/errors"
 	"twitter/db"
 	"twitter/env"
@@ -34,6 +35,11 @@ func main() {
 
 	if db.Database != nil {
 		defer db.Database.Close()
+	}
+
+	if err := db.ConnectChat(env.GetChatDBUrl(), constants.ChatDBName); err != nil {
+		logging.Logger.Error("Failed to initialize chat database", zap.Error(err))
+		return
 	}
 
 	r := router.New()

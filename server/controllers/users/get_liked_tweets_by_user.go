@@ -149,7 +149,7 @@ func GetLikedTweetsByUser(ctx *fasthttp.RequestCtx) {
 			Message: "No Liked Tweets by user",
 		})
 
-		go logging.Logger.Error("No Liked Tweets by user", zap.String("tag", tag), zap.Error(err))
+		go logging.Logger.Error("No Liked Tweets by user", zap.String("tag", tag))
 
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)

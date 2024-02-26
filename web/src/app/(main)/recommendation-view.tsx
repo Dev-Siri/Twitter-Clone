@@ -1,5 +1,7 @@
 import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
+import ErrorIcon from "@/components/icons/Error";
 import Loading from "@/components/ui/Loading";
 import Footer from "./footer";
 import SearchRecommendationView from "./search-recommendation-view";
@@ -10,15 +12,26 @@ export default function RecommendationView() {
     <section className="w-[33%] hidden border-l border-l-gray-300 dark:border-l-slate-800 px-6 pt-2 overflow-hidden min-[987px]:block">
       <SearchRecommendationView />
       <div className="mt-4">
-        <Suspense
+        <ErrorBoundary
           fallback={
-            <div className="bg-gray-300 dark:bg-gray-800 p-4 flex items-center justify-center rounded-xl">
-              <Loading />
+            <div className="bg-gray-100 dark:bg-gray-900 rounded-xl">
+              <div className="flex flex-col items-center p-4 justify-center text-red-500">
+                <ErrorIcon height={24} width={24} />
+                <p>Failed to load trends.</p>
+              </div>
             </div>
           }
         >
-          <Trends />
-        </Suspense>
+          <Suspense
+            fallback={
+              <div className="bg-gray-300 dark:bg-gray-800 p-4 flex items-center justify-center rounded-xl">
+                <Loading />
+              </div>
+            }
+          >
+            <Trends />
+          </Suspense>
+        </ErrorBoundary>
       </div>
       <Footer />
     </section>

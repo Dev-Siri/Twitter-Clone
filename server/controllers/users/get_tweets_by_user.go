@@ -92,7 +92,7 @@ func GetTweetsByUser(ctx *fasthttp.RequestCtx) {
 			Message: "No Tweets by user",
 		})
 
-		go logging.Logger.Error("No Tweets by user with tag", zap.String("tag", tag), zap.Error(err))
+		go logging.Logger.Error("No Tweets by user with tag", zap.String("tag", tag))
 
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)

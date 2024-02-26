@@ -23,4 +23,9 @@ func RegisterUsersRoutes(r *router.Router) {
 	r.GET("/users/{tag}/tweets/bookmarked", user_controllers.GetUserBookmarkedTweets)
 	r.GET("/users/{tag}/followers/count", user_controllers.GetUserFollowerCount)
 	r.GET("/users/{tag}/following/count", user_controllers.GetUserFollowingCount)
+	r.POST("/users/{tag}/follow", user_controllers.FollowUser)
+	r.POST("/users/{tag}/follow/is-already-following", user_controllers.IsAlreadyFollowingUser)
+	r.GET("/users/{tag}/dms", user_controllers.GetDms)
+	r.POST("/users/{tag}/dms", user_controllers.OpenDm)
+	r.GET("/users/{tag}/dms/{id}", user_controllers.GetDm)
 }

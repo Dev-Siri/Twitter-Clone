@@ -102,7 +102,7 @@ func GetUsersByQuery(ctx *fasthttp.RequestCtx) {
 			Message: "No users found with the given query",
 		})
 
-		go logging.Logger.Error("No users found with the given query", zap.String("query", query), zap.Error(err))
+		go logging.Logger.Error("No users found with the given query", zap.String("query", query))
 
 		ctx.SetStatusCode(fasthttp.StatusNotFound)
 		ctx.Write(response)

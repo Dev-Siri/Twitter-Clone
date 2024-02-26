@@ -41,3 +41,11 @@ export type ApiResponseTweet<T extends keyof Tweet | never = never> = Omit<
 export interface FetchParameters {
   page: number;
 }
+
+type Communicator = Pick<User, "name" | "userImage" | "tag">;
+
+export interface DirectMessage {
+  dmId: string;
+  receiver: Communicator;
+  sender: Communicator;
+}

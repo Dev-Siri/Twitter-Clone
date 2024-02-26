@@ -16,6 +16,7 @@ export default {
         "darker-twitter-blue": "rgba(26,140,216,1.00)",
         "dim-gray": "rgb(21, 32, 43)",
         "really-dark": "#080808",
+        "slightly-less-dark": "#0D0D0D",
       },
     },
   },

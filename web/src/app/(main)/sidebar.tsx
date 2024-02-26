@@ -9,6 +9,8 @@ import ExploreOutlinedIcon from "@/components/icons/ExploreOutlined";
 import HomeFilledIcon from "@/components/icons/HomeFilled";
 import HomeOutlinedIcon from "@/components/icons/HomeOutlined";
 import Logo from "@/components/icons/Logo";
+import MessagesFilledIcon from "@/components/icons/MessagesFilled";
+import MessagesOutlinedIcon from "@/components/icons/MessagesOutlined";
 import ProfileFilledIcon from "@/components/icons/ProfileFilled";
 import ProfileOutlinedIcon from "@/components/icons/ProfileOutlined";
 import TweetLeafIcon from "@/components/icons/TweetLeaf";
@@ -43,6 +45,14 @@ export default function Sidebar() {
         inactiveIcon={<ExploreOutlinedIcon height={24} width={24} />}
       >
         Explore
+      </SidebarLink>
+      <SidebarLink
+        href="/messages"
+        label="Messages"
+        activeIcon={<MessagesFilledIcon height={24} width={24} />}
+        inactiveIcon={<MessagesOutlinedIcon height={24} width={24} />}
+      >
+        Messages
       </SidebarLink>
       <SidebarLink
         href="/i/bookmarks"

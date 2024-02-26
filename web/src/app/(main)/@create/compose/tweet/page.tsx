@@ -9,7 +9,7 @@ export default function ComposeTweet() {
   const user = useSession();
 
   return (
-    <Modal>
+    <Modal className="rounded-xl">
       {user && (
         <div className="flex gap-4 mt-[28px]">
           <Image

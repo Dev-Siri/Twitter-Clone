@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { FetchParameters, User } from "@/types";
 import type { Metadata } from "next";
 
@@ -68,7 +70,9 @@ export default async function PeopleSearch({ searchParams: { q } }: Props) {
     if (moreUsersResponse.success)
       return (
         moreUsersResponse?.data?.map((user) => (
-          <UserTile key={user.userId} {...user} />
+          <Link key={user.userId} href={`/${user.tag}`}>
+            <UserTile {...user} />
+          </Link>
         )) ?? []
       );
 
@@ -78,7 +82,9 @@ export default async function PeopleSearch({ searchParams: { q } }: Props) {
   return (
     <>
       {usersResponse.data.map((user) => (
-        <UserTile key={user.userId} {...user} />
+        <Link key={user.userId} href={`/${user.tag}`}>
+          <UserTile {...user} />
+        </Link>
       ))}
       {usersResponse.data.length > 4 && (
         <LoadMore fetcher={fetchMoreUsers} fetcherParameters={{ query: q }} />

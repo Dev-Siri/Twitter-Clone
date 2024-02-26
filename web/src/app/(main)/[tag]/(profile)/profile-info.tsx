@@ -23,18 +23,27 @@ interface Props {
 }
 
 export default async function ProfileInfo({ userTag }: Props) {
-  const [userResponse, followersResponse, followingResponse] =
-    await Promise.all([
-      queryClient<Omit<User, "email" | "pinnedTweetId">>(`/users/${userTag}`, {
-        cache: "no-cache",
-      }),
-      queryClient<number>(`/users/${userTag}/followers/count`, {
-        cache: "no-cache",
-      }),
-      queryClient<number>(`/users/${userTag}/following/count`, {
-        cache: "no-cache",
-      }),
-    ]);
+  const loggedInUser = useSession();
+  const [
+    userResponse,
+    followersResponse,
+    followingResponse,
+    isAlreadyFollowingResponse,
+  ] = await Promise.all([
+    queryClient<Omit<User, "email" | "pinnedTweetId">>(`/users/${userTag}`, {
+      cache: "no-cache",
+    }),
+    queryClient<number>(`/users/${userTag}/followers/count`, {
+      cache: "no-cache",
+    }),
+    queryClient<number>(`/users/${userTag}/following/count`, {
+      cache: "no-cache",
+    }),
+    queryClient<boolean>(`/users/${userTag}/follow/is-already-following`, {
+      cache: "no-store",
+      searchParams: { follower: loggedInUser?.tag },
+    }),
+  ]);
 
   if (!userResponse.success) {
     if (userResponse.status === 404) notFound();
@@ -42,7 +51,6 @@ export default async function ProfileInfo({ userTag }: Props) {
     throw new Error(userResponse.message);
   }
 
-  const loggedInUser = useSession();
   const tweetCountResponse = await queryClient("/tweets/count", {
     searchParams: { userId: userResponse.data.userId },
   });
@@ -108,12 +116,16 @@ export default async function ProfileInfo({ userTag }: Props) {
               Edit profile
             </Link>
           ) : (
-            <FollowButton
-              isAlreadyFollowing={
-                // TODO: ADD ACTUAL DYNAMIC VALUE
-                true
-              }
-            />
+            loggedInUser && (
+              <FollowButton
+                followerTag={loggedInUser.tag}
+                followingTag={tag}
+                isAlreadyFollowing={
+                  isAlreadyFollowingResponse.success &&
+                  isAlreadyFollowingResponse.data
+                }
+              />
+            )
           )}
         </div>
         <h3 className="mt-10 font-bold text-2xl">{name}</h3>

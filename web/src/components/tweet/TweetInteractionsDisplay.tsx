@@ -177,7 +177,7 @@ export default function TweetInteractionsDisplay({
           <button
             type="button"
             onClick={handleLikeTweet}
-            className="rounded-full p-1 duration-200 group-hover:bg-red-950"
+            className="rounded-full p-1 duration-200 group-hover:bg-red-300 group-hover:dark:bg-red-950"
             aria-label={isLiked ? "Unlike" : "Like"}
           >
             {isLiked ? (

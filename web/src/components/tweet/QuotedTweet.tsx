@@ -80,7 +80,7 @@ export default function QuotedTweet({ id }: Props) {
     quotedTweet.data;
 
   return (
-    <div className="border-2 w-full border-gray-300 rounded-lg my-2 duration-200 hover:bg-gray-100 hover:dark:bg-really-dark dark:border-slate-800">
+    <div className="border-2 w-full border-gray-300 rounded-lg my-2 duration-200 hover:bg-gray-100 hover:dark:bg-slightly-less-dark dark:border-slate-800">
       <ButtonLink href={`/${tag}/status/${tweetId}`} className="cursor-pointer">
         <div className="p-3">
           <div className="flex items-center gap-2">
