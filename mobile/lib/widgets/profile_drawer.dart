@@ -1,6 +1,9 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
+import "package:twitter/icons.dart";
+import "package:twitter/screens/(main)/(profile)/route_data.dart";
 import "package:twitter/services/user_service.dart";
 import "package:twitter/widgets/follower_counter.dart";
 import "package:twitter/widgets/ui/loading_indicator.dart";
@@ -11,26 +14,25 @@ class ProfileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: MediaQuery.of(context).size.width - 100,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: FutureBuilder(
-              future: context.watch<UserService>().user,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    snapshot.data == null) {
-                  return const Padding(
-                    padding: EdgeInsets.only(top: 100),
-                    child: LoadingIndicator(size: 10),
-                  );
-                }
+      width: MediaQuery.of(context).size.width - 60,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: FutureBuilder(
+          future: context.watch<UserService>().user,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.data == null) {
+              return const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: LoadingIndicator(size: 10),
+              );
+            }
 
-                final user = snapshot.data!;
+            final user = snapshot.data!;
 
-                return Container(
+            return Column(
+              children: <Widget>[
+                Container(
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -71,11 +73,28 @@ class ProfileDrawer extends StatelessWidget {
                       )
                     ],
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+                MaterialButton(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    "/user",
+                    arguments: ProfileRouteData(
+                      name: user.name,
+                      tag: user.tag,
+                      userImage: user.userImage,
+                    ),
+                  ),
+                  child: const Row(
+                    children: <Widget>[
+                      Text("Profile"),
+                      SvgPicture(profileOutlined)
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }

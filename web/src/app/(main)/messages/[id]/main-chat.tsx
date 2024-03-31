@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { DirectMessage } from "@/types";
 
@@ -13,13 +13,33 @@ interface Props extends DirectMessage {
   currentUser: NonNullable<ReturnType<typeof useSession>>;
 }
 
-export default function MainChat({ currentUser, receiver, sender }: Props) {
+export default function MainChat({
+  currentUser,
+  receiver,
+  sender,
+  dmId,
+}: Props) {
   const [message, setMessage] = useState("");
 
   const oppositeUser = useMemo(
     () => (currentUser.tag === sender.tag ? receiver : sender),
     [currentUser, receiver, sender]
   );
+
+  useEffect(() => {
+    const connection = new WebSocket(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL.replace(
+        "http",
+        "ws"
+      )}/users/dms/${dmId}/live`
+    );
+
+    connection.onerror = (err) => {
+      console.log("got dammit", err);
+    };
+
+    return () => connection.close();
+  }, [dmId]);
 
   async function sendMessage() {}
 

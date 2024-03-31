@@ -1,11 +1,18 @@
 package middleware
 
-import "github.com/valyala/fasthttp"
+import (
+	"strings"
 
-// Ensure consistent JSON responses. This disallows text responses and
+	"github.com/valyala/fasthttp"
+)
+
+// Ensure consistent JSON responses. This disallows text responses
 func Json(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
-		ctx.SetContentType("application/json")
+		if !strings.HasSuffix(string(ctx.Path()), "/live") {			
+			ctx.SetContentType("application/json")
+		}
+
 		next(ctx)
 	}
 }

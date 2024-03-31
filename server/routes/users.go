@@ -28,4 +28,5 @@ func RegisterUsersRoutes(r *router.Router) {
 	r.GET("/users/{tag}/dms", user_controllers.GetDms)
 	r.POST("/users/{tag}/dms", user_controllers.OpenDm)
 	r.GET("/users/{tag}/dms/{id}", user_controllers.GetDm)
+	r.GET("/users/{tag}/dms/{id}/live", user_controllers.HandleDmMessages)
 }

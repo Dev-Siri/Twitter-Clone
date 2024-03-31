@@ -8,5 +8,6 @@ const heartFilled = AssetBytesLoader("assets/icons/compiled/heart-filled.svg.vec
 const heartOutlined = AssetBytesLoader("assets/icons/compiled/heart-outlined.svg.vec");
 const homeFilled = AssetBytesLoader("assets/icons/compiled/home-filled.svg.vec");
 const homeOutlined = AssetBytesLoader("assets/icons/compiled/home-outlined.svg.vec");
+const profileOutlined = AssetBytesLoader("assets/icons/compiled/profile-outlined.svg.vec");
 const quote = AssetBytesLoader("assets/icons/compiled/quote.svg.vec");
 const retweet = AssetBytesLoader("assets/icons/compiled/retweet.svg.vec");
