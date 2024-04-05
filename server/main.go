@@ -8,6 +8,7 @@ import (
 	"twitter/env"
 	"twitter/logging"
 	"twitter/middleware"
+	"twitter/pusher"
 	"twitter/routes"
 
 	"github.com/fasthttp/router"
@@ -22,6 +23,7 @@ func main() {
 	}
 
 	env.InitDotEnv()
+	pusher.InitPusherClient()
 
 	if err := db.Connect(env.GetDBUrl()); err != nil {
 		logging.Logger.Error("Failed to initialize database", zap.Error(err))
