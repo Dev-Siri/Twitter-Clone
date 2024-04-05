@@ -42,7 +42,7 @@ export interface FetchParameters {
   page: number;
 }
 
-type Communicator = Pick<User, "name" | "userImage" | "tag">;
+export type Communicator = Pick<User, "name" | "userImage" | "tag">;
 
 export interface DirectMessage {
   dmId: string;

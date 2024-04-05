@@ -9,7 +9,7 @@ import { useSession } from "@/hooks/useSession";
 import { getTweetCreatedDate } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
 import { getPlatformText } from "@/utils/platform";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import CreateTweet from "@/components/CreateTweet";

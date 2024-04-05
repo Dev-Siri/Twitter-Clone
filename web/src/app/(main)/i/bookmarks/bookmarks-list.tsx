@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import type { ApiResponseTweet, FetchParameters } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import LoadMore from "@/components/LoadMore";
 import ErrorIcon from "@/components/icons/Error";

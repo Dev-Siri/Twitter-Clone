@@ -1,7 +1,7 @@
 import type { TweetEngagements } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import ErrorIcon from "../icons/Error";
 import TweetInteractionsDisplay from "./TweetInteractionsDisplay";
@@ -36,9 +36,12 @@ export default async function TweetInteractions(props: Props) {
     queryClient<boolean>(`/tweets/${props.tweetId}/engagements/already-liked`, {
       searchParams: { userId: user.userId },
     }),
-    queryClient<boolean>(`/tweets/${props.tweetId}/engagements/already-bookmarked`,{
-      searchParams: { tag: user.tag },
-    }),
+    queryClient<boolean>(
+      `/tweets/${props.tweetId}/engagements/already-bookmarked`,
+      {
+        searchParams: { tag: user.tag },
+      }
+    ),
   ]);
 
   if (

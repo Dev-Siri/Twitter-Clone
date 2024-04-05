@@ -16,9 +16,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "emoji-picker-react": "^4.9.2",
     "jwt-decode": "^3.1.2",
     "next": "latest",
     "next-themes": "^0.2.1",
+    "pusher-js": "^8.4.0-rc2",
     "react": "latest",
     "react-dom": "latest",
     "react-error-boundary": "^4.0.12",

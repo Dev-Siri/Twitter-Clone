@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import type { ApiResponseTweet } from "@/types";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import ErrorIcon from "@/components/icons/Error";
 import TweetCard from "@/components/tweet/TweetCard";

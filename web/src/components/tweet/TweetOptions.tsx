@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import DeleteIcon from "../icons/Delete";
 import HighlightIcon from "../icons/Highlight";
 import PinIcon from "../icons/Pin";

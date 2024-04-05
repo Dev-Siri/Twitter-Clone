@@ -4,7 +4,7 @@ import type { FetchParameters, User } from "@/types";
 import type { Metadata } from "next";
 
 import { LIMIT } from "@/constants/fetch";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import LoadMore from "@/components/LoadMore";
 import UserTile from "@/components/UserTile";

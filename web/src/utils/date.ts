@@ -70,7 +70,24 @@ export function getTweetCreatedDate(dateString: string) {
   const day = date.getDate();
   const year = date.getFullYear();
 
-  return `${formattedHour}:${
-    minutes.length > 1 ? minutes : `0${minutes}`
-  } ${meridiem} · ${month} ${day}, ${year}`;
+  return `${formattedHour}:${minutes.padStart(
+    2,
+    "0"
+  )} ${meridiem} · ${month} ${day}, ${year}`;
+}
+
+export function getDmMessageCreatedDate(dateString: string) {
+  const date = new Date(dateString);
+  const month = date.toLocaleString("en-US", { month: "short" });
+  const hour = date.getHours();
+  const formattedHour = hour % TWELVE_HOUR_BREAKPOINT || TWELVE_HOUR_BREAKPOINT;
+  const meridiem = hour < TWELVE_HOUR_BREAKPOINT ? "AM" : "PM";
+  const minutes = date.getMinutes().toString();
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${month} ${day}, ${year}, ${formattedHour}:${minutes.padStart(
+    2,
+    "0"
+  )} ${meridiem}`;
 }

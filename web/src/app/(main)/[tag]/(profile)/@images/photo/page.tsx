@@ -1,21 +1,24 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 interface Props {
   params: { tag: string };
 }
 
 export default async function Photo({ params }: Props) {
-  const profilePictureResponse = await queryClient<string>(`/users/${params.tag}/profile-picture`, {
-    cache: "no-cache"
-  });
+  const profilePictureResponse = await queryClient<string>(
+    `/users/${params.tag}/profile-picture`,
+    {
+      cache: "no-cache",
+    }
+  );
 
   if (!profilePictureResponse.success) {
     if (profilePictureResponse.status === 404) notFound();
 
-    throw new Error(profilePictureResponse.message)
+    throw new Error(profilePictureResponse.message);
   }
 
   return (

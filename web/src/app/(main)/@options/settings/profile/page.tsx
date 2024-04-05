@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import type { User } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import UpdateForm from "./update-form";
 

@@ -7,7 +7,14 @@ import type { DirectMessage } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
 
+import getDmChannel, { dmEvents } from "@/pusher/channels/direct-message";
+import pusherClient from "@/pusher/client";
+import queryClient from "@/utils/query-client";
+import { dmMessageSchema, type DmMessage } from "@/utils/validation/dm-message";
+
+import EmojiPicker from "@/components/EmojiPicker";
 import SendMessageIcon from "@/components/icons/SendMessage";
+import Message from "./message";
 
 interface Props extends DirectMessage {
   currentUser: NonNullable<ReturnType<typeof useSession>>;
@@ -20,6 +27,7 @@ export default function MainChat({
   dmId,
 }: Props) {
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<DmMessage[]>([]);
 
   const oppositeUser = useMemo(
     () => (currentUser.tag === sender.tag ? receiver : sender),
@@ -27,25 +35,64 @@ export default function MainChat({
   );
 
   useEffect(() => {
-    const connection = new WebSocket(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL.replace(
-        "http",
-        "ws"
-      )}/users/dms/${dmId}/live`
-    );
+    async function fetchInitialMessages() {
+      const response = await queryClient<DmMessage[]>(
+        `/users/${receiver.tag}/dms/${dmId}/messages`
+      );
 
-    connection.onerror = (err) => {
-      console.log("got dammit", err);
+      if (response.success) setMessages(response.data);
+    }
+
+    fetchInitialMessages();
+  }, [dmId, receiver.tag]);
+
+  useEffect(() => {
+    const messagesChannel = pusherClient.subscribe(getDmChannel(dmId));
+
+    function handleMessageCreate(data: unknown) {
+      const validatedData = dmMessageSchema.safeParse(data);
+
+      if (validatedData.success)
+        setMessages((prevMessages) => [...prevMessages, validatedData.data]);
+    }
+
+    messagesChannel.bind(dmEvents.messageCreate, handleMessageCreate);
+
+    return () => {
+      messagesChannel.unbind(dmEvents.messageCreate, handleMessageCreate);
+      messagesChannel.unsubscribe();
     };
-
-    return () => connection.close();
   }, [dmId]);
 
-  async function sendMessage() {}
+  async function sendMessage() {
+    const newDmMessage: Omit<DmMessage, "createdAt" | "messageId" | "dmId"> = {
+      message,
+      receiverTag: oppositeUser.tag,
+      senderTag: currentUser.tag,
+    };
+
+    const response = await queryClient(
+      `/users/${receiver.tag}/dms/${dmId}/messages`,
+      {
+        method: "POST",
+        body: newDmMessage,
+      }
+    );
+
+    if (response.success) setMessage("");
+  }
 
   return (
     <>
       <div className="flex bg-gray-300 dark:bg-gray-900 absolute bottom-0 m-2 w-[46.5%] rounded-lg pr-10">
+        <div className="flex flex-col h-full items-center justify-center pl-4 pt-1.5">
+          <EmojiPicker
+            pos={{ x: 0, y: -500 }}
+            onEmojiClick={(emoji) =>
+              setMessage((prevMessage) => `${prevMessage}${emoji}`)
+            }
+          />
+        </div>
         <input
           type="text"
           name="message"
@@ -77,6 +124,15 @@ export default function MainChat({
         <span className="text-xl font-semibold mt-3">{oppositeUser.name}</span>
         <span className="text-base text-gray-500">@{oppositeUser.tag}</span>
       </Link>
+      <div className="flex flex-col p-4 gap-2">
+        {messages.map((message) => (
+          <Message
+            key={message.messageId}
+            {...message}
+            oppositeUser={oppositeUser}
+          />
+        ))}
+      </div>
     </>
   );
 }

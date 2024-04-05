@@ -21,6 +21,7 @@ import CloseIcon from "@/components/icons/Close";
 import MediaIcon from "@/components/icons/Media";
 import { useQuotedTweetStore } from "@/stores/predefined-tweet";
 import { getTwitterStatusUuid } from "@/utils/url";
+import EmojiPicker from "./EmojiPicker";
 import ExpandableTextArea from "./ExpandableTextArea";
 import QuotedTweet from "./tweet/QuotedTweet";
 
@@ -139,7 +140,7 @@ ${quotedTweetUrl}`
         </div>
       )}
       <div className="border-t border-t-gray-300 dark:border-t-gray-800 mt-4 pt-2 flex">
-        <div className="flex items-center gap-2">
+        <div className="flex justify-center h-full items-center gap-2">
           <label
             htmlFor="media"
             aria-label="Add Media"
@@ -170,6 +171,12 @@ ${quotedTweetUrl}`
           className="h-0 w-0"
           ref={mediaInput}
         />
+        <div className="ml-4">
+          <EmojiPicker
+            pos={{ x: 0, y: 0 }}
+            onEmojiClick={(emoji) => handleCaptionChange(`${caption}${emoji}`)}
+          />
+        </div>
         {!state.success && state.message && (
           <p className="inset-x-0 text-red-500 ml-auto my-auto">
             {state.message}

@@ -71,6 +71,7 @@ export default function UpMenu({
   return (
     <div className="relative inline-block" ref={menuRef}>
       <button
+        type="button"
         onClick={handleMenuClick}
         onMouseEnter={handleHover("enter")}
         onMouseLeave={handleHover("leave")}

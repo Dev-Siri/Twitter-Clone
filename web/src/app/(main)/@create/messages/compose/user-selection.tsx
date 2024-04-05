@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import type { User } from "@/types";
 
 import { LIMIT } from "@/constants/fetch";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import Modal from "@/components/Modal";
 import UserTile from "@/components/UserTile";

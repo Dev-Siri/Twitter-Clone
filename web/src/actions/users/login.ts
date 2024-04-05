@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 
 import type { Result } from "@/utils/validation/types";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { loginSchema } from "@/utils/validation/auth";
 import formatSchemaErrors from "@/utils/validation/errors";
 

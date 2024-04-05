@@ -4,7 +4,7 @@ import { lazy, useMemo, useState } from "react";
 
 import { compactify } from "@/utils/formatting";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import EngagementText from "../EngagementText";
 import BookmarkFilledIcon from "../icons/BookmarkFilled";
 import BookmarkOutlinedIcon from "../icons/BookmarkOutlined";

@@ -6,7 +6,7 @@ import type { User } from "@/types";
 
 import { useSession } from "@/hooks/useSession";
 import { getJoinedDate } from "@/utils/date";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import FollowButton from "@/components/FollowButton";
 import FollowingMetricCount from "@/components/FollowingMetricCount";

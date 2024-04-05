@@ -6,7 +6,7 @@ import type { ApiResponseTweet } from "@/types";
 
 import { getRelativeTime } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import ButtonLink from "../ButtonLink";
 import ErrorIcon from "../icons/Error";

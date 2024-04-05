@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import ErrorIcon from "@/components/icons/Error";
 

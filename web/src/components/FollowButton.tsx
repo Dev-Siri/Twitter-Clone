@@ -1,5 +1,5 @@
 "use client";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

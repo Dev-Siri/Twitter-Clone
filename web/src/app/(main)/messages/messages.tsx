@@ -5,7 +5,7 @@ import type { DirectMessage } from "@/types";
 
 import UserTile from "@/components/UserTile";
 import { useSession } from "@/hooks/useSession";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 export default async function Messages() {
   const user = useSession();

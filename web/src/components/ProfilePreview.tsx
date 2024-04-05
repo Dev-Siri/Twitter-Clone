@@ -3,7 +3,7 @@ import { useState, type PropsWithChildren } from "react";
 
 import type { User } from "@/types";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import Image from "next/image";
 import InteractiveText from "./InteractiveText";

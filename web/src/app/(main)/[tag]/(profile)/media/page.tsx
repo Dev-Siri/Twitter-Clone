@@ -1,7 +1,7 @@
 import type { ApiResponseTweet, FetchParameters, User } from "@/types";
 import type { Metadata } from "next";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import LoadMore from "@/components/LoadMore";
 import NoTweets from "@/components/NoTweets";

@@ -4,7 +4,7 @@ import { type Dispatch, type SetStateAction } from "react";
 
 import { PLATFORM } from "@/constants/platform";
 import { useQuotedTweetStore } from "@/stores/predefined-tweet";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import Link from "next/link";
 import QuoteIcon from "../icons/Quote";

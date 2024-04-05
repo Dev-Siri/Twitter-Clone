@@ -2,7 +2,7 @@ import { Suspense } from "react";
 
 import type { ApiResponseTweet } from "@/types";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import TweetCard from "@/components/tweet/TweetCard";
 import Loading from "@/components/ui/Loading";

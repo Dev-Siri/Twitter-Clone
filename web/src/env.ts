@@ -3,6 +3,8 @@ import { z } from "zod";
 export const env = z.object({
   NEXT_PUBLIC_BACKEND_URL: z.string(),
   NEXT_PUBLIC_ALGORITHMS_TRENDS_URL: z.string(),
+  NEXT_PUBLIC_PUSHER_KEY: z.string(),
+  NEXT_PUBLIC_PUSHER_CLUSTER: z.string(),
 });
 
 declare global {

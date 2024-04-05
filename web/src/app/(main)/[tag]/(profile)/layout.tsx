@@ -3,7 +3,7 @@ import { Suspense, type PropsWithChildren, type ReactNode } from "react";
 import type { User } from "@/types";
 import type { Metadata } from "next";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import Loading from "@/components/ui/Loading";
 import ProfileInfo from "./profile-info";

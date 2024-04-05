@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 import { LIMIT } from "@/constants/fetch";
 import { useSession } from "@/hooks/useSession";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 
 import CreateTweet from "@/components/CreateTweet";
 import HeadTitle from "@/components/HeadTitle";

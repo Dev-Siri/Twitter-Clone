@@ -39,7 +39,7 @@ export default function MessagesLayout({ children }: PropsWithChildren) {
           </Suspense>
         </ErrorBoundary>
       </div>
-      <div className="w-3/5">{children}</div>
+      <div className="w-3/5 h-screen overflow-y-auto">{children}</div>
     </div>
   );
 }

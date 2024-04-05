@@ -6,7 +6,7 @@ import type { Result } from "@/utils/validation/types";
 
 import { useSession } from "@/hooks/useSession";
 import { encodeToBase64 } from "@/utils/encoding";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { updateSchema } from "@/utils/validation/auth";
 import formatSchemaErrors from "@/utils/validation/errors";
 

@@ -7,7 +7,7 @@ import type { ApiResponseTweet } from "@/types";
 import { useSession } from "@/hooks/useSession";
 import { getRelativeTime } from "@/utils/date";
 import { getMediaType } from "@/utils/image";
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import InteractiveText from "../InteractiveText";

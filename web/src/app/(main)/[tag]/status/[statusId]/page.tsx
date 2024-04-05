@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import type { ApiResponseTweet } from "@/types";
 import type { Metadata } from "next";
 
-import queryClient from "@/utils/queryClient";
+import queryClient from "@/utils/query-client";
 import { getTwitterStatusUuid, isTwitterStatusUrl } from "@/utils/url";
 
 import HeadTitle from "@/components/HeadTitle";
