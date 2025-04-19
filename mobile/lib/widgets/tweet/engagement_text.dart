@@ -17,6 +17,7 @@ class EngagementText extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         minimumSize: Size.zero,
+        splashFactory: NoSplash.splashFactory,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
@@ -28,6 +29,7 @@ class EngagementText extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
+              color: Colors.black,
             ),
           ),
           Text(

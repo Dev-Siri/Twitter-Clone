@@ -15,24 +15,24 @@ class ProfileDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: MediaQuery.of(context).size.width - 60,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: FutureBuilder(
-          future: context.watch<UserService>().user,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting ||
-                snapshot.data == null) {
-              return const Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: LoadingIndicator(size: 10),
-              );
-            }
+      child: FutureBuilder(
+        future: context.watch<UserService>().user,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.data == null) {
+            return const Padding(
+              padding: EdgeInsets.only(top: 100),
+              child: LoadingIndicator(size: 10),
+            );
+          }
 
-            final user = snapshot.data!;
+          final user = snapshot.data!;
 
-            return Column(
-              children: <Widget>[
-                Container(
+          return Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -74,7 +74,10 @@ class ProfileDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                MaterialButton(
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: MaterialButton(
                   onPressed: () => Navigator.pushNamed(
                     context,
                     "/user",
@@ -84,17 +87,29 @@ class ProfileDrawer extends StatelessWidget {
                       userImage: user.userImage,
                     ),
                   ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 16,
+                  ),
                   child: const Row(
                     children: <Widget>[
-                      Text("Profile"),
-                      SvgPicture(profileOutlined)
+                      SvgPicture(
+                        profileOutlined,
+                        height: 24,
+                        width: 24,
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        "Profile",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ],
                   ),
-                )
-              ],
-            );
-          },
-        ),
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }

@@ -7,6 +7,6 @@ String getPlatformText(String platform) {
     case "web":
       return "Twitter Web App";
     default:
-      return "Twitter for something";
+      return "";
   }
 }

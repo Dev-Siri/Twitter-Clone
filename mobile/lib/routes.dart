@@ -16,31 +16,31 @@ Route<dynamic>? generateRoute(RouteSettings setting) {
       return PageTransition(
         child: const MainLayout(),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/login":
       return PageTransition(
         child: const Login(),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/signup":
       return PageTransition(
         child: const Signup(),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/i/flow/login":
       return PageTransition(
         child: const LoginFlow(),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/i/flow/signup":
       return PageTransition(
         child: const SignupFlow(),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/user":
       if (setting.arguments == null || setting.arguments is! ProfileRouteData) {
@@ -51,7 +51,7 @@ Route<dynamic>? generateRoute(RouteSettings setting) {
       return PageTransition(
         child: Profile(routeUserData: setting.arguments as ProfileRouteData),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
     case "/user/status":
       if (setting.arguments == null || setting.arguments is! GroupedTweet) {
@@ -62,7 +62,7 @@ Route<dynamic>? generateRoute(RouteSettings setting) {
       return PageTransition(
         child: TweetStatus(tweet: setting.arguments as GroupedTweet),
         type: PageTransitionType.rightToLeft,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 250),
       );
   }
 

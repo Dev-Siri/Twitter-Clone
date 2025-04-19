@@ -50,6 +50,25 @@ class TweetService {
     return parsedResponse;
   }
 
+  Future<ApiResponse> fetchTweetReplies(
+      {required String tweetId, required int page}) async {
+    final response = await http.get(
+      Uri.parse("$_url/$tweetId/engagements/replies?page=$page&limit=$_limit"),
+    );
+    final parsedResponse =
+        parseHttpResponse<List<GroupedTweet>>(response, (tweets) {
+      final typedTweets = (tweets as List<dynamic>?);
+
+      if (typedTweets == null) return [];
+
+      return typedTweets
+          .map((final tweet) => GroupedTweet.fromJson(tweet))
+          .toList();
+    });
+
+    return parsedResponse;
+  }
+
   Future<ApiResponse> fetchIsAlreadyLiked({
     required String tweetId,
     required String userId,

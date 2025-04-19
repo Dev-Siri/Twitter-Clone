@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
       return;
     }
 
-    if (tweetsRespose is ApiResponseSuccess) {
+    if (tweetsRespose is ApiResponseSuccess && mounted) {
       final tweets = tweetsRespose.data as List<GroupedTweet>;
 
       setState(() {
