@@ -123,12 +123,12 @@ export default function SignupFlow() {
           Signup
         </SubmitButton>
         <span className="text-gray-500 ml-1">
-          Don’t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/i/flow/signup"
+            href="/i/flow/login"
             className="text-twitter-blue hover:underline"
           >
-            Sign up
+            Login
           </Link>
         </span>
       </form>
